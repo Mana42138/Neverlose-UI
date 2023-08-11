@@ -13,6 +13,8 @@ local UserInputService = game:GetService("UserInputService")
 local http = game:GetService("HttpService")
 local Player = game:GetService("Players").LocalPlayer
 
+local BuildInfo = loadstring(game:HttpGet"https://pastebin.com/raw/HzAeDGm4")()
+
 local function MakeDraggable(topbarobject, object)
     local Dragging = nil
     local DragInput = nil
@@ -741,7 +743,7 @@ function Neverlose_Main:Window(config)
     VersionText.Position = UDim2.new(0.0666666701, 0, 0.12350598, 0)
     VersionText.Size = UDim2.new(0, 35, 0, 18)
     VersionText.Font = Enum.Font.GothamBold
-    VersionText.Text = "Version: <font color='rgb(9, 174, 255)'>1.0.0</font>"
+    VersionText.Text = "Version: <font color='rgb(9, 174, 255)'>"..BuildInfo:VersionType().."</font>"
     VersionText.TextColor3 = Color3.fromRGB(255, 255, 255)
     VersionText.TextSize = 14.000
     VersionText.TextXAlignment = Enum.TextXAlignment.Left
@@ -756,7 +758,7 @@ function Neverlose_Main:Window(config)
     BuildDateText.Position = UDim2.new(0.0666666701, 0, 0.12350598, 0)
     BuildDateText.Size = UDim2.new(0, 35, 0, 18)
     BuildDateText.Font = Enum.Font.GothamBold
-    BuildDateText.Text = "Build date: <font color='rgb(9, 174, 255)'>Aug 10 2023</font>"
+    BuildDateText.Text = "Build date: <font color='rgb(9, 174, 255)'>"..BuildInfo:GetBuild().."</font>"
     BuildDateText.TextColor3 = Color3.fromRGB(255, 255, 255)
     BuildDateText.TextSize = 14.000
     BuildDateText.TextXAlignment = Enum.TextXAlignment.Left
@@ -771,7 +773,7 @@ function Neverlose_Main:Window(config)
     BuildTypeText.Position = UDim2.new(0.0666666701, 0, 0.12350598, 0)
     BuildTypeText.Size = UDim2.new(0, 35, 0, 18)
     BuildTypeText.Font = Enum.Font.GothamBold
-    BuildTypeText.Text = "Build type: <font color='rgb(9, 174, 255)'>BETA</font>"
+    BuildTypeText.Text = "Build type: <font color='rgb(9, 174, 255)'>"..BuildInfo:GetBuildType().."</font>"
     BuildTypeText.TextColor3 = Color3.fromRGB(255, 255, 255)
     BuildTypeText.TextSize = 14.000
     BuildTypeText.TextXAlignment = Enum.TextXAlignment.Left
@@ -2076,4 +2078,5 @@ function Neverlose_Main:Window(config)
     end -- TabsSec end
     return TabsSec
 end
+
 return Neverlose_Main
