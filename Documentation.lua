@@ -1,7 +1,8 @@
 local Neverlose_Main = loadstring(game:HttpGet("https://raw.githubusercontent.com/Mana42138/Neverlose-UI/main/Source.lua"))()
 local Win = Neverlose_Main:Window({
     Title = "NEVERLOSE", -- Title Name Here!
-    CFG = "Neverlose"
+    CFG = "Neverlose",
+    Key = Enum.KeyCode.H
 })
 
 local TabSection1 = Win:TSection("Misc") -- Make a Tab Section
