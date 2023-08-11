@@ -148,6 +148,9 @@ function Neverlose_Main:Window(config)
     if not isfolder(Folder .. "/configs") then 
         makefolder(Folder .. "/configs")
     end
+    if not isfolder(Folder .. "/Scripts") then 
+        makefolder(Folder .. "/Scripts")
+    end
 
     if not isfile(Folder .. "/settings.txt") then
         local content = {}
@@ -157,6 +160,8 @@ function Neverlose_Main:Window(config)
         writefile(Folder .. "/settings.txt", tostring(http:JSONEncode(content)))
     end
     Neverlose_Main.Settings = http:JSONDecode(readfile(Folder .. "/settings.txt"))
+
+
 
     function SaveSettings(bool)
         local rd = game:GetService("HttpService"):JSONDecode(readfile(Folder.."/settings.txt"))
@@ -230,11 +235,29 @@ function Neverlose_Main:Window(config)
     local BlackCorner = Instance.new("UICorner")
     local CloseSettings = Instance.new("TextButton")
 
+    local LuaButton = Instance.new("TextButton")
+    local LuaButtonPadding = Instance.new("UIPadding")
+    local LuaButtonCorner = Instance.new("UICorner")
+    local LuaButtonCode = Instance.new("ImageLabel")
+    local LuaButtonStroke = Instance.new("UIStroke")
+
+    local LuaFrame = Instance.new("Frame")
+    local LuaFrameCorner = Instance.new("UICorner")
+    local LuaTitle = Instance.new("TextLabel")
+    local LuaFrameLine = Instance.new("Frame")
+    local LuaFrameLine2 = Instance.new("Frame")
+    local CloseLuaFrame = Instance.new("TextButton")
+    local LuaScriptFrame = Instance.new("ScrollingFrame")
+    local LuaScriptFrameLayout = Instance.new("UIListLayout")
+    local LuaScriptFramePadding = Instance.new("UIPadding")
+
     local MenuToggled = false
 
     MakeDraggable(MainFrame, MainFrame)
 
     MakeDraggable(SettingsFrame, SettingsFrame)
+
+    MakeDraggable(LuaFrame, LuaFrame)
 
     MainFrame.Name = "MainFrame"
     MainFrame.Parent = Neverlose
@@ -590,12 +613,13 @@ function Neverlose_Main:Window(config)
 
     function Neverlose_Main:Notify(cfg)
         local text = cfg.Text
-        local Time = cfg.Time
-        local AutoClose = cfg.AutoClose or false
+        local Time = cfg.Time or 2
+        local AutoClose = true
+        -- local AutoClose = cfg.AutoClose or false
 
         local NotifyFrame = Instance.new("Frame")
         local NotifyFrameCorner = Instance.new("UICorner")
-        local Close = Instance.new("ImageButton")
+        -- local Close = Instance.new("ImageButton")
         local Description = Instance.new("TextLabel")
 
         NotifyFrame.Name = "NotifyFrame"
@@ -611,17 +635,17 @@ function Neverlose_Main:Window(config)
         NotifyFrameCorner.Name = "NotifyFrameCorner"
         NotifyFrameCorner.Parent = NotifyFrame
         
-        Close.Name = "Close"
-        Close.Parent = NotifyFrame
-        Close.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-        Close.BackgroundTransparency = 1.000
-        Close.BorderColor3 = Color3.fromRGB(0, 0, 0)
-        Close.BorderSizePixel = 0
-        Close.Position = UDim2.new(0.899999976, 0, 0, 0)
-        Close.Size = UDim2.new(0, 22, 0, 22)
-        Close.Image = "http://www.roblox.com/asset/?id=6031094678"
-        Close.ImageColor3 = Color3.fromRGB(18, 131, 206)
-        Close.Visible = false
+        -- Close.Name = "Close"
+        -- Close.Parent = NotifyFrame
+        -- Close.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        -- Close.BackgroundTransparency = 1.000
+        -- Close.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        -- Close.BorderSizePixel = 0
+        -- Close.Position = UDim2.new(0.899999976, 0, 0, 0)
+        -- Close.Size = UDim2.new(0, 22, 0, 22)
+        -- Close.Image = "http://www.roblox.com/asset/?id=6031094678"
+        -- Close.ImageColor3 = Color3.fromRGB(18, 131, 206)
+        -- Close.Visible = false
         
         Description.Name = "Description"
         Description.Parent = NotifyFrame
@@ -639,30 +663,30 @@ function Neverlose_Main:Window(config)
         Description.TextXAlignment = Enum.TextXAlignment.Left
         Description.Visible = false
 
-        Close.MouseButton1Click:Connect(function()
-            Description.Visible = false
-            Close.Visible = false
-            TweenService:Create(
-                NotifyFrame,
-                TweenInfo.new(.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-                {Size = UDim2.new(0, 0, 0, 36)}
-            ):Play()
-            repeat task.wait() until NotifyFrame.Size == UDim2.new(0, 0, 0, 36)
-            NotifyFrame:Destroy()
-        end)
+        -- Close.MouseButton1Click:Connect(function()
+        --     Description.Visible = false
+        --     Close.Visible = false
+        --     TweenService:Create(
+        --         NotifyFrame,
+        --         TweenInfo.new(.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+        --         {Size = UDim2.new(0, 0, 0, 36)}
+        --     ):Play()
+        --     repeat task.wait() until NotifyFrame.Size == UDim2.new(0, 0, 0, 36)
+        --     NotifyFrame:Destroy()
+        -- end)
 
         TweenService:Create(
             NotifyFrame,
             TweenInfo.new(.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-            {Size = UDim2.new(0, 219, 0, 36)}
+            {Size = UDim2.new(0, Description.TextBounds.X + 20, 0, 36)}
         ):Play()
         Description.Visible = true
-        repeat task.wait() until NotifyFrame.Size == UDim2.new(0, 219, 0, 36)
-        Close.Visible = true
+        repeat task.wait() until NotifyFrame.Size == UDim2.new(0, Description.TextBounds.X + 20, 0, 36)
+        -- Close.Visible = true
         task.wait(Time)
         if AutoClose then
             Description.Visible = false
-            Close.Visible = false
+            -- Close.Visible = false
             TweenService:Create(
                 NotifyFrame,
                 TweenInfo.new(.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
@@ -810,7 +834,7 @@ function Neverlose_Main:Window(config)
     Style.BackgroundTransparency = 1.000
     Style.BorderColor3 = Color3.fromRGB(0, 0, 0)
     Style.BorderSizePixel = 0
-    Style.Position = UDim2.new(0.0698323995, 0, 0.79773283, 0)
+    Style.Position = UDim2.new(0.0837988853, 0, 0.725815058, 0)
     Style.Size = UDim2.new(0, 307, 0, 32)
     Style.Font = Enum.Font.Gotham
     Style.Text = "Style"
@@ -903,6 +927,50 @@ function Neverlose_Main:Window(config)
     BlackCorner.CornerRadius = UDim.new(3, 0)
     BlackCorner.Name = "BlackCorner"
     BlackCorner.Parent = Black
+
+    LuaButton.Name = "LuaButton"
+    LuaButton.Parent = SettingsFrame
+    LuaButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    LuaButton.BackgroundTransparency = 1.000
+    LuaButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    LuaButton.BorderSizePixel = 0
+    LuaButton.Position = UDim2.new(0.0670391098, 0, 0.842465758, 0)
+    LuaButton.Size = UDim2.new(0, 124, 0, 38)
+    LuaButton.Font = Enum.Font.GothamBold
+    LuaButton.Text = "Lua"
+    LuaButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    LuaButton.TextSize = 17.000
+    LuaButton.TextXAlignment = Enum.TextXAlignment.Left
+
+    LuaButtonStroke.Color = Color3.fromRGB(38, 81, 135)
+    LuaButtonStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+    LuaButtonStroke.LineJoinMode = Enum.LineJoinMode.Round
+    LuaButtonStroke.Thickness = 1
+    LuaButtonStroke.Parent = LuaButton
+    
+    LuaButtonPadding.Name = "LuaButtonPadding"
+    LuaButtonPadding.Parent = LuaButton
+    LuaButtonPadding.PaddingLeft = UDim.new(0, 7)
+    
+    LuaButtonCorner.CornerRadius = UDim.new(0, 4)
+    LuaButtonCorner.Name = "LuaButtonCorner"
+    LuaButtonCorner.Parent = LuaButton
+    
+    LuaButtonCode.Name = "LuaButtonCode"
+    LuaButtonCode.Parent = LuaButton
+    LuaButtonCode.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    LuaButtonCode.BackgroundTransparency = 1.000
+    LuaButtonCode.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    LuaButtonCode.BorderSizePixel = 0
+    LuaButtonCode.Position = UDim2.new(0.675213695, 0, 0.121649489, 0)
+    LuaButtonCode.Size = UDim2.new(0, 28, 0, 28)
+    LuaButtonCode.Image = "http://www.roblox.com/asset/?id=6022668955"
+
+    LuaButton.MouseButton1Click:Connect(function()
+        SettingsFrame.Visible = false
+        SettingsToggled = false
+        LuaFrame.Visible = true
+    end)
     
     CloseSettings.Name = "CloseSettings"
     CloseSettings.Parent = SettingsFrame
@@ -923,6 +991,629 @@ function Neverlose_Main:Window(config)
         SettingsToggled = false
     end)
 
+    --[[
+        Lua Scripting
+    ]]--
+
+
+
+
+
+
+
+        
+        LuaFrame.Name = "LuaFrame"
+        LuaFrame.Parent = MainFrame
+        LuaFrame.BackgroundColor3 = Color3.fromRGB(10, 10, 15)
+        LuaFrame.BackgroundTransparency = 0.050
+        LuaFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        LuaFrame.BorderSizePixel = 0
+        LuaFrame.Position = UDim2.new(1.05754292, 0, 0.0571847521, 0)
+        LuaFrame.Size = UDim2.new(0, 540, 0, 502)
+        LuaFrame.Visible = false
+        
+        LuaFrameCorner.CornerRadius = UDim.new(0, 4)
+        LuaFrameCorner.Name = "LuaFrameCorner"
+        LuaFrameCorner.Parent = LuaFrame
+        
+        LuaTitle.Name = "LuaTitle"
+        LuaTitle.Parent = LuaFrame
+        LuaTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        LuaTitle.BackgroundTransparency = 1.000
+        LuaTitle.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        LuaTitle.BorderSizePixel = 0
+        LuaTitle.Position = UDim2.new(0.270148396, 0, -0.000112343594, 0)
+        LuaTitle.Size = UDim2.new(0, 248, 0, 67)
+        LuaTitle.Font = Enum.Font.FredokaOne
+        LuaTitle.Text = "LUA"
+        LuaTitle.TextColor3 = Color3.fromRGB(239, 248, 246)
+        LuaTitle.TextSize = 45.000
+        LuaTitle.TextStrokeColor3 = Color3.fromRGB(27, 141, 240)
+        LuaTitle.TextStrokeTransparency = 0.590
+        
+        LuaFrameLine.Name = "LuaFrameLine"
+        LuaFrameLine.Parent = LuaFrame
+        LuaFrameLine.BackgroundColor3 = Color3.fromRGB(68, 68, 68)
+        LuaFrameLine.BackgroundTransparency = 0.800
+        LuaFrameLine.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        LuaFrameLine.BorderSizePixel = 0
+        LuaFrameLine.Position = UDim2.new(0, 0, 0.136003897, 0)
+        LuaFrameLine.Size = UDim2.new(1, 0, 0, 1)
+        
+        LuaFrameLine2.Name = "LuaFrameLine2"
+        LuaFrameLine2.Parent = LuaFrame
+        LuaFrameLine2.BackgroundColor3 = Color3.fromRGB(68, 68, 68)
+        LuaFrameLine2.BackgroundTransparency = 1.000
+        LuaFrameLine2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        LuaFrameLine2.BorderSizePixel = 0
+        LuaFrameLine2.Position = UDim2.new(0, 0, 0.809246898, 0)
+        LuaFrameLine2.Size = UDim2.new(1, 0, 0, 1)
+        
+        CloseLuaFrame.Name = "CloseLuaFrame"
+        CloseLuaFrame.Parent = LuaFrame
+        CloseLuaFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        CloseLuaFrame.BackgroundTransparency = 1.000
+        CloseLuaFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        CloseLuaFrame.BorderSizePixel = 0
+        CloseLuaFrame.Position = UDim2.new(0.944993913, 0, -0.00995453913, 0)
+        CloseLuaFrame.Size = UDim2.new(0, 35, 0, 36)
+        CloseLuaFrame.AutoButtonColor = false
+        CloseLuaFrame.Font = Enum.Font.GothamBold
+        CloseLuaFrame.Text = "x"
+        CloseLuaFrame.TextColor3 = Color3.fromRGB(255, 255, 255)
+        CloseLuaFrame.TextSize = 20.000
+
+        CloseLuaFrame.MouseButton1Click:Connect(function()
+            LuaFrame.Visible = false
+        end)
+        
+        LuaScriptFrame.Name = "LuaScriptFrame"
+        LuaScriptFrame.Parent = LuaFrame
+        LuaScriptFrame.Active = true
+        LuaScriptFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        LuaScriptFrame.BackgroundTransparency = 1.000
+        LuaScriptFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        LuaScriptFrame.BorderSizePixel = 0
+        LuaScriptFrame.Position = UDim2.new(0.0229357686, 0, 0.164772704, 0)
+        LuaScriptFrame.Size = UDim2.new(0, 521, 0, 412)
+        LuaScriptFrame.ScrollBarThickness = 0
+        
+        LuaScriptFrameLayout.Name = "LuaScriptFrameLayout"
+        LuaScriptFrameLayout.Parent = LuaScriptFrame
+        LuaScriptFrameLayout.SortOrder = Enum.SortOrder.LayoutOrder
+        LuaScriptFrameLayout.Padding = UDim.new(0, 15)
+
+        local RefreshScripts = Instance.new("TextButton")
+        local RefreshScriptsText = Instance.new("TextLabel")
+        local RefreshScriptsCorner = Instance.new("UICorner")
+        
+        --Properties:
+        
+        RefreshScripts.Name = "RefreshScripts"
+        RefreshScripts.Parent = LuaFrame
+        RefreshScripts.BackgroundColor3 = Color3.fromRGB(3, 123, 182)
+        RefreshScripts.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        RefreshScripts.Position = UDim2.new(0.0596479625, 0, 0.0355849229, 0)
+        RefreshScripts.Size = UDim2.new(0, 82, 0, 30)
+        RefreshScripts.AutoButtonColor = false
+        RefreshScripts.Font = Enum.Font.SourceSans
+        RefreshScripts.Text = ""
+        RefreshScripts.TextColor3 = Color3.fromRGB(0, 0, 0)
+        RefreshScripts.TextSize = 14.000
+        
+        RefreshScriptsText.Name = "RefreshScriptsText"
+        RefreshScriptsText.Parent = RefreshScripts
+        RefreshScriptsText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        RefreshScriptsText.BackgroundTransparency = 1.000
+        RefreshScriptsText.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        RefreshScriptsText.BorderSizePixel = 0
+        RefreshScriptsText.Position = UDim2.new(0.263353288, 0, 0.233333334, 0)
+        RefreshScriptsText.Size = UDim2.new(0, 37, 0, 15)
+        RefreshScriptsText.Font = Enum.Font.GothamBold
+        RefreshScriptsText.Text = "Refresh"
+        RefreshScriptsText.TextColor3 = Color3.fromRGB(255, 255, 255)
+        RefreshScriptsText.TextSize = 14.000
+        
+        RefreshScriptsCorner.CornerRadius = UDim.new(0, 5)
+        RefreshScriptsCorner.Name = "RefreshScriptsCorner"
+        RefreshScriptsCorner.Parent = RefreshScripts
+
+        local ListScripts = listfiles(Folder.."/Scripts")
+
+        RefreshScripts.MouseButton1Click:Connect(function()
+            local ListScripts = listfiles(Folder.."/Scripts")
+            for i,v in pairs(LuaScriptFrame:GetChildren()) do
+                if v:IsA("TextButton") then
+                    v:Destroy()
+                end
+            end
+            for i,v in pairs(ListScripts) do
+                local file_path = v
+                local file_name = string.match(file_path, "[^\\]*$")
+                local file_name_without_extension = string.gsub(file_name, "%..*$", "")
+    
+                local Script = Instance.new("TextButton")
+                local ScriptCorner = Instance.new("UICorner")
+                local ScriptTitle = Instance.new("TextLabel")
+                local LoadScript = Instance.new("TextButton")
+                local LoadText = Instance.new("TextLabel")
+                local LoadScriptCorner = Instance.new("UICorner")
+                local LoadImage = Instance.new("ImageLabel")
+                local ScriptSettings = Instance.new("ImageButton")
+                local SettignsLuaFrame = Instance.new("Frame")
+                local SettignsLuaFrameLayout = Instance.new("UIListLayout")
+                local DeleteLua = Instance.new("ImageButton")
+                local EditScript = Instance.new("ImageButton")
+                local ShareScript = Instance.new("ImageButton")
+    
+                Script.Name = "Script"
+                Script.Parent = LuaScriptFrame
+                Script.BackgroundColor3 = Color3.fromRGB(4, 18, 36)
+                Script.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                Script.BorderSizePixel = 0
+                Script.Position = UDim2.new(0, 0, 7.11365473e-08, 0)
+                Script.Size = UDim2.new(0, 509, 0, 44)
+                Script.AutoButtonColor = false
+                Script.Font = Enum.Font.SourceSans
+                Script.Text = ""
+                Script.TextColor3 = Color3.fromRGB(0, 0, 0)
+                Script.TextSize = 14.000
+                
+                local ScriptStroke = Instance.new("UIStroke")
+        
+                ScriptStroke.Color = Color3.fromRGB(4, 28, 44)
+                ScriptStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+                ScriptStroke.LineJoinMode = Enum.LineJoinMode.Round
+                ScriptStroke.Thickness = 1
+                ScriptStroke.Parent = Script
+                
+                ScriptCorner.Name = "ScriptCorner"
+                ScriptCorner.Parent = Script
+                
+                ScriptTitle.Name = "ScriptTitle"
+                ScriptTitle.Parent = Script
+                ScriptTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                ScriptTitle.BackgroundTransparency = 1.000
+                ScriptTitle.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                ScriptTitle.BorderSizePixel = 0
+                ScriptTitle.Position = UDim2.new(0.0308056865, 0, 0.240259692, 0)
+                ScriptTitle.Size = UDim2.new(0, 61, 0, 21)
+                ScriptTitle.Font = Enum.Font.GothamBold
+                ScriptTitle.Text = file_name_without_extension
+                ScriptTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+                ScriptTitle.TextSize = 15.000
+                ScriptTitle.TextXAlignment = Enum.TextXAlignment.Left
+                
+                LoadScript.Name = "LoadScript"
+                LoadScript.Parent = Script
+                LoadScript.BackgroundColor3 = Color3.fromRGB(3, 123, 182)
+                LoadScript.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                LoadScript.Position = UDim2.new(0.824462891, 0, 0.159090906, 0)
+                LoadScript.Size = UDim2.new(0, 82, 0, 30)
+                LoadScript.AutoButtonColor = false
+                LoadScript.Font = Enum.Font.SourceSans
+                LoadScript.Text = ""
+                LoadScript.TextColor3 = Color3.fromRGB(0, 0, 0)
+                LoadScript.TextSize = 14.000
+    
+                LoadScript.MouseButton1Click:Connect(function()
+                    if LoadText.Text == "Load" then
+                        getgenv().Lua = getgenv().LuaSection:Tab(file_name_without_extension)
+                        local goo, bad = pcall(function()
+                            wait(1)
+                            loadfile(v)()
+                        end)
+                        Neverlose_Main:Notify({
+                            Text = file_name_without_extension.." loaded",
+                            Time = 2,
+                            AutoClose = true
+                        })
+                        if goo == false then
+                            Neverlose_Main:Notify({
+                                Text = "Error: "..file_name_without_extension..bad,
+                                Time = 2,
+                                AutoClose = true
+                            })
+                            for i,v in pairs(TabHolder.Lua:GetChildren()) do
+                                if v.Name == file_name_without_extension then
+                                    v:Destroy()
+                                end
+                            end
+                        end
+                        LoadText.Text = "UnLoad"
+                        LoadImage.Visible = false
+                    else
+                        -- ContainerHolder
+                        for i,v in pairs(TabHolder.Lua:GetChildren()) do
+                            if v.Name == file_name_without_extension then
+                                v:Destroy()
+                            end
+                        end
+    
+                        for i,v in pairs(ContainerHolder:GetChildren()) do
+                            if v.Name == file_name_without_extension then
+                                v:Destroy()
+                            end
+                        end
+                        Neverlose_Main:Notify({
+                            Text = file_name_without_extension.." Unloaded",
+                            Time = 2,
+                            AutoClose = true
+                        })
+                        LoadText.Text = "Load"
+                        LoadImage.Visible = true
+                    end
+                end)
+                
+                LoadText.Name = "LoadText"
+                LoadText.Parent = LoadScript
+                LoadText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                LoadText.BackgroundTransparency = 1.000
+                LoadText.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                LoadText.BorderSizePixel = 0
+                LoadText.Position = UDim2.new(0.434085011, 0, 0.233333334, 0)
+                LoadText.Size = UDim2.new(0, 37, 0, 15)
+                LoadText.Font = Enum.Font.GothamBold
+                LoadText.Text = "Load"
+                LoadText.TextColor3 = Color3.fromRGB(255, 255, 255)
+                LoadText.TextSize = 14.000
+                LoadText.TextXAlignment = Enum.TextXAlignment.Right
+                
+                LoadScriptCorner.CornerRadius = UDim.new(0, 5)
+                LoadScriptCorner.Name = "LoadScriptCorner"
+                LoadScriptCorner.Parent = LoadScript
+                
+                LoadImage.Name = "LoadImage"
+                LoadImage.Parent = LoadScript
+                LoadImage.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                LoadImage.BackgroundTransparency = 1.000
+                LoadImage.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                LoadImage.BorderSizePixel = 0
+                LoadImage.Position = UDim2.new(0, 0, 0.100000001, 0)
+                LoadImage.Size = UDim2.new(0, 30, 0, 23)
+                LoadImage.Image = "http://www.roblox.com/asset/?id=6026663699"
+                
+                ScriptSettings.Name = "ScriptSettings"
+                ScriptSettings.Parent = Script
+                ScriptSettings.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                ScriptSettings.BackgroundTransparency = 1.000
+                ScriptSettings.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                ScriptSettings.BorderSizePixel = 0
+                ScriptSettings.Position = UDim2.new(0.768745601, 0, 0.295454532, 0)
+                ScriptSettings.Size = UDim2.new(0, 18, 0, 18)
+                ScriptSettings.Image = "http://www.roblox.com/asset/?id=6031280882"
+                local ScriptSettignsToggled = false
+
+                ScriptSettings.MouseButton1Click:Connect(function()
+                    ScriptSettignsToggled = not ScriptSettignsToggled
+                    SettignsLuaFrame.Visible = ScriptSettignsToggled
+                end)
+                
+                SettignsLuaFrame.Name = "SettignsLuaFrame"
+                SettignsLuaFrame.Parent = Script
+                SettignsLuaFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                SettignsLuaFrame.BackgroundTransparency = 1.000
+                SettignsLuaFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                SettignsLuaFrame.BorderSizePixel = 0
+                SettignsLuaFrame.Position = UDim2.new(0.267190576, 0, 0.181818187, 0)
+                SettignsLuaFrame.Size = UDim2.new(0, 231, 0, 29)
+                SettignsLuaFrame.Visible = false
+                
+                SettignsLuaFrameLayout.Name = "SettignsLuaFrameLayout"
+                SettignsLuaFrameLayout.Parent = SettignsLuaFrame
+                SettignsLuaFrameLayout.FillDirection = Enum.FillDirection.Horizontal
+                SettignsLuaFrameLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+                SettignsLuaFrameLayout.SortOrder = Enum.SortOrder.LayoutOrder
+                SettignsLuaFrameLayout.VerticalAlignment = Enum.VerticalAlignment.Center
+                SettignsLuaFrameLayout.Padding = UDim.new(0, 13)
+                
+                DeleteLua.Name = "DeleteLua"
+                DeleteLua.Parent = SettignsLuaFrame
+                DeleteLua.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                DeleteLua.BackgroundTransparency = 1.000
+                DeleteLua.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                DeleteLua.BorderSizePixel = 0
+                DeleteLua.Position = UDim2.new(0.0216450226, 0, 0.103448279, 0)
+                DeleteLua.Size = UDim2.new(0, 20, 0, 20)
+                DeleteLua.Image = "http://www.roblox.com/asset/?id=6035067843"
+                DeleteLua.ImageColor3 = Color3.fromRGB(255, 69, 72)
+        
+                DeleteLua.MouseButton1Click:Connect(function()
+                    Neverlose_Main:Notify({
+                        Text = "Deleted Script!",
+                        Time = 2,
+                        AutoClose = true
+                    })
+                    delfile(v)
+                    Script:Destroy()
+                end)
+                
+                EditScript.Name = "EditScript"
+                EditScript.Parent = SettignsLuaFrame
+                EditScript.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                EditScript.BackgroundTransparency = 1.000
+                EditScript.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                EditScript.BorderSizePixel = 0
+                EditScript.Position = UDim2.new(0.0216450226, 0, 0.103448279, 0)
+                EditScript.Size = UDim2.new(0, 20, 0, 20)
+                EditScript.Image = "http://www.roblox.com/asset/?id=6034328955"
+                EditScript.ImageColor3 = Color3.fromRGB(16, 76, 141)
+        
+                EditScript.MouseButton1Click:Connect(function()
+                    Neverlose_Main:Notify({
+                        Text = "Still in Testing!",
+                        Time = 2,
+                        AutoClose = true
+                    })
+                end)
+                
+                ShareScript.Name = "ShareScript"
+                ShareScript.Parent = SettignsLuaFrame
+                ShareScript.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                ShareScript.BackgroundTransparency = 1.000
+                ShareScript.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                ShareScript.BorderSizePixel = 0
+                ShareScript.Position = UDim2.new(0.0216450226, 0, 0.103448279, 0)
+                ShareScript.Size = UDim2.new(0, 20, 0, 20)
+                ShareScript.Image = "http://www.roblox.com/asset/?id=6034230648"
+                ShareScript.ImageColor3 = Color3.fromRGB(16, 76, 141)
+        
+                ShareScript.MouseButton1Click:Connect(function()
+                    Neverlose_Main:Notify({
+                        Text = "Copied to clipboard!",
+                        Time = 2,
+                        AutoClose = true
+                    })
+                    local readedfile = readfile(v)
+                    setclipboard(readedfile)
+                end)
+            end
+    
+        end)
+
+        for i,v in pairs(ListScripts) do
+            local file_path = v
+            local file_name = string.match(file_path, "[^\\]*$")
+            local file_name_without_extension = string.gsub(file_name, "%..*$", "")
+    
+            print(file_name_without_extension)
+
+            local Script = Instance.new("TextButton")
+            local ScriptCorner = Instance.new("UICorner")
+            local ScriptTitle = Instance.new("TextLabel")
+            local LoadScript = Instance.new("TextButton")
+            local LoadText = Instance.new("TextLabel")
+            local LoadScriptCorner = Instance.new("UICorner")
+            local LoadImage = Instance.new("ImageLabel")
+            local ScriptSettings = Instance.new("ImageButton")
+            local SettignsLuaFrame = Instance.new("Frame")
+            local SettignsLuaFrameLayout = Instance.new("UIListLayout")
+            local DeleteLua = Instance.new("ImageButton")
+            local EditScript = Instance.new("ImageButton")
+            local ShareScript = Instance.new("ImageButton")
+
+            Script.Name = "Script"
+            Script.Parent = LuaScriptFrame
+            Script.BackgroundColor3 = Color3.fromRGB(4, 18, 36)
+            Script.BorderColor3 = Color3.fromRGB(0, 0, 0)
+            Script.BorderSizePixel = 0
+            Script.Position = UDim2.new(0, 0, 7.11365473e-08, 0)
+            Script.Size = UDim2.new(0, 509, 0, 44)
+            Script.AutoButtonColor = false
+            Script.Font = Enum.Font.SourceSans
+            Script.Text = ""
+            Script.TextColor3 = Color3.fromRGB(0, 0, 0)
+            Script.TextSize = 14.000
+            
+            local ScriptStroke = Instance.new("UIStroke")
+    
+            ScriptStroke.Color = Color3.fromRGB(4, 28, 44)
+            ScriptStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+            ScriptStroke.LineJoinMode = Enum.LineJoinMode.Round
+            ScriptStroke.Thickness = 1
+            ScriptStroke.Parent = Script
+            
+            ScriptCorner.Name = "ScriptCorner"
+            ScriptCorner.Parent = Script
+            
+            ScriptTitle.Name = "ScriptTitle"
+            ScriptTitle.Parent = Script
+            ScriptTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            ScriptTitle.BackgroundTransparency = 1.000
+            ScriptTitle.BorderColor3 = Color3.fromRGB(0, 0, 0)
+            ScriptTitle.BorderSizePixel = 0
+            ScriptTitle.Position = UDim2.new(0.0308056865, 0, 0.240259692, 0)
+            ScriptTitle.Size = UDim2.new(0, 61, 0, 21)
+            ScriptTitle.Font = Enum.Font.GothamBold
+            ScriptTitle.Text = file_name_without_extension
+            ScriptTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+            ScriptTitle.TextSize = 15.000
+            ScriptTitle.TextXAlignment = Enum.TextXAlignment.Left
+            
+            LoadScript.Name = "LoadScript"
+            LoadScript.Parent = Script
+            LoadScript.BackgroundColor3 = Color3.fromRGB(3, 123, 182)
+            LoadScript.BorderColor3 = Color3.fromRGB(0, 0, 0)
+            LoadScript.Position = UDim2.new(0.824462891, 0, 0.159090906, 0)
+            LoadScript.Size = UDim2.new(0, 82, 0, 30)
+            LoadScript.AutoButtonColor = false
+            LoadScript.Font = Enum.Font.SourceSans
+            LoadScript.Text = ""
+            LoadScript.TextColor3 = Color3.fromRGB(0, 0, 0)
+            LoadScript.TextSize = 14.000
+
+            LoadScript.MouseButton1Click:Connect(function()
+                if LoadText.Text == "Load" then
+                    getgenv().Lua = getgenv().LuaSection:Tab(file_name_without_extension)
+                    local goo, bad = pcall(function()
+                        wait(1)
+                        loadfile(v)()
+                    end)
+                    Neverlose_Main:Notify({
+                        Text = file_name_without_extension.." loaded",
+                        Time = 2,
+                        AutoClose = true
+                    })
+                    if goo == false then
+                        Neverlose_Main:Notify({
+                            Text = "Error: "..file_name_without_extension..bad,
+                            Time = 2,
+                            AutoClose = true
+                        })
+                        for i,v in pairs(TabHolder.Lua:GetChildren()) do
+                            if v.Name == file_name_without_extension then
+                                v:Destroy()
+                            end
+                        end
+                    end
+                    LoadText.Text = "UnLoad"
+                    LoadImage.Visible = false
+                else
+                    -- ContainerHolder
+                    for i,v in pairs(TabHolder.Lua:GetChildren()) do
+                        if v.Name == file_name_without_extension then
+                            v:Destroy()
+                        end
+                    end
+
+                    for i,v in pairs(ContainerHolder:GetChildren()) do
+                        if v.Name == file_name_without_extension then
+                            v:Destroy()
+                        end
+                    end
+                    Neverlose_Main:Notify({
+                        Text = file_name_without_extension.." Unloaded",
+                        Time = 2,
+                        AutoClose = true
+                    })
+                    LoadText.Text = "Load"
+                    LoadImage.Visible = true
+                end
+            end)
+            
+            LoadText.Name = "LoadText"
+            LoadText.Parent = LoadScript
+            LoadText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            LoadText.BackgroundTransparency = 1.000
+            LoadText.BorderColor3 = Color3.fromRGB(0, 0, 0)
+            LoadText.BorderSizePixel = 0
+            LoadText.Position = UDim2.new(0.434085011, 0, 0.233333334, 0)
+            LoadText.Size = UDim2.new(0, 37, 0, 15)
+            LoadText.Font = Enum.Font.GothamBold
+            LoadText.Text = "Load"
+            LoadText.TextColor3 = Color3.fromRGB(255, 255, 255)
+            LoadText.TextSize = 14.000
+            LoadText.TextXAlignment = Enum.TextXAlignment.Right
+            
+            LoadScriptCorner.CornerRadius = UDim.new(0, 5)
+            LoadScriptCorner.Name = "LoadScriptCorner"
+            LoadScriptCorner.Parent = LoadScript
+            
+            LoadImage.Name = "LoadImage"
+            LoadImage.Parent = LoadScript
+            LoadImage.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            LoadImage.BackgroundTransparency = 1.000
+            LoadImage.BorderColor3 = Color3.fromRGB(0, 0, 0)
+            LoadImage.BorderSizePixel = 0
+            LoadImage.Position = UDim2.new(0, 0, 0.100000001, 0)
+            LoadImage.Size = UDim2.new(0, 30, 0, 23)
+            LoadImage.Image = "http://www.roblox.com/asset/?id=6026663699"
+            
+            ScriptSettings.Name = "ScriptSettings"
+            ScriptSettings.Parent = Script
+            ScriptSettings.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            ScriptSettings.BackgroundTransparency = 1.000
+            ScriptSettings.BorderColor3 = Color3.fromRGB(0, 0, 0)
+            ScriptSettings.BorderSizePixel = 0
+            ScriptSettings.Position = UDim2.new(0.768745601, 0, 0.295454532, 0)
+            ScriptSettings.Size = UDim2.new(0, 18, 0, 18)
+            ScriptSettings.Image = "http://www.roblox.com/asset/?id=6031280882"
+            
+            SettignsLuaFrame.Name = "SettignsLuaFrame"
+            SettignsLuaFrame.Parent = Script
+            SettignsLuaFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            SettignsLuaFrame.BackgroundTransparency = 1.000
+            SettignsLuaFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+            SettignsLuaFrame.BorderSizePixel = 0
+            SettignsLuaFrame.Position = UDim2.new(0.267190576, 0, 0.181818187, 0)
+            SettignsLuaFrame.Size = UDim2.new(0, 231, 0, 29)
+            
+            SettignsLuaFrameLayout.Name = "SettignsLuaFrameLayout"
+            SettignsLuaFrameLayout.Parent = SettignsLuaFrame
+            SettignsLuaFrameLayout.FillDirection = Enum.FillDirection.Horizontal
+            SettignsLuaFrameLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+            SettignsLuaFrameLayout.SortOrder = Enum.SortOrder.LayoutOrder
+            SettignsLuaFrameLayout.VerticalAlignment = Enum.VerticalAlignment.Center
+            SettignsLuaFrameLayout.Padding = UDim.new(0, 13)
+            
+            DeleteLua.Name = "DeleteLua"
+            DeleteLua.Parent = SettignsLuaFrame
+            DeleteLua.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            DeleteLua.BackgroundTransparency = 1.000
+            DeleteLua.BorderColor3 = Color3.fromRGB(0, 0, 0)
+            DeleteLua.BorderSizePixel = 0
+            DeleteLua.Position = UDim2.new(0.0216450226, 0, 0.103448279, 0)
+            DeleteLua.Size = UDim2.new(0, 20, 0, 20)
+            DeleteLua.Image = "http://www.roblox.com/asset/?id=6035067843"
+            DeleteLua.ImageColor3 = Color3.fromRGB(255, 69, 72)
+    
+            DeleteLua.MouseButton1Click:Connect(function()
+                Neverlose_Main:Notify({
+                    Text = "Deleted Script!",
+                    Time = 2,
+                    AutoClose = true
+                })
+                delfile(v)
+                Script:Destroy()
+            end)
+            
+            EditScript.Name = "EditScript"
+            EditScript.Parent = SettignsLuaFrame
+            EditScript.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            EditScript.BackgroundTransparency = 1.000
+            EditScript.BorderColor3 = Color3.fromRGB(0, 0, 0)
+            EditScript.BorderSizePixel = 0
+            EditScript.Position = UDim2.new(0.0216450226, 0, 0.103448279, 0)
+            EditScript.Size = UDim2.new(0, 20, 0, 20)
+            EditScript.Image = "http://www.roblox.com/asset/?id=6034328955"
+            EditScript.ImageColor3 = Color3.fromRGB(16, 76, 141)
+    
+            EditScript.MouseButton1Click:Connect(function()
+                Neverlose_Main:Notify({
+                    Text = "Still in Testing!",
+                    Time = 2,
+                    AutoClose = true
+                })
+            end)
+            
+            ShareScript.Name = "ShareScript"
+            ShareScript.Parent = SettignsLuaFrame
+            ShareScript.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            ShareScript.BackgroundTransparency = 1.000
+            ShareScript.BorderColor3 = Color3.fromRGB(0, 0, 0)
+            ShareScript.BorderSizePixel = 0
+            ShareScript.Position = UDim2.new(0.0216450226, 0, 0.103448279, 0)
+            ShareScript.Size = UDim2.new(0, 20, 0, 20)
+            ShareScript.Image = "http://www.roblox.com/asset/?id=6034230648"
+            ShareScript.ImageColor3 = Color3.fromRGB(16, 76, 141)
+    
+            ShareScript.MouseButton1Click:Connect(function()
+                Neverlose_Main:Notify({
+                    Text = "Copied to clipboard!",
+                    Time = 2,
+                    AutoClose = true
+                })
+                local readedfile = readfile(v)
+                setclipboard(readedfile)
+            end)
+        end
+        
+        LuaScriptFramePadding.Name = "LuaScriptFramePadding"
+        LuaScriptFramePadding.Parent = LuaScriptFrame
+        LuaScriptFramePadding.PaddingLeft = UDim.new(0, 5)
+        LuaScriptFramePadding.PaddingTop = UDim.new(0, 5)
+
+
     local TabsSec = {}
     function TabsSec:TSection(title)
         local TabsSection = Instance.new("Frame")
@@ -930,7 +1621,7 @@ function Neverlose_Main:Window(config)
         local TabSectionTitle = Instance.new("TextLabel")
         local TabsSectionLayout = Instance.new("UIListLayout")
 
-        TabsSection.Name = "TabsSection"
+        TabsSection.Name = title
         TabsSection.Parent = TabHolder
         TabsSection.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
         TabsSection.BackgroundTransparency = 1.000
@@ -957,7 +1648,7 @@ function Neverlose_Main:Window(config)
         TabSectionTitle.Position = UDim2.new(-0.0404311828, 0, 0.229113445, 0)
         TabSectionTitle.Size = UDim2.new(0, 37, 0, 15)
         TabSectionTitle.Font = Enum.Font.Gotham
-        TabSectionTitle.Text = "Autofarm"
+        TabSectionTitle.Text = title
         TabSectionTitle.TextColor3 = Color3.fromRGB(44, 62, 75)
         TabSectionTitle.TextSize = 12.000
         TabSectionTitle.TextXAlignment = Enum.TextXAlignment.Left
@@ -1076,7 +1767,7 @@ function Neverlose_Main:Window(config)
             local SectionHolder2 = Instance.new("Frame")
             local SectionHolder2Layout = Instance.new("UIListLayout")
 
-            Tab.Name = "Tab"
+            Tab.Name = title
             Tab.Parent = TabsSection
             Tab.BackgroundColor3 = Color3.fromRGB(13, 98, 144)
             Tab.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -1108,7 +1799,7 @@ function Neverlose_Main:Window(config)
             TabTitle.TextSize = 14.000
             TabTitle.TextXAlignment = Enum.TextXAlignment.Left
 
-            Container.Name = "Container"
+            Container.Name = title
             Container.Parent = ContainerHolder
             Container.Active = true
             Container.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -2077,6 +2768,10 @@ function Neverlose_Main:Window(config)
         end -- Tabs Table end
         return Tabs
     end -- TabsSec end
+    spawn(function()
+        task.wait(.2)
+        getgenv().LuaSection = TabsSec:TSection("Lua")
+    end)
     return TabsSec
 end
 
