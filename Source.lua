@@ -139,6 +139,7 @@ function Neverlose_Main:Window(config)
     local FirstTab, SettingsToggled = false, false
     local title = config.Title
     local Folder1 = config.CFG
+    local KeyBind = config.Key
 
     local Folder = tostring(Folder1)
     if not isfolder(Folder) then
@@ -425,7 +426,7 @@ function Neverlose_Main:Window(config)
     end)
 
     UserInputService.InputBegan:Connect(function(input, pressed)
-        if input.KeyCode == Enum.KeyCode.H then
+        if input.KeyCode == KeyBind then
             MainFrame.Visible = MenuToggled
             MenuToggled = not MenuToggled
             print("TestBeta")
