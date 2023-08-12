@@ -680,8 +680,8 @@ function Neverlose_Main:Window(config)
             TweenInfo.new(.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
             {Size = UDim2.new(0, Description.TextBounds.X + 20, 0, 36)}
         ):Play()
-        Description.Visible = true
         repeat task.wait() until NotifyFrame.Size == UDim2.new(0, Description.TextBounds.X + 20, 0, 36)
+        Description.Visible = true
         -- Close.Visible = true
         task.wait(Time)
         if AutoClose then
@@ -983,7 +983,7 @@ function Neverlose_Main:Window(config)
     CloseSettings.AutoButtonColor = false
     CloseSettings.Font = Enum.Font.GothamBold
     CloseSettings.Text = "x"
-    CloseSettings.TextColor3 = Color3.fromRGB(255, 255, 255)
+    CloseSettings.TextColor3 = Color3.fromRGB(46, 125, 194)
     CloseSettings.TextSize = 20.000
 
     CloseSettings.MouseButton1Click:Connect(function()
@@ -994,11 +994,6 @@ function Neverlose_Main:Window(config)
     --[[
         Lua Scripting
     ]]--
-
-
-
-
-
 
 
         
@@ -1060,7 +1055,7 @@ function Neverlose_Main:Window(config)
         CloseLuaFrame.AutoButtonColor = false
         CloseLuaFrame.Font = Enum.Font.GothamBold
         CloseLuaFrame.Text = "x"
-        CloseLuaFrame.TextColor3 = Color3.fromRGB(255, 255, 255)
+        CloseLuaFrame.TextColor3 = Color3.fromRGB(46, 125, 194)
         CloseLuaFrame.TextSize = 20.000
 
         CloseLuaFrame.MouseButton1Click:Connect(function()
@@ -1083,44 +1078,32 @@ function Neverlose_Main:Window(config)
         LuaScriptFrameLayout.SortOrder = Enum.SortOrder.LayoutOrder
         LuaScriptFrameLayout.Padding = UDim.new(0, 15)
 
-        local RefreshScripts = Instance.new("TextButton")
-        local RefreshScriptsText = Instance.new("TextLabel")
-        local RefreshScriptsCorner = Instance.new("UICorner")
-        
-        --Properties:
+        local RefreshScripts = Instance.new("ImageButton")
         
         RefreshScripts.Name = "RefreshScripts"
         RefreshScripts.Parent = LuaFrame
-        RefreshScripts.BackgroundColor3 = Color3.fromRGB(3, 123, 182)
+        RefreshScripts.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        RefreshScripts.BackgroundTransparency = 1.000
         RefreshScripts.BorderColor3 = Color3.fromRGB(0, 0, 0)
-        RefreshScripts.Position = UDim2.new(0.0596479625, 0, 0.0355849229, 0)
-        RefreshScripts.Size = UDim2.new(0, 82, 0, 30)
-        RefreshScripts.AutoButtonColor = false
-        RefreshScripts.Font = Enum.Font.SourceSans
-        RefreshScripts.Text = ""
-        RefreshScripts.TextColor3 = Color3.fromRGB(0, 0, 0)
-        RefreshScripts.TextSize = 14.000
-        
-        RefreshScriptsText.Name = "RefreshScriptsText"
-        RefreshScriptsText.Parent = RefreshScripts
-        RefreshScriptsText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-        RefreshScriptsText.BackgroundTransparency = 1.000
-        RefreshScriptsText.BorderColor3 = Color3.fromRGB(0, 0, 0)
-        RefreshScriptsText.BorderSizePixel = 0
-        RefreshScriptsText.Position = UDim2.new(0.263353288, 0, 0.233333334, 0)
-        RefreshScriptsText.Size = UDim2.new(0, 37, 0, 15)
-        RefreshScriptsText.Font = Enum.Font.GothamBold
-        RefreshScriptsText.Text = "Refresh"
-        RefreshScriptsText.TextColor3 = Color3.fromRGB(255, 255, 255)
-        RefreshScriptsText.TextSize = 14.000
-        
-        RefreshScriptsCorner.CornerRadius = UDim.new(0, 5)
-        RefreshScriptsCorner.Name = "RefreshScriptsCorner"
-        RefreshScriptsCorner.Parent = RefreshScripts
+        RefreshScripts.BorderSizePixel = 0
+        RefreshScripts.Position = UDim2.new(0.898000002, 0, 0.00499999989, 0)
+        RefreshScripts.Size = UDim2.new(0, 25, 0, 25)
+        RefreshScripts.Image = "http://www.roblox.com/asset/?id=6031097226"
+        RefreshScripts.ImageColor3 = Color3.fromRGB(46, 125, 194)
 
         local ListScripts = listfiles(Folder.."/Scripts")
 
         RefreshScripts.MouseButton1Click:Connect(function()
+            spawn(function()
+                TweenService:Create(
+                    RefreshScripts,
+                    TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                    {Rotation = 360}
+                ):Play()
+                repeat wait() until RefreshScripts.Rotation == 360
+                RefreshScripts.Rotation = 0
+            end)
+
             local ListScripts = listfiles(Folder.."/Scripts")
             for i,v in pairs(LuaScriptFrame:GetChildren()) do
                 if v:IsA("TextButton") then
@@ -1528,6 +1511,13 @@ function Neverlose_Main:Window(config)
             ScriptSettings.Position = UDim2.new(0.768745601, 0, 0.295454532, 0)
             ScriptSettings.Size = UDim2.new(0, 18, 0, 18)
             ScriptSettings.Image = "http://www.roblox.com/asset/?id=6031280882"
+
+            local ScriptSettignsToggled = false
+
+            ScriptSettings.MouseButton1Click:Connect(function()
+                ScriptSettignsToggled = not ScriptSettignsToggled
+                SettignsLuaFrame.Visible = ScriptSettignsToggled
+            end)
             
             SettignsLuaFrame.Name = "SettignsLuaFrame"
             SettignsLuaFrame.Parent = Script
@@ -1537,6 +1527,7 @@ function Neverlose_Main:Window(config)
             SettignsLuaFrame.BorderSizePixel = 0
             SettignsLuaFrame.Position = UDim2.new(0.267190576, 0, 0.181818187, 0)
             SettignsLuaFrame.Size = UDim2.new(0, 231, 0, 29)
+            SettignsLuaFrame.Visible = false
             
             SettignsLuaFrameLayout.Name = "SettignsLuaFrameLayout"
             SettignsLuaFrameLayout.Parent = SettignsLuaFrame
@@ -1965,6 +1956,9 @@ function Neverlose_Main:Window(config)
                 SectionCorner.Name = "SectionCorner"
                 SectionCorner.Parent = Section
 
+                Section.Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y + 10)
+                Container.CanvasSize = UDim2.new(0, 0, 0, Container.CanvasSize.Y.Offset + 50)
+
                 spawn(function()
                     task.wait(.1)
                     local SecHold1 = 0
@@ -2210,6 +2204,7 @@ function Neverlose_Main:Window(config)
                     DropdownFrameHold.Size = UDim2.new(0, 257, 0, 130)
                     DropdownFrameHold.ZIndex = 7
                     DropdownFrameHold.Visible = false
+                    DropdownFrameHold.BackgroundTransparency = 1
                     
                     DropdownFrameHoldCorner.CornerRadius = UDim.new(0, 3)
                     DropdownFrameHoldCorner.Name = "DropdownFrameHoldCorner"
@@ -2288,11 +2283,11 @@ function Neverlose_Main:Window(config)
                         Item.BackgroundTransparency = 1.000
                         Item.BorderColor3 = Color3.fromRGB(0, 0, 0)
                         Item.BorderSizePixel = 0
-                        Item.Size = UDim2.new(0, 91, 0, 15)
+                        Item.Size = UDim2.new(0, 91, 0, 17)
                         Item.Font = Enum.Font.Gotham
-                        Item.Text = v
+                        Item.Text = "- "..v
                         Item.TextColor3 = Color3.fromRGB(255, 255, 255)
-                        Item.TextSize = 12.000
+                        Item.TextSize = 14
                         Item.TextXAlignment = Enum.TextXAlignment.Left
                         
                         ItemPadding.Name = "ItemPadding"
@@ -2322,6 +2317,7 @@ function Neverlose_Main:Window(config)
 
                             repeat task.wait() Section.Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y + 10)  until DropdownFrameHold.Size == UDim2.new(0, 257, 0, 0)
                             DropdownFrameHold.Visible = false
+                            DropToggled = false
                         end)
                     end
 
@@ -2374,6 +2370,7 @@ function Neverlose_Main:Window(config)
     
                                 repeat task.wait() Section.Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y + 10) until DropdownFrameHold.Size == UDim2.new(0, 257, 0, 0)
                                 DropdownFrameHold.Visible = false
+                                DropToggled = false
                             end)
                         end
                     end
@@ -2774,5 +2771,4 @@ function Neverlose_Main:Window(config)
     end)
     return TabsSec
 end
-
 return Neverlose_Main
