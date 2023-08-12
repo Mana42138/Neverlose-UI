@@ -34,7 +34,7 @@ local function MakeDraggable(topbarobject, object)
        local Tween = TweenService:Create(object, TweenInfo.new(0.2), {Position = pos})
        Tween:Play()
     end
-   
+    
     topbarobject.InputBegan:Connect(
        function(input)
           if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
@@ -656,6 +656,16 @@ function Neverlose_Main:Window(config)
     local LuaScriptFrame = Instance.new("ScrollingFrame")
     local LuaScriptFrameLayout = Instance.new("UIListLayout")
     local LuaScriptFramePadding = Instance.new("UIPadding")
+    local WriteScript = Instance.new("ImageButton")
+    local WriteScriptFrame = Instance.new("Frame")
+    local WriteScriptFrameCorner = Instance.new("UICorner")
+    local NameBox = Instance.new("TextBox")
+    local NameBoxCorner = Instance.new("UICorner")
+    local WriteBox = Instance.new("TextBox")
+    local WriteBoxCorner = Instance.new("UICorner")
+    local WriteButton = Instance.new("TextButton")
+    local WriteButtonCorner = Instance.new("UICorner")
+    local CloseWriteFrame = Instance.new("TextButton")
     
 
 
@@ -1473,16 +1483,124 @@ function Neverlose_Main:Window(config)
         CloseLuaFrame.BackgroundTransparency = 1.000
         CloseLuaFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
         CloseLuaFrame.BorderSizePixel = 0
-        CloseLuaFrame.Position = UDim2.new(0.944993913, 0, -0.00995453913, 0)
+        CloseLuaFrame.Position = UDim2.new(0.947, 0, -0.01, 0)
         CloseLuaFrame.Size = UDim2.new(0, 35, 0, 36)
         CloseLuaFrame.AutoButtonColor = false
         CloseLuaFrame.Font = Enum.Font.GothamBold
         CloseLuaFrame.Text = "x"
         CloseLuaFrame.TextColor3 = Color3.fromRGB(46, 125, 194)
-        CloseLuaFrame.TextSize = 20.000
+        CloseLuaFrame.TextSize = 24
 
         CloseLuaFrame.MouseButton1Click:Connect(function()
             LuaFrame.Visible = false
+        end)
+
+        WriteScript.Name = "WriteScript"
+        WriteScript.Parent = LuaFrame
+        WriteScript.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        WriteScript.BackgroundTransparency = 1.000
+        WriteScript.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        WriteScript.BorderSizePixel = 0
+        WriteScript.Position = UDim2.new(0.850000024, 0, 0.00999999978, 0)
+        WriteScript.Size = UDim2.new(0, 20, 0, 20)
+        WriteScript.Image = "http://www.roblox.com/asset/?id=6034328955"
+        WriteScript.ImageColor3 = Color3.fromRGB(46, 125, 194)
+
+        WriteScript.MouseButton1Click:Connect(function()
+            WriteScriptFrame.Visible = true
+            LuaScriptFrame.Visible = false
+        end)
+
+        WriteScriptFrame.Name = "WriteScriptFrame"
+        WriteScriptFrame.Parent = LuaFrame
+        WriteScriptFrame.BackgroundColor3 = Color3.fromRGB(17, 17, 25)
+        WriteScriptFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        WriteScriptFrame.BorderSizePixel = 0
+        WriteScriptFrame.Position = UDim2.new(0.057407748, 0, 0.173306838, 0)
+        WriteScriptFrame.Size = UDim2.new(0, 476, 0, 266)
+        WriteScriptFrame.Visible = false
+        
+        WriteScriptFrameCorner.Name = "WriteScriptFrameCorner"
+        WriteScriptFrameCorner.Parent = WriteScriptFrame
+        
+        NameBox.Name = "NameBox"
+        NameBox.Parent = WriteScriptFrame
+        NameBox.BackgroundColor3 = Color3.fromRGB(12, 86, 126)
+        NameBox.BackgroundTransparency = 0.800
+        NameBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        NameBox.BorderSizePixel = 0
+        NameBox.Position = UDim2.new(0.271008402, 0, 0.548872173, 0)
+        NameBox.Size = UDim2.new(0, 217, 0, 35)
+        NameBox.Font = Enum.Font.SourceSans
+        NameBox.PlaceholderText = "Write Script Name"
+        NameBox.Text = ""
+        NameBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+        NameBox.TextSize = 14.000
+        NameBox.TextWrapped = true
+        
+        NameBoxCorner.CornerRadius = UDim.new(0, 7)
+        NameBoxCorner.Name = "NameBoxCorner"
+        NameBoxCorner.Parent = NameBox
+        
+        WriteBox.Name = "WriteBox"
+        WriteBox.Parent = WriteScriptFrame
+        WriteBox.BackgroundColor3 = Color3.fromRGB(12, 86, 126)
+        WriteBox.BackgroundTransparency = 0.800
+        WriteBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        WriteBox.BorderSizePixel = 0
+        WriteBox.Position = UDim2.new(0.271008402, 0, 0.0601503775, 0)
+        WriteBox.Size = UDim2.new(0, 217, 0, 72)
+        WriteBox.Font = Enum.Font.SourceSans
+        WriteBox.PlaceholderText = "Paste Script Here!"
+        WriteBox.Text = ""
+        WriteBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+        WriteBox.TextSize = 14.000
+        WriteBox.TextWrapped = true
+        
+        WriteBoxCorner.CornerRadius = UDim.new(0, 7)
+        WriteBoxCorner.Name = "WriteBoxCorner"
+        WriteBoxCorner.Parent = WriteBox
+        
+        WriteButton.Name = "WriteButton"
+        WriteButton.Parent = WriteScriptFrame
+        WriteButton.BackgroundColor3 = Color3.fromRGB(6, 45, 66)
+        WriteButton.BackgroundTransparency = 0.550
+        WriteButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        WriteButton.BorderSizePixel = 0
+        WriteButton.Position = UDim2.new(0.359243691, 0, 0.815789461, 0)
+        WriteButton.Size = UDim2.new(0, 135, 0, 40)
+        WriteButton.AutoButtonColor = false
+        WriteButton.Font = Enum.Font.Gotham
+        WriteButton.Text = "Write Script"
+        WriteButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+        WriteButton.TextSize = 14.000
+
+        WriteButton.MouseButton1Click:Connect(function()
+            WriteScriptFrame.Visible = false
+            LuaScriptFrame.Visible = true
+            writefile(Folder1.."/Scripts/"..NameBox.Text..".txt", WriteBox.Text)
+        end)
+        
+        WriteButtonCorner.Name = "WriteButtonCorner"
+        WriteButtonCorner.Parent = WriteButton
+        
+        CloseWriteFrame.Name = "CloseWriteFrame"
+        CloseWriteFrame.Parent = WriteScriptFrame
+        CloseWriteFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        CloseWriteFrame.BackgroundTransparency = 1.000
+        CloseWriteFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        CloseWriteFrame.BorderSizePixel = 0
+        CloseWriteFrame.Position = UDim2.new(0.932388961, 0, -0.0249921177, 0)
+        CloseWriteFrame.Size = UDim2.new(0, 35, 0, 36)
+        CloseWriteFrame.AutoButtonColor = false
+        CloseWriteFrame.Font = Enum.Font.GothamBold
+        CloseWriteFrame.Text = "x"
+        CloseWriteFrame.TextColor3 = Color3.fromRGB(46, 125, 194)
+        CloseWriteFrame.TextSize = 20.000
+
+        CloseWriteFrame.MouseButton1Click:Connect(function()
+            WriteScriptFrame.Visible = false
+            LuaScriptFrame.Visible = true
         end)
         
         LuaScriptFrame.Name = "LuaScriptFrame"
@@ -1509,7 +1627,7 @@ function Neverlose_Main:Window(config)
         RefreshScripts.BackgroundTransparency = 1.000
         RefreshScripts.BorderColor3 = Color3.fromRGB(0, 0, 0)
         RefreshScripts.BorderSizePixel = 0
-        RefreshScripts.Position = UDim2.new(0.898000002, 0, 0.00499999989, 0)
+        RefreshScripts.Position = UDim2.new(0.91, 0, 0.005, 0)
         RefreshScripts.Size = UDim2.new(0, 25, 0, 25)
         RefreshScripts.Image = "http://www.roblox.com/asset/?id=6031097226"
         RefreshScripts.ImageColor3 = Color3.fromRGB(46, 125, 194)
@@ -1730,6 +1848,24 @@ function Neverlose_Main:Window(config)
                         Time = 2,
                         AutoClose = true
                     })
+                    for i,v in pairs(TabHolder.Lua:GetChildren()) do
+                        if v.Name == file_name_without_extension then
+                            v:Destroy()
+                        end
+                    end
+
+                    for i,v in pairs(ContainerHolder:GetChildren()) do
+                        if v.Name == file_name_without_extension then
+                            v:Destroy()
+                        end
+                    end
+                    Neverlose_Main:Notify({
+                        Text = file_name_without_extension.." Unloaded",
+                        Time = 2,
+                        AutoClose = true
+                    })
+                    LoadText.Text = "Load"
+                    LoadImage.Visible = true
                     delfile(v)
                     Script:Destroy()
                 end)
@@ -1977,6 +2113,24 @@ function Neverlose_Main:Window(config)
                     Time = 2,
                     AutoClose = true
                 })
+                for i,v in pairs(TabHolder.Lua:GetChildren()) do
+                    if v.Name == file_name_without_extension then
+                        v:Destroy()
+                    end
+                end
+
+                for i,v in pairs(ContainerHolder:GetChildren()) do
+                    if v.Name == file_name_without_extension then
+                        v:Destroy()
+                    end
+                end
+                Neverlose_Main:Notify({
+                    Text = file_name_without_extension.." Unloaded",
+                    Time = 2,
+                    AutoClose = true
+                })
+                LoadText.Text = "Load"
+                LoadImage.Visible = true
                 delfile(v)
                 Script:Destroy()
             end)
@@ -2882,28 +3036,28 @@ function Neverlose_Main:Window(config)
                     Section.Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y + 10)
                     Container.CanvasSize = UDim2.new(0, 0, 0, Container.CanvasSize.Y.Offset + UniNum)
 
-                    local function updateDotPositionFromValue(value)
-                        local sliderWidth = SliderFrame.AbsoluteSize.X
-                        local sliderDotWidth = SliderDot.AbsoluteSize.X
+                    -- local function updateDotPositionFromValue(value)
+                    --     local sliderWidth = SliderFrame.AbsoluteSize.X
+                    --     local sliderDotWidth = SliderDot.AbsoluteSize.X
                         
-                        local minPos = SliderFrame.AbsolutePosition.X
-                        local maxPos = SliderFrame.AbsolutePosition.X + SliderFrame.AbsoluteSize.X - sliderDotWidth
+                    --     local minPos = SliderFrame.AbsolutePosition.X
+                    --     local maxPos = SliderFrame.AbsolutePosition.X + SliderFrame.AbsoluteSize.X - sliderDotWidth
                         
-                        local positionX = minPos + (value - min) / (max - min) * (maxPos - minPos)
+                    --     local positionX = minPos + (value - min) / (max - min) * (maxPos - minPos)
                         
-                        local pos = UDim2.new((positionX - SliderFrame.AbsolutePosition.X) / sliderWidth, 0, -8, 0)
-                        TweenService:Create(
-                            SliderDot,
-                            TweenInfo.new(.3, Enum.EasingStyle.Quad),
-                            {Position = pos}
-                        ):Play()
-                    end
+                    --     local pos = UDim2.new((positionX - SliderFrame.AbsolutePosition.X) / sliderWidth, 0, -8, 0)
+                    --     TweenService:Create(
+                    --         SliderDot,
+                    --         TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                    --         {Position = pos}
+                    --     ):Play()
+                    -- end
 
-                    updateDotPositionFromValue(start)
+                    -- updateDotPositionFromValue(start)
 
                     function Sliderfunc:Set(val)
                         Sliderfunc.Value = val
-                        updateDotPositionFromValue(val)
+                        -- updateDotPositionFromValue(val)
                         Value.Text = tostring(Sliderfunc.Value)
                         return pcall(callback, val)
                     end
