@@ -36,9 +36,20 @@ local ConfigSection = Autofarm:Section("Config")
 ## Creating Toggle, Dropdown & Slider
 
 ```lua
-local TestFarm1 = FarmSection:Toggle("Auto Farm", function(t)
-    StartFarm = t
+local AutoFarmVar = FarmSection:Toggle("Auto Farm", function(t)
+    ValueToggle = t
 end)
+AutoFarmVar:Set(true) -- can be true or false
 
+local HelloVar = World:Slider("Hello", 1, 500, 50, function(t)
+    ValueSlider = t
+end)
+HelloVar:Set(75) -- any number within the range 1 - 500 since it has been preseted
 
+local SmallTable = {"Mana64", "Lmao", "HVH"}
+local SelectConfigVar = Config:Dropdown("Select Config", SmallTable, function(t)
+    ValueDropdown = t
+    print(ValueDropdown)
+end)
+SelectConfigVar:Set("Mana64") -- any type of name that is existing in the table for example "Mana64"
 ```
