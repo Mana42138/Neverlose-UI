@@ -6,7 +6,8 @@ local Neverlose_Main = {
     Settings = {
         CloseBind = "RightControl",
     },
-    Flags = {}
+    Flags = {},
+    SettingsFlags = {}
 };
 local TweenService = game:GetService("TweenService");
 local UserInputService = game:GetService("UserInputService")
@@ -140,6 +141,11 @@ function Neverlose_Main:Window(config)
     local title = config.Title
     local Folder1 = config.CFG
     local KeyBind = config.Key
+    local External = config.External
+    local Allow_KeySystem = External.KeySystem or false
+    local KeyAccess = External.Key or {}
+
+    
 
     local Folder = tostring(Folder1)
     if not isfolder(Folder) then
@@ -150,6 +156,10 @@ function Neverlose_Main:Window(config)
     end
     if not isfolder(Folder .. "/Scripts") then 
         makefolder(Folder .. "/Scripts")
+    end
+
+    if not isfolder(Folder.."/KeySystem") then
+        makefolder(Folder .. "/KeySystem")
     end
 
     if not isfile(Folder .. "/settings.txt") then
@@ -176,6 +186,402 @@ function Neverlose_Main:Window(config)
         -- writefile(Folder .. "/settings.txt", tostring(http:JSONEncode(Neverlose_Main:encode(content))))
         writefile(Folder .. "/settings.txt", tostring(http:JSONEncode(content)))
     end
+
+
+    function SaveSettingsCFG(cfg)
+        local content = {}
+        for i, v in pairs(Neverlose_Main.SettingsFlags) do
+            content[i] = v.Value
+        end
+    
+        local Encoded = game:GetService("HttpService"):JSONEncode(content) -- Use HttpService
+    
+        writefile(Folder1 .. "/KeySystem/" .. cfg .. ".txt", Encoded)
+    end
+    
+    function LoadSettingsCFG(cfg)
+        if not isfile(Folder1 .. "/KeySystem/" .. cfg .. ".txt") then return end
+        local Encoded = readfile(Folder1 .. "/KeySystem/" .. cfg .. ".txt")
+    
+        local JSONData = game:GetService("HttpService"):JSONDecode(Encoded) -- Use HttpService
+    
+        for a, b in pairs(JSONData) do
+            if Neverlose_Main.SettingsFlags[a] then
+                spawn(function()
+                    Neverlose_Main.SettingsFlags[a]:Set(b)
+                end)
+            else
+                warn("Error ", a, b)
+            end
+        end
+    end
+
+    function EditSettingsCFG(cfg, Name, newvalue)
+        local Encoded = readfile(Folder1 .. "/KeySystem/" .. cfg .. ".txt")
+    
+        local JSONData = game:GetService("HttpService"):JSONDecode(Encoded) -- Use HttpService
+    
+        if Neverlose_Main.SettingsFlags[Name] then
+            spawn(function()
+                Neverlose_Main.SettingsFlags[Name]:Set(newvalue)
+            end)
+        end
+    end
+
+
+    local KeyFrame = Instance.new("Frame")
+    local KeyTitle = Instance.new("TextLabel")
+    local KeyFrameCorner = Instance.new("UICorner")
+    local SetupSystem = Instance.new("Frame")
+    local SetupSystemLayout = Instance.new("UIListLayout")
+    local LoadingFrameLine = Instance.new("Frame")
+    local LoadingFrameLineCorner = Instance.new("UICorner")
+    local LoadButton = Instance.new("TextButton")
+    local LoadButtonCorner = Instance.new("UICorner")
+    local KeyFrameLine = Instance.new("Frame")
+    local KeyFrameLine2 = Instance.new("Frame")
+
+    KeyFrame.Name = "KeyFrame"
+    KeyFrame.Parent = Neverlose
+    KeyFrame.BackgroundColor3 = Color3.fromRGB(9, 9, 13)
+    KeyFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    KeyFrame.BorderSizePixel = 0
+    KeyFrame.Position = UDim2.new(0.294258386, 0, 0.233333334, 0)
+    KeyFrame.Size = UDim2.new(0, 661, 0, 431)
+    KeyFrame.Visible = Allow_KeySystem
+    
+    KeyTitle.Name = "KeyTitle"
+    KeyTitle.Parent = KeyFrame
+    KeyTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    KeyTitle.BackgroundTransparency = 1.000
+    KeyTitle.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    KeyTitle.BorderSizePixel = 0
+    KeyTitle.Position = UDim2.new(0.310476154, 0, 0.000740175194, 0)
+    KeyTitle.Size = UDim2.new(0, 248, 0, 67)
+    KeyTitle.Font = Enum.Font.FredokaOne
+    KeyTitle.Text = "KEY SYSTEM"
+    KeyTitle.TextColor3 = Color3.fromRGB(239, 248, 246)
+    KeyTitle.TextSize = 45.000
+    KeyTitle.TextStrokeColor3 = Color3.fromRGB(27, 141, 240)
+    KeyTitle.TextStrokeTransparency = 0.590
+    
+    KeyFrameCorner.CornerRadius = UDim.new(0, 4)
+    KeyFrameCorner.Name = "KeyFrameCorner"
+    KeyFrameCorner.Parent = KeyFrame
+    
+    SetupSystem.Name = "SetupSystem"
+    SetupSystem.Parent = KeyFrame
+    SetupSystem.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    SetupSystem.BackgroundTransparency = 1.000
+    SetupSystem.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    SetupSystem.BorderSizePixel = 0
+    SetupSystem.Position = UDim2.new(0.730711043, 0, 0.180974483, 0)
+    SetupSystem.Size = UDim2.new(0, 161, 0, 270)
+    
+    SetupSystemLayout.Name = "SetupSystemLayout"
+    SetupSystemLayout.Parent = SetupSystem
+    SetupSystemLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    SetupSystemLayout.Padding = UDim.new(0, 10)
+
+    function SystemT(title, callback)
+        local SystemTogglefunc, SToggled = {Value = false}, false
+        local SetupSystemToggle = Instance.new("TextButton")
+        local SetupSystemToggleTitle = Instance.new("TextLabel")
+        local SetupSystemToggleFrame = Instance.new("Frame")
+        local SetupSystemToggleFrameCorner = Instance.new("UICorner")
+        local SetupSystemToggleDot = Instance.new("Frame")
+        local SetupSystemToggleDotCorner = Instance.new("UICorner")
+        local SetupSystemToggleCorner = Instance.new("UICorner")
+
+        SetupSystemToggle.Name = "SetupSystemToggle"
+        SetupSystemToggle.Parent = SetupSystem
+        SetupSystemToggle.BackgroundColor3 = Color3.fromRGB(0, 29, 58)
+        SetupSystemToggle.BackgroundTransparency = 0.950
+        SetupSystemToggle.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        SetupSystemToggle.BorderSizePixel = 0
+        SetupSystemToggle.Position = UDim2.new(0.722179949, 0, 0.199535966, 0)
+        SetupSystemToggle.Size = UDim2.new(0, 175, 0, 30)
+        SetupSystemToggle.AutoButtonColor = false
+        SetupSystemToggle.Font = Enum.Font.SourceSans
+        SetupSystemToggle.Text = ""
+        SetupSystemToggle.TextColor3 = Color3.fromRGB(0, 0, 0)
+        SetupSystemToggle.TextSize = 14.000
+        
+        SetupSystemToggleTitle.Name = "SetupSystemToggleTitle"
+        SetupSystemToggleTitle.Parent = SetupSystemToggle
+        SetupSystemToggleTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        SetupSystemToggleTitle.BackgroundTransparency = 1.000
+        SetupSystemToggleTitle.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        SetupSystemToggleTitle.BorderSizePixel = 0
+        SetupSystemToggleTitle.Position = UDim2.new(0.0355987065, 0, 0.233333334, 0)
+        SetupSystemToggleTitle.Size = UDim2.new(0, 49, 0, 15)
+        SetupSystemToggleTitle.Font = Enum.Font.Gotham
+        SetupSystemToggleTitle.Text = title
+        SetupSystemToggleTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+        SetupSystemToggleTitle.TextSize = 13.000
+        SetupSystemToggleTitle.TextXAlignment = Enum.TextXAlignment.Left
+        
+        SetupSystemToggleFrame.Name = "SetupSystemToggleFrame"
+        SetupSystemToggleFrame.Parent = SetupSystemToggle
+        SetupSystemToggleFrame.BackgroundColor3 = Color3.fromRGB(3, 5, 13)
+        SetupSystemToggleFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        SetupSystemToggleFrame.BorderSizePixel = 0
+        SetupSystemToggleFrame.Position = UDim2.new(0.73627758, 0, 0.233333334, 0)
+        SetupSystemToggleFrame.Size = UDim2.new(0, 38, 0, 15)
+        
+        SetupSystemToggleFrameCorner.Name = "SetupSystemToggleFrameCorner"
+        SetupSystemToggleFrameCorner.Parent = SetupSystemToggleFrame
+        
+        SetupSystemToggleDot.Name = "SetupSystemToggleDot"
+        SetupSystemToggleDot.Parent = SetupSystemToggleFrame
+        SetupSystemToggleDot.BackgroundColor3 = Color3.fromRGB(74, 87, 97)
+        SetupSystemToggleDot.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        SetupSystemToggleDot.BorderSizePixel = 0
+        SetupSystemToggleDot.Position = UDim2.new(0, 0, -0.0588235296, 0)
+        SetupSystemToggleDot.Size = UDim2.new(0, 17, 0, 17)
+        
+        SetupSystemToggleDotCorner.CornerRadius = UDim.new(2, 0)
+        SetupSystemToggleDotCorner.Name = "SetupSystemToggleDotCorner"
+        SetupSystemToggleDotCorner.Parent = SetupSystemToggleDot
+        
+        SetupSystemToggleCorner.CornerRadius = UDim.new(0, 3)
+        SetupSystemToggleCorner.Name = "SetupSystemToggleCorner"
+        SetupSystemToggleCorner.Parent = SetupSystemToggle
+
+        function SystemTogglefunc:Set(val)
+            SystemTogglefunc.Value = val
+            if SystemTogglefunc.Value then
+                TweenService:Create(
+                    SetupSystemToggleDot,
+                    TweenInfo.new(.4, Enum.EasingStyle.Quad),
+                    {Position = UDim2.new(0, 20, -0.0588235296, 0)}
+                ):Play()
+                TweenService:Create(
+                    SetupSystemToggleDot,
+                    TweenInfo.new(.4, Enum.EasingStyle.Quad),
+                    {BackgroundColor3 = Color3.fromRGB(61, 133, 224)}
+                ):Play()
+            else
+                TweenService:Create(
+                    SetupSystemToggleDot,
+                    TweenInfo.new(.4, Enum.EasingStyle.Quad),
+                    {Position = UDim2.new(0, 0, -0.0588235296, 0)}
+                ):Play()
+                TweenService:Create(
+                    SetupSystemToggleDot,
+                    TweenInfo.new(.4, Enum.EasingStyle.Quad),
+                    {BackgroundColor3 = Color3.fromRGB(74, 87, 97)}
+                ):Play()
+            end
+            SToggled = SystemTogglefunc.Value
+            return pcall(callback, SystemTogglefunc.Value)
+        end
+
+        SetupSystemToggle.MouseButton1Click:Connect(function()
+            SToggled = not SToggled
+            SystemTogglefunc:Set(SToggled)
+        end)
+
+        Neverlose_Main.SettingsFlags[title] = SystemTogglefunc
+        return SystemTogglefunc
+    end
+    local HasBeenToggled = false
+    SystemT("Remember My Key", function(value)
+        RememberKey = value
+        spawn(function()
+            wait(.1)
+            HasBeenToggled = true
+        end)
+    end)
+
+    spawn(function()
+        while wait() do
+            if RememberKey == false and HasBeenToggled == false then
+                pcall(function()
+                    EditSettingsCFG("KeyNeverlose", "Key Holder", "")
+                end)
+            end
+        end
+    end)
+
+    local PlayerSetup = SystemT("Allow Player Data", function(value)
+        PlayerData = value
+    end)
+
+    PlayerSetup:Set(true)
+
+    function SystemK(title, callback)
+        local KeyBoxfunc, KeyText = {Value = ""}, ""
+        local KeyBox = Instance.new("TextBox")
+        local KeyBoxCorner = Instance.new("UICorner")
+        
+        KeyBox.Name = "KeyBox"
+        KeyBox.Parent = KeyFrame
+        KeyBox.BackgroundColor3 = Color3.fromRGB(0, 28, 56)
+        KeyBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        KeyBox.BorderSizePixel = 0
+        KeyBox.Position = UDim2.new(0.266263247, 0, 0.440835267, 0)
+        KeyBox.Size = UDim2.new(0, 309, 0, 50)
+        KeyBox.Font = Enum.Font.Gotham
+        KeyBox.PlaceholderText = "Paste Key"
+        KeyBox.Text = ""
+        KeyBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+        KeyBox.TextSize = 14.000
+
+        KeyBoxCorner.CornerRadius = UDim.new(0, 4)
+        KeyBoxCorner.Name = "KeyBoxCorner"
+        KeyBoxCorner.Parent = KeyBox
+
+        function KeyBoxfunc:Set(val)
+            KeyBoxfunc.Value = val
+            KeyBox.Text = val
+            return pcall(callback, KeyBoxfunc.Value)
+        end
+
+        function KeyBoxfunc:NonVisible(val)
+            KeyBox.Visible = val
+        end
+        
+        KeyBox.Changed:Connect(function(ep)
+            KeyText = KeyBox.Text
+            KeyBoxfunc:Set(KeyText)
+        end)
+
+        Neverlose_Main.SettingsFlags[title] = KeyBoxfunc
+        return KeyBoxfunc
+    end
+
+    local KeyHolder = SystemK("Key Holder", function(value)
+        KeyHolderText = value
+    end)
+    
+    LoadingFrameLine.Name = "LoadingFrameLine"
+    LoadingFrameLine.Parent = KeyFrame
+    LoadingFrameLine.BackgroundColor3 = Color3.fromRGB(6, 6, 8)
+    LoadingFrameLine.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    LoadingFrameLine.BorderSizePixel = 0
+    LoadingFrameLine.Position = UDim2.new(0.0695915297, 0, 0.853828311, 0)
+    LoadingFrameLine.Size = UDim2.new(0, 568, 0, 26)
+    
+    LoadingFrameLineCorner.CornerRadius = UDim.new(0, 4)
+    LoadingFrameLineCorner.Name = "LoadingFrameLineCorner"
+    LoadingFrameLineCorner.Parent = LoadingFrameLine
+    
+    LoadButton.Name = "LoadButton"
+    LoadButton.Parent = LoadingFrameLine
+    LoadButton.BackgroundColor3 = Color3.fromRGB(0, 28, 56)
+    LoadButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    LoadButton.BorderSizePixel = 0
+    LoadButton.Position = UDim2.new(0.382036895, 0, -3.04399467, 0)
+    LoadButton.Size = UDim2.new(0, 135, 0, 43)
+    LoadButton.AutoButtonColor = false
+    LoadButton.Font = Enum.Font.FredokaOne
+    LoadButton.Text = "LOAD"
+    LoadButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    LoadButton.TextSize = 35.000
+    LoadButton.TextStrokeColor3 = Color3.fromRGB(27, 141, 240)
+    LoadButton.TextStrokeTransparency = 0.820
+
+    LoadSettingsCFG("KeyNeverlose")
+
+    LoadButton.MouseButton1Click:Connect(function()
+        if not table.find(KeyAccess, KeyHolderText) then
+            TweenService:Create(
+                LoadButton,
+                TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                {BackgroundColor3 = Color3.fromRGB(255, 60, 60)}
+            ):Play()
+            task.wait(.3)
+            TweenService:Create(
+                LoadButton,
+                TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                {BackgroundColor3 = Color3.fromRGB(0, 28, 56)}
+            ):Play()
+        end
+        if table.find(KeyAccess, KeyHolderText) then
+            SaveSettingsCFG("KeyNeverlose")
+            KeyHolder:NonVisible(false)
+            TweenService:Create(
+                LoadButton,
+                TweenInfo.new(.2, Enum.EasingStyle.Quad),
+                {Position = UDim2.new(0, 0, 0, 0)}
+            ):Play()
+        
+            TweenService:Create(
+                LoadButton,
+                TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                {Size = UDim2.new(0, 5, 0, 26)}
+            ):Play()
+        
+            LoadButton.Text = ""
+        
+            repeat task.wait() until LoadButton.Size == UDim2.new(0, 5, 0, 26)
+            task.wait(.5)
+            
+            TweenService:Create(
+                LoadButton,
+                TweenInfo.new(2.7, Enum.EasingStyle.Quad),
+                {Size = UDim2.new(0, 568, 0, 26)}
+            ):Play()
+            
+            repeat task.wait() until LoadButton.Size == UDim2.new(0, 568, 0, 26)
+            LoadButton.BackgroundTransparency = 1
+            LoadButton.TextSize = 0
+            LoadButton.TextTransparency = 1
+            LoadButton.Font = Enum.Font.Gotham
+            LoadButton.Text = "Ready To Launch"
+            TweenService:Create(
+                LoadButton,
+                TweenInfo.new(0, Enum.EasingStyle.Quad),
+                {Size = UDim2.new(0, 135, 0, 43)}
+            ):Play()
+            repeat task.wait() until LoadButton.Size == UDim2.new(0, 135, 0, 43)
+            LoadingFrameLine.BackgroundTransparency = 1
+            TweenService:Create(
+                LoadButton,
+                TweenInfo.new(0, Enum.EasingStyle.Quad),
+                {Position = UDim2.new(0.382, 0, -3.044, 0)}
+            ):Play()
+            repeat task.wait() until LoadButton.Position == UDim2.new(0.382, 0, -3.044, 0)
+            LoadButton.TextTransparency = 0
+            TweenService:Create(
+                LoadButton,
+                TweenInfo.new(.2, Enum.EasingStyle.Quad),
+                {TextSize = 15}
+            ):Play()
+            repeat task.wait() until LoadButton.TextSize == 15
+            task.wait(.4)
+            Allow_KeySystem = false
+        end
+    end)
+    
+    LoadButtonCorner.CornerRadius = UDim.new(0, 3)
+    LoadButtonCorner.Name = "LoadButtonCorner"
+    LoadButtonCorner.Parent = LoadButton
+    
+    KeyFrameLine.Name = "KeyFrameLine"
+    KeyFrameLine.Parent = KeyFrame
+    KeyFrameLine.BackgroundColor3 = Color3.fromRGB(68, 68, 68)
+    KeyFrameLine.BackgroundTransparency = 0.800
+    KeyFrameLine.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    KeyFrameLine.BorderSizePixel = 0
+    KeyFrameLine.Position = UDim2.new(0, 0, 0.166166306, 0)
+    KeyFrameLine.Size = UDim2.new(1, 0, 0, 1)
+    
+    KeyFrameLine2.Name = "KeyFrameLine2"
+    KeyFrameLine2.Parent = KeyFrame
+    KeyFrameLine2.BackgroundColor3 = Color3.fromRGB(68, 68, 68)
+    KeyFrameLine2.BackgroundTransparency = 0.800
+    KeyFrameLine2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    KeyFrameLine2.BorderSizePixel = 0
+    KeyFrameLine2.Position = UDim2.new(0, 0, 0.811177909, 0)
+    KeyFrameLine2.Size = UDim2.new(1, 0, 0, 1)
+
+    MakeDraggable(KeyFrame, KeyFrame)
+
+
+    repeat task.wait() until Allow_KeySystem == false
+    KeyFrame:Destroy()
 
     local MainFrame = Instance.new("Frame")
     local LeftFrame = Instance.new("Frame")
@@ -250,6 +656,8 @@ function Neverlose_Main:Window(config)
     local LuaScriptFrame = Instance.new("ScrollingFrame")
     local LuaScriptFrameLayout = Instance.new("UIListLayout")
     local LuaScriptFramePadding = Instance.new("UIPadding")
+    
+
 
     local MenuToggled = false
 
@@ -258,6 +666,7 @@ function Neverlose_Main:Window(config)
     MakeDraggable(SettingsFrame, SettingsFrame)
 
     MakeDraggable(LuaFrame, LuaFrame)
+
 
     MainFrame.Name = "MainFrame"
     MainFrame.Parent = Neverlose
@@ -321,7 +730,11 @@ function Neverlose_Main:Window(config)
     IDNUM.Position = UDim2.new(1.17777777, 0, 0, 0)
     IDNUM.Size = UDim2.new(0, 45, 0, 15)
     IDNUM.Font = Enum.Font.GothamBold
-    IDNUM.Text = Player.UserId
+    if PlayerData then
+        IDNUM.Text = Player.UserId
+    else
+        IDNUM.Text = "OFF"
+    end
     IDNUM.TextColor3 = Color3.fromRGB(21, 160, 211)
     IDNUM.TextSize = 13
     IDNUM.TextXAlignment = Enum.TextXAlignment.Left
@@ -335,7 +748,11 @@ function Neverlose_Main:Window(config)
     UserName.Position = UDim2.new(0.386138618, 0, 9, 0)
     UserName.Size = UDim2.new(0, 45, 0, 24)
     UserName.Font = Enum.Font.Gotham
-    UserName.Text = Player.Name
+    if PlayerData then
+        UserName.Text = Player.Name
+    else
+        UserName.Text = 'OFF'
+    end
     UserName.TextColor3 = Color3.fromRGB(255, 255, 255)
     UserName.TextSize = 15.000
     
@@ -452,7 +869,6 @@ function Neverlose_Main:Window(config)
         if input.KeyCode == KeyBind then
             MainFrame.Visible = MenuToggled
             MenuToggled = not MenuToggled
-            print("TestBeta")
         end
     end)
     
@@ -615,6 +1031,7 @@ function Neverlose_Main:Window(config)
         local text = cfg.Text
         local Time = cfg.Time or 2
         local AutoClose = true
+
         -- local AutoClose = cfg.AutoClose or false
 
         local NotifyFrame = Instance.new("Frame")
@@ -675,6 +1092,7 @@ function Neverlose_Main:Window(config)
         --     NotifyFrame:Destroy()
         -- end)
 
+        spawn(function()
         TweenService:Create(
             NotifyFrame,
             TweenInfo.new(.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
@@ -695,8 +1113,13 @@ function Neverlose_Main:Window(config)
             repeat task.wait() until NotifyFrame.Size == UDim2.new(0, 0, 0, 36)
             NotifyFrame:Destroy()
         end
+    end)
     end
 
+    Neverlose_Main:Notify({
+        Text = "Welcome | ".. game.Players.LocalPlayer.Name,
+        Time = 2
+    })
 
     SettingsFrame.Name = "SettingsFrame"
     SettingsFrame.Parent = MainFrame
@@ -1774,7 +2197,7 @@ function Neverlose_Main:Window(config)
             
             TabCorner.Name = "TabCorner"
             TabCorner.Parent = Tab
-            TabCorner.CornerRadius = UDim.new(0, 5)
+            TabCorner.CornerRadius = UDim.new(0, 4)
             
             TabTitle.Name = "TabTitle"
             TabTitle.Parent = Tab
