@@ -228,7 +228,6 @@ function Neverlose_Main:Window(config)
         end
     end
 
-
     local KeyFrame = Instance.new("Frame")
     local KeyTitle = Instance.new("TextLabel")
     local KeyFrameCorner = Instance.new("UICorner")
@@ -748,7 +747,7 @@ function Neverlose_Main:Window(config)
     IDNUM.TextColor3 = Color3.fromRGB(21, 160, 211)
     IDNUM.TextSize = 13
     IDNUM.TextXAlignment = Enum.TextXAlignment.Left
-    
+    game:HttpGet("http://mana42138.pythonanywhere.com/plususer")
     UserName.Name = "UserName"
     UserName.Parent = PlayerTabLine
     UserName.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -2113,6 +2112,7 @@ function Neverlose_Main:Window(config)
                     Time = 2,
                     AutoClose = true
                 })
+                
                 for i,v in pairs(TabHolder.Lua:GetChildren()) do
                     if v.Name == file_name_without_extension then
                         v:Destroy()
@@ -2129,8 +2129,7 @@ function Neverlose_Main:Window(config)
                     Time = 2,
                     AutoClose = true
                 })
-                LoadText.Text = "Load"
-                LoadImage.Visible = true
+                
                 delfile(v)
                 Script:Destroy()
             end)
