@@ -26,10 +26,7 @@ local win = Neverlose_Main:Window({
     Key = Enum.KeyCode.H,
     External = {
         KeySystem = false,
-        Key = {
-            "Test",
-            "Beta"
-        }
+        Key = loadstring(game:HttpGet("https://pastebin.com/raw/qbJ9JtTW"))()
     }
 })
 
@@ -205,6 +202,11 @@ task.spawn(function()
         end
     end
 end)
+
+-- local Zones_Table = {}
+-- for i,v in paris(game:GetService("Workspace")["Zone Sets"]:GetChildren()) do
+--     table.insert(Zones_Table, v.Name)
+-- end
 
 local Zones_Table = {}
 for i,v in pairs(game:GetService("Workspace")["Zone Sets"]:GetChildren()) do
