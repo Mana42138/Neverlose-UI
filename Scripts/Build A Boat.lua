@@ -24,7 +24,7 @@ local win = Neverlose_Main:Window({
     CFG = "Neverlose",
     Key = Enum.KeyCode.H,
     External = {
-        KeySystem = true,
+        KeySystem = false,
         Key = {
             "Test",
             "Beta"
