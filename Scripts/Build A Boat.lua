@@ -25,10 +25,7 @@ local win = Neverlose_Main:Window({
     Key = Enum.KeyCode.H,
     External = {
         KeySystem = false,
-        Key = {
-            "Test",
-            "Beta"
-        }
+        Key = loadstring(game:HttpGet("https://pastebin.com/raw/qbJ9JtTW"))()
     }
 })
 
