@@ -110,6 +110,17 @@ function Neverlose_Main:decode(data)
     end))
 end
 
+function Neverlose_Main:GetDistance(Endpoint)
+    local HumanoidRootPart = Client.Character:FindFirstChild("HumanoidRootPart")
+    if typeof(Endpoint) == "Instance" then
+        Endpoint = Vector3.new(Endpoint.Position.X, HumanoidRootPart.Position.Y, Endpoint.Position.Z)
+    elseif typeof(Endpoint) == "CFrame" then
+        Endpoint = Vector3.new(Endpoint.Position.X, HumanoidRootPart.Position.Y, Endpoint.Position.Z)
+    end
+    local Magnitude = (Endpoint - HumanoidRootPart.Position).Magnitude
+    return Magnitude
+end
+
 function Neverlose_Main:GetPlayerImage(ID)
     local width = 420
     local height = 420
@@ -262,7 +273,7 @@ function Neverlose_Main:Window(config)
     KeyTitle.TextColor3 = Color3.fromRGB(239, 248, 246)
     KeyTitle.TextSize = 45.000
     KeyTitle.TextStrokeColor3 = Color3.fromRGB(27, 141, 240)
-    KeyTitle.TextStrokeTransparency = 0.590
+    KeyTitle.TextStrokeTransparency = 1
     
     KeyFrameCorner.CornerRadius = UDim.new(0, 4)
     KeyFrameCorner.Name = "KeyFrameCorner"
@@ -479,7 +490,7 @@ function Neverlose_Main:Window(config)
     LoadButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     LoadButton.TextSize = 35.000
     LoadButton.TextStrokeColor3 = Color3.fromRGB(27, 141, 240)
-    LoadButton.TextStrokeTransparency = 0.820
+    LoadButton.TextStrokeTransparency = 1
 
     LoadSettingsCFG("KeyNeverlose")
 
@@ -778,7 +789,7 @@ function Neverlose_Main:Window(config)
     TitleMain.TextColor3 = Color3.fromRGB(239, 248, 246)
     TitleMain.TextSize = 33.000
     TitleMain.TextStrokeColor3 = Color3.fromRGB(27, 141, 240)
-    TitleMain.TextStrokeTransparency = 0.590
+    TitleMain.TextStrokeTransparency = 1
     
     TabHolder.Name = "TabHolder"
     TabHolder.Parent = LeftFrame
@@ -1157,7 +1168,7 @@ function Neverlose_Main:Window(config)
     Title.TextColor3 = Color3.fromRGB(239, 248, 246)
     Title.TextSize = 45.000
     Title.TextStrokeColor3 = Color3.fromRGB(27, 141, 240)
-    Title.TextStrokeTransparency = 0.590
+    Title.TextStrokeTransparency = 1
     
     SettingsLine.Name = "SettingsLine"
     SettingsLine.Parent = SettingsFrame
@@ -1456,7 +1467,7 @@ function Neverlose_Main:Window(config)
         LuaTitle.TextColor3 = Color3.fromRGB(239, 248, 246)
         LuaTitle.TextSize = 45.000
         LuaTitle.TextStrokeColor3 = Color3.fromRGB(27, 141, 240)
-        LuaTitle.TextStrokeTransparency = 0.590
+        LuaTitle.TextStrokeTransparency = 1
         
         LuaFrameLine.Name = "LuaFrameLine"
         LuaFrameLine.Parent = LuaFrame
