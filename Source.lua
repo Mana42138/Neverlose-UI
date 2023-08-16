@@ -2282,7 +2282,7 @@ function Neverlose_Main:Window(config)
 
         local SendChatButton = Instance.new("ImageButton")
         local ChatFrameLine_2 = Instance.new("Frame")
-
+        ChatButton.Visible = false
         ChatButton.MouseButton1Click:Connect(function()
             ChatFrame.Visible = true
             SettingsFrame.Visible = false
