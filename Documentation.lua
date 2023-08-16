@@ -1,6 +1,6 @@
--- [[
-Better Explanation -> https://github.com/Mana42138/Neverlose-UI/blob/main/README.md
-]]--
+
+--Better Explanation -> https://github.com/Mana42138/Neverlose-UI/blob/main/README.md
+
 
 local Neverlose_Main = loadstring(game:HttpGet("https://raw.githubusercontent.com/Mana42138/Neverlose-UI/main/Source.lua"))()
 local Win = Neverlose_Main:Window({
