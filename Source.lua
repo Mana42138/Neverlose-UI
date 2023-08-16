@@ -637,10 +637,13 @@ function Neverlose_Main:Window(config)
     local SettingsVersion = Instance.new("Frame")
     local SettingsVersionHolder = Instance.new("Frame")
     local SettingsVersionHolderLayout = Instance.new("UIListLayout")
+
     local VersionText = Instance.new("TextLabel")
     local BuildDateText = Instance.new("TextLabel")
     local BuildTypeText = Instance.new("TextLabel")
     local RegisteredText = Instance.new("TextLabel")
+    local NewsText = Instance.new("TextLabel")
+
     local SettingsLine2 = Instance.new("Frame")
     local Style = Instance.new("TextLabel")
     local Original = Instance.new("TextButton")
@@ -1148,7 +1151,7 @@ function Neverlose_Main:Window(config)
     SettingsFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
     SettingsFrame.BorderSizePixel = 0
     SettingsFrame.Position = UDim2.new(1.03421474, 0, 0.285923749, 0)
-    SettingsFrame.Size = UDim2.new(0, 358, 0, 292)
+    SettingsFrame.Size = UDim2.new(0, 358, 0, 332)
     SettingsFrame.Visible = false
     
     SettingsFrameCorner.CornerRadius = UDim.new(0, 4)
@@ -1261,6 +1264,20 @@ function Neverlose_Main:Window(config)
     RegisteredText.TextSize = 14.000
     RegisteredText.TextXAlignment = Enum.TextXAlignment.Left
     RegisteredText.RichText = true
+
+    NewsText.Name = "NewsText"
+    NewsText.Parent = SettingsVersionHolder
+    NewsText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    NewsText.BackgroundTransparency = 1.000
+    NewsText.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    NewsText.BorderSizePixel = 0
+    NewsText.Position = UDim2.new(0, 0, 0.649999976, 0)
+    NewsText.Size = UDim2.new(0, 92, 0, 18)
+    NewsText.Font = Enum.Font.Gotham
+    NewsText.Text = "Latest News: <font color='rgb(9, 174, 255)'>"..BuildInfo:GetLatestNews().."</font>"
+    NewsText.TextColor3 = Color3.fromRGB(255, 255, 255)
+    NewsText.TextSize = 14.000
+    NewsText.TextXAlignment = Enum.TextXAlignment.Left
     
     SettingsLine2.Name = "SettingsLine2"
     SettingsLine2.Parent = SettingsFrame
