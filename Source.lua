@@ -11,8 +11,17 @@ local Neverlose_Main = {
 };
 local TweenService = game:GetService("TweenService");
 local UserInputService = game:GetService("UserInputService")
-local http = game:GetService("HttpService")
+local req = (syn and syn.request) or (http and http.request) or http_request or nil
+local HttpService = game:GetService("HttpService")
 local Player = game:GetService("Players").LocalPlayer
+
+local GenerateGUID = HttpService:GenerateGUID(false) 
+
+getgenv()[GenerateGUID] = true
+
+if not getgenv()[GenerateGUID] then
+    getgenv()[GenerateGUID] = false
+end
 
 local BuildInfo = loadstring(game:HttpGet"https://pastebin.com/raw/HzAeDGm4")()
 
@@ -142,9 +151,9 @@ function Neverlose_Main:LoadSettings(Folder, CFGName)
     local Encoded = readfile(Folder .. "/settings.txt")
     local Decoded = Neverlose_Main:decode(Encoded)
 
-    writefile(Folder .. "/settings.txt", tostring(http:JSONEncode(Decoded)))
+    writefile(Folder .. "/settings.txt", tostring(HttpService:JSONEncode(Decoded)))
 
-    Neverlose_Main.Settings = http:JSONDecode(readfile(Folder .. "/settings.txt"))
+    Neverlose_Main.Settings = HttpService:JSONDecode(readfile(Folder .. "/settings.txt"))
 end
 
 function Neverlose_Main:Window(config)
@@ -178,9 +187,9 @@ function Neverlose_Main:Window(config)
         for i,v in pairs(Neverlose_Main.Settings) do
             content[i] = v
         end
-        writefile(Folder .. "/settings.txt", tostring(http:JSONEncode(content)))
+        writefile(Folder .. "/settings.txt", tostring(HttpService:JSONEncode(content)))
     end
-    Neverlose_Main.Settings = http:JSONDecode(readfile(Folder .. "/settings.txt"))
+    Neverlose_Main.Settings = HttpService:JSONDecode(readfile(Folder .. "/settings.txt"))
 
 
 
@@ -194,8 +203,8 @@ function Neverlose_Main:Window(config)
         for i,v in pairs(Neverlose_Main.Settings) do
             content[i] = v
         end
-        -- writefile(Folder .. "/settings.txt", tostring(http:JSONEncode(Neverlose_Main:encode(content))))
-        writefile(Folder .. "/settings.txt", tostring(http:JSONEncode(content)))
+        -- writefile(Folder .. "/settings.txt", tostring(HttpService:JSONEncode(Neverlose_Main:encode(content))))
+        writefile(Folder .. "/settings.txt", tostring(HttpService:JSONEncode(content)))
     end
 
 
@@ -659,6 +668,12 @@ function Neverlose_Main:Window(config)
     local LuaButtonCorner = Instance.new("UICorner")
     local LuaButtonCode = Instance.new("ImageLabel")
     local LuaButtonStroke = Instance.new("UIStroke")
+
+    local ChatButton = Instance.new("TextButton")
+    local ChatButtonPadding = Instance.new("UIPadding")
+    local ChatButtonCorner = Instance.new("UICorner")
+    local ChatButtonChat = Instance.new("ImageLabel")
+    local ChatButtonStroke = Instance.new("UIStroke")
 
     local LuaFrame = Instance.new("Frame")
     local LuaFrameCorner = Instance.new("UICorner")
@@ -1151,7 +1166,7 @@ function Neverlose_Main:Window(config)
     SettingsFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
     SettingsFrame.BorderSizePixel = 0
     SettingsFrame.Position = UDim2.new(1.03421474, 0, 0.285923749, 0)
-    SettingsFrame.Size = UDim2.new(0, 358, 0, 332)
+    SettingsFrame.Size = UDim2.new(0, 358, 0, 367)
     SettingsFrame.Visible = false
     
     SettingsFrameCorner.CornerRadius = UDim.new(0, 4)
@@ -1179,7 +1194,7 @@ function Neverlose_Main:Window(config)
     SettingsLine.BackgroundTransparency = 0.800
     SettingsLine.BorderColor3 = Color3.fromRGB(0, 0, 0)
     SettingsLine.BorderSizePixel = 0
-    SettingsLine.Position = UDim2.new(0, 0, 0.257216007, 0)
+    SettingsLine.Position = UDim2.new(0, 0, 0.188373789, 0)
     SettingsLine.Size = UDim2.new(1, 0, 0, 1)
     
     SettingsVersion.Name = "SettingsVersion"
@@ -1188,8 +1203,8 @@ function Neverlose_Main:Window(config)
     SettingsVersion.BackgroundTransparency = 1.000
     SettingsVersion.BorderColor3 = Color3.fromRGB(0, 0, 0)
     SettingsVersion.BorderSizePixel = 0
-    SettingsVersion.Position = UDim2.new(0.0167597774, 0, 0.260166734, 0)
-    SettingsVersion.Size = UDim2.new(0, 345, 0, 150)
+    SettingsVersion.Position = UDim2.new(0.0167597774, 0, 0.158408597, 0)
+    SettingsVersion.Size = UDim2.new(0, 345, 0, 184)
     
     SettingsVersionHolder.Name = "SettingsVersionHolder"
     SettingsVersionHolder.Parent = SettingsVersion
@@ -1244,7 +1259,7 @@ function Neverlose_Main:Window(config)
     BuildTypeText.Position = UDim2.new(0.0666666701, 0, 0.12350598, 0)
     BuildTypeText.Size = UDim2.new(0, 35, 0, 18)
     BuildTypeText.Font = Enum.Font.GothamBold
-    BuildTypeText.Text = "Build type: <font color='rgb(9, 174, 255)'>"..BuildInfo:GetBuildType().."</font>"
+    BuildTypeText.Text = "Build type: <font color='rgb(9, 174, 255)'>"..BuildInfo:BuildType().."</font>"
     BuildTypeText.TextColor3 = Color3.fromRGB(255, 255, 255)
     BuildTypeText.TextSize = 14.000
     BuildTypeText.TextXAlignment = Enum.TextXAlignment.Left
@@ -1273,11 +1288,12 @@ function Neverlose_Main:Window(config)
     NewsText.BorderSizePixel = 0
     NewsText.Position = UDim2.new(0, 0, 0.649999976, 0)
     NewsText.Size = UDim2.new(0, 92, 0, 18)
-    NewsText.Font = Enum.Font.Gotham
-    NewsText.Text = "Latest News: <font color='rgb(9, 174, 255)'>"..BuildInfo:GetLatestNews().."</font>"
+    NewsText.Font = Enum.Font.GothamBold
+    NewsText.Text = "Latest News: <font color='rgb(9, 174, 255)'>"..BuildInfo:GetNews().."</font>"
     NewsText.TextColor3 = Color3.fromRGB(255, 255, 255)
     NewsText.TextSize = 14.000
     NewsText.TextXAlignment = Enum.TextXAlignment.Left
+    NewsText.RichText = true
     
     SettingsLine2.Name = "SettingsLine2"
     SettingsLine2.Parent = SettingsFrame
@@ -1285,7 +1301,7 @@ function Neverlose_Main:Window(config)
     SettingsLine2.BackgroundTransparency = 0.800
     SettingsLine2.BorderColor3 = Color3.fromRGB(0, 0, 0)
     SettingsLine2.BorderSizePixel = 0
-    SettingsLine2.Position = UDim2.new(0, 0, 0.703186274, 0)
+    SettingsLine2.Position = UDim2.new(0, 0, 0.590849996, 0)
     SettingsLine2.Size = UDim2.new(1, 0, 0, 1)
     
     Style.Name = "Style"
@@ -1294,7 +1310,7 @@ function Neverlose_Main:Window(config)
     Style.BackgroundTransparency = 1.000
     Style.BorderColor3 = Color3.fromRGB(0, 0, 0)
     Style.BorderSizePixel = 0
-    Style.Position = UDim2.new(0.0837988853, 0, 0.725815058, 0)
+    Style.Position = UDim2.new(0.0837988853, 0, 0.61263001, 0)
     Style.Size = UDim2.new(0, 307, 0, 32)
     Style.Font = Enum.Font.Gotham
     Style.Text = "Style"
@@ -1394,7 +1410,7 @@ function Neverlose_Main:Window(config)
     LuaButton.BackgroundTransparency = 1.000
     LuaButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
     LuaButton.BorderSizePixel = 0
-    LuaButton.Position = UDim2.new(0.0670391098, 0, 0.842465758, 0)
+    LuaButton.Position = UDim2.new(0.0837988853, 0, 0.723393798, 0)
     LuaButton.Size = UDim2.new(0, 124, 0, 38)
     LuaButton.Font = Enum.Font.GothamBold
     LuaButton.Text = "Lua"
@@ -1431,6 +1447,44 @@ function Neverlose_Main:Window(config)
         SettingsToggled = false
         LuaFrame.Visible = true
     end)
+
+    ChatButton.Name = "ChatButton"
+    ChatButton.Parent = SettingsFrame
+    ChatButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    ChatButton.BackgroundTransparency = 1.000
+    ChatButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    ChatButton.BorderSizePixel = 0
+    ChatButton.Position = UDim2.new(0.0837988853, 0, 0.866676092, 0)
+    ChatButton.Size = UDim2.new(0, 124, 0, 38)
+    ChatButton.Font = Enum.Font.GothamBold
+    ChatButton.Text = "Chat"
+    ChatButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    ChatButton.TextSize = 17.000
+    ChatButton.TextXAlignment = Enum.TextXAlignment.Left
+    
+    ChatButtonPadding.Name = "ChatButtonPadding"
+    ChatButtonPadding.Parent = ChatButton
+    ChatButtonPadding.PaddingLeft = UDim.new(0, 7)
+    
+    ChatButtonCorner.CornerRadius = UDim.new(0, 4)
+    ChatButtonCorner.Name = "ChatButtonCorner"
+    ChatButtonCorner.Parent = ChatButton
+
+    ChatButtonStroke.Color = Color3.fromRGB(38, 81, 135)
+    ChatButtonStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+    ChatButtonStroke.LineJoinMode = Enum.LineJoinMode.Round
+    ChatButtonStroke.Thickness = 1
+    ChatButtonStroke.Parent = ChatButton
+    
+    ChatButtonChat.Name = "ChatButtonChat"
+    ChatButtonChat.Parent = ChatButton
+    ChatButtonChat.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    ChatButtonChat.BackgroundTransparency = 1.000
+    ChatButtonChat.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    ChatButtonChat.BorderSizePixel = 0
+    ChatButtonChat.Position = UDim2.new(0.726495743, 0, 0.280721575, 0)
+    ChatButtonChat.Size = UDim2.new(0, 22, 0, 21)
+    ChatButtonChat.Image = "http://www.roblox.com/asset/?id=6035181869"
     
     CloseSettings.Name = "CloseSettings"
     CloseSettings.Parent = SettingsFrame
@@ -2209,6 +2263,253 @@ function Neverlose_Main:Window(config)
         LuaScriptFramePadding.PaddingTop = UDim.new(0, 5)
 
 
+
+
+        local ChatFrame = Instance.new("Frame")
+        local ChatFrameCorner = Instance.new("UICorner")
+        local ChatTitle = Instance.new("TextLabel")
+        local ChatFrameLine = Instance.new("Frame")
+        local ChatFrameLine2 = Instance.new("Frame")
+        local CloseChatFrame = Instance.new("TextButton")
+        local ChatFrameFrame = Instance.new("ScrollingFrame")
+        local ChatFrameLayout = Instance.new("UIListLayout")
+        local ChatFramePadding = Instance.new("UIPadding")
+
+        local ClearChat = Instance.new("ImageButton")
+        local ChatBoxText = Instance.new("TextBox")
+        local ChatBoxTextCorner = Instance.new("UICorner")
+        local ChatBoxTextPadding = Instance.new("UIPadding")
+
+        local SendChatButton = Instance.new("ImageButton")
+        local ChatFrameLine_2 = Instance.new("Frame")
+
+        ChatButton.MouseButton1Click:Connect(function()
+            ChatFrame.Visible = true
+            SettingsFrame.Visible = false
+            SettingsToggled = false
+        end)
+        
+        ChatFrame.Name = "ChatFrame"
+        ChatFrame.Parent = MainFrame
+        ChatFrame.BackgroundColor3 = Color3.fromRGB(10, 10, 15)
+        ChatFrame.BackgroundTransparency = 0.050
+        ChatFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        ChatFrame.BorderSizePixel = 0
+        ChatFrame.Position = UDim2.new(1.09486794, 0, 0.171554208, 0)
+        ChatFrame.Size = UDim2.new(0, 540, 0, 447)
+        ChatFrame.Visible = false
+        MakeDraggable(ChatFrame, ChatFrame)
+        
+        ChatFrameCorner.CornerRadius = UDim.new(0, 4)
+        ChatFrameCorner.Name = "ChatFrameCorner"
+        ChatFrameCorner.Parent = ChatFrame
+        
+        ChatTitle.Name = "ChatTitle"
+        ChatTitle.Parent = ChatFrame
+        ChatTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        ChatTitle.BackgroundTransparency = 1.000
+        ChatTitle.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        ChatTitle.BorderSizePixel = 0
+        ChatTitle.Position = UDim2.new(0.270148396, 0, -0.000112343594, 0)
+        ChatTitle.Size = UDim2.new(0, 248, 0, 67)
+        ChatTitle.Font = Enum.Font.FredokaOne
+        ChatTitle.Text = "CHATTING"
+        ChatTitle.TextColor3 = Color3.fromRGB(239, 248, 246)
+        ChatTitle.TextSize = 45.000
+        ChatTitle.TextStrokeColor3 = Color3.fromRGB(27, 141, 240)
+        
+        ChatFrameLine.Name = "ChatFrameLine"
+        ChatFrameLine.Parent = ChatFrame
+        ChatFrameLine.BackgroundColor3 = Color3.fromRGB(68, 68, 68)
+        ChatFrameLine.BackgroundTransparency = 0.800
+        ChatFrameLine.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        ChatFrameLine.BorderSizePixel = 0
+        ChatFrameLine.Position = UDim2.new(0, 0, 0.136003897, 0)
+        ChatFrameLine.Size = UDim2.new(1, 0, 0, 1)
+        
+        ChatFrameLine2.Name = "ChatFrameLine2"
+        ChatFrameLine2.Parent = ChatFrame
+        ChatFrameLine2.BackgroundColor3 = Color3.fromRGB(68, 68, 68)
+        ChatFrameLine2.BackgroundTransparency = 1.000
+        ChatFrameLine2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        ChatFrameLine2.BorderSizePixel = 0
+        ChatFrameLine2.Position = UDim2.new(0, 0, 0.809246898, 0)
+        ChatFrameLine2.Size = UDim2.new(1, 0, 0, 1)
+        
+        CloseChatFrame.Name = "CloseChatFrame"
+        CloseChatFrame.Parent = ChatFrame
+        CloseChatFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        CloseChatFrame.BackgroundTransparency = 1.000
+        CloseChatFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        CloseChatFrame.BorderSizePixel = 0
+        CloseChatFrame.Position = UDim2.new(0.944993913, 0, -0.00995453913, 0)
+        CloseChatFrame.Size = UDim2.new(0, 35, 0, 36)
+        CloseChatFrame.AutoButtonColor = false
+        CloseChatFrame.Font = Enum.Font.GothamBold
+        CloseChatFrame.Text = "x"
+        CloseChatFrame.TextColor3 = Color3.fromRGB(46, 125, 194)
+        CloseChatFrame.TextSize = 20.000
+
+        CloseChatFrame.MouseButton1Click:Connect(function()
+            ChatFrame.Visible = false
+        end)
+        
+        ChatFrameFrame.Name = "ChatFrameFrame"
+        ChatFrameFrame.Parent = ChatFrame
+        ChatFrameFrame.Active = true
+        ChatFrameFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        ChatFrameFrame.BackgroundTransparency = 1.000
+        ChatFrameFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        ChatFrameFrame.BorderSizePixel = 0
+        ChatFrameFrame.Position = UDim2.new(0.0229357686, 0, 0.164772734, 0)
+        ChatFrameFrame.Size = UDim2.new(0, 521, 0, 292)
+        ChatFrameFrame.ScrollBarThickness = 0
+        
+        ChatFrameLayout.Name = "ChatFrameLayout"
+        ChatFrameLayout.Parent = ChatFrameFrame
+        ChatFrameLayout.SortOrder = Enum.SortOrder.LayoutOrder
+        ChatFrameLayout.Padding = UDim.new(0, 2)
+        
+        ChatFramePadding.Name = "ChatFramePadding"
+        ChatFramePadding.Parent = ChatFrameFrame
+        ChatFramePadding.PaddingLeft = UDim.new(0, 5)
+        ChatFramePadding.PaddingTop = UDim.new(0, 5)
+
+        getgenv().loop = coroutine.create(function()
+            while wait(1) do
+                local data = req({
+                    Url = "https://chatting.madsbrriinckbas.repl.co/api/poll/",
+                    Method = "GET"
+                })
+                local data = game:GetService("HttpService"):JSONDecode(data.Body)
+                for i,v in pairs(data.messages) do
+                        local ChatSocketFrame = Instance.new("Frame")
+                        local ChatText = Instance.new("TextLabel")
+                        local ChatSocketFrameCorner = Instance.new("UICorner")
+
+                        ChatSocketFrame.Name = "ChatSocketFrame"
+                        ChatSocketFrame.Parent = game:GetService("CoreGui").Neverlose1.MainFrame.ChatFrame.ChatFrameFrame
+                        ChatSocketFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                        ChatSocketFrame.BackgroundTransparency = 1.000
+                        ChatSocketFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                        ChatSocketFrame.BorderSizePixel = 0
+                        ChatSocketFrame.Position = UDim2.new(0, 0, -0.0122850118, 0)
+                        ChatSocketFrame.Size = UDim2.new(0, 407, 0, 26)
+
+                        ChatText.Name = "ChatText"
+                        ChatText.Parent = ChatSocketFrame
+                        ChatText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                        ChatText.BackgroundTransparency = 1.000
+                        ChatText.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                        ChatText.BorderSizePixel = 0
+                        ChatText.Position = UDim2.new(0.0442260429, 0, 0.174825221, 0)
+                        ChatText.Size = UDim2.new(0, 34, 0, 16)
+                        ChatText.Font = Enum.Font.Gotham
+                        ChatText.Text = tostring(v.msg)
+                        ChatText.TextColor3 = Color3.fromRGB(255, 255, 255)
+                        ChatText.TextSize = 14.000
+                        ChatText.TextXAlignment = Enum.TextXAlignment.Left
+                        
+                        ChatSocketFrameCorner.CornerRadius = UDim.new(0, 3)
+                        ChatSocketFrameCorner.Name = "ChatSocketFrameCorner"
+                        ChatSocketFrameCorner.Parent = ChatSocketFrame
+
+                        ChatFrameFrame.CanvasSize = UDim2.new(0, 0, 0, ChatFrameLayout.AbsoluteContentSize.Y + 10)
+                    end
+            end
+        end)
+        coroutine.resume(getgenv().loop)
+        
+        ClearChat.Name = "ClearChat"
+        ClearChat.Parent = ChatFrame
+        ClearChat.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        ClearChat.BackgroundTransparency = 1.000
+        ClearChat.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        ClearChat.BorderSizePixel = 0
+        ClearChat.Position = UDim2.new(0.898000002, 0, 0.00499999989, 0)
+        ClearChat.Size = UDim2.new(0, 25, 0, 25)
+        ClearChat.Image = "http://www.roblox.com/asset/?id=6035181870"
+        ClearChat.ImageColor3 = Color3.fromRGB(46, 125, 194)
+
+        ClearChat.MouseButton1Click:Connect(function()
+            for i,v in pairs(ChatFrameFrame:GetChildren()) do
+                if v:IsA("Frame") then
+                    v:Destroy()
+                end
+            end
+        end)
+        
+        ChatBoxText.Name = "ChatBoxText"
+        ChatBoxText.Parent = ChatFrame
+        ChatBoxText.BackgroundColor3 = Color3.fromRGB(15, 40, 66)
+        ChatBoxText.BackgroundTransparency = 0.300
+        ChatBoxText.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        ChatBoxText.BorderSizePixel = 0
+        ChatBoxText.Position = UDim2.new(0.129629627, 0, 0.86577183, 0)
+        ChatBoxText.Size = UDim2.new(0, 405, 0, 38)
+        ChatBoxText.ClearTextOnFocus = false
+        ChatBoxText.Font = Enum.Font.Gotham
+        ChatBoxText.Text = ""
+        ChatBoxText.TextColor3 = Color3.fromRGB(255, 255, 255)
+        ChatBoxText.TextSize = 14.000
+        ChatBoxText.TextXAlignment = Enum.TextXAlignment.Left
+
+        ChatBoxText.FocusLost:Connect(function(ep)
+            if ep then
+                local Data = HttpService:JSONEncode({
+                    msg = ChatBoxText.Text
+                })
+                req({
+                    Url = "https://chatting.madsbrriinckbas.repl.co/api/send/",
+                    Method = 'POST',
+                    Body = Data,
+                    Headers = {
+                        ['Content-Type'] = 'application/json'
+                    }
+                })
+            end
+        end)
+        
+        ChatBoxTextCorner.CornerRadius = UDim.new(0, 5)
+        ChatBoxTextCorner.Name = "ChatBoxTextCorner"
+        ChatBoxTextCorner.Parent = ChatBoxText
+
+        ChatBoxTextPadding.Name = "ChatBoxTextPadding"
+        ChatBoxTextPadding.Parent = ChatBoxText
+        ChatBoxTextPadding.PaddingLeft = UDim.new(0, 12)
+        
+        SendChatButton.Name = "SendChatButton"
+        SendChatButton.Parent = ChatBoxText
+        SendChatButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        SendChatButton.BackgroundTransparency = 1.000
+        SendChatButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        SendChatButton.BorderSizePixel = 0
+        SendChatButton.Position = UDim2.new(0.925999999, 0, 0.163000003, 0)
+        SendChatButton.Size = UDim2.new(0, 25, 0, 25)
+        SendChatButton.Image = "http://www.roblox.com/asset/?id=6035067832"
+        SendChatButton.ImageColor3 = Color3.fromRGB(46, 125, 194)
+
+        SendChatButton.MouseButton1Click:Connect(function()
+            local Data = HttpService:JSONEncode({
+                msg = ChatBoxText.Text
+            })
+            req({
+                Url = "https://chatting.madsbrriinckbas.repl.co/api/send/",
+                Method = 'POST',
+                Body = Data
+            })
+        end)
+        
+        ChatFrameLine_2.Name = "ChatFrameLine"
+        ChatFrameLine_2.Parent = ChatFrame
+        ChatFrameLine_2.BackgroundColor3 = Color3.fromRGB(68, 68, 68)
+        ChatFrameLine_2.BackgroundTransparency = 0.800
+        ChatFrameLine_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        ChatFrameLine_2.BorderSizePixel = 0
+        ChatFrameLine_2.Position = UDim2.new(-0.00185185182, 0, 0.818330586, 0)
+        ChatFrameLine_2.Size = UDim2.new(1, 0, 0, 1)
+
+
     local TabsSec = {}
     function TabsSec:TSection(title)
         local TabsSection = Instance.new("Frame")
@@ -2258,7 +2559,7 @@ function Neverlose_Main:Window(config)
         --     local Encoded = readfile(Folder1 .. "/configs/" .. cfg .. ".txt")
         --     local Decoded = Neverlose_Main:decode(Encoded)
             
-        --     local Encode = http:JSONEncode(Decoded)
+        --     local Encode = HttpService:JSONEncode(Decoded)
 
         --     writefile(Folder1.."/configs/"..cfg..".txt", Encode)
         --     local content = readfile(Folder1.."/configs/"..cfg..".txt")
@@ -2280,7 +2581,7 @@ function Neverlose_Main:Window(config)
         --     for i,v in pairs(Neverlose_Main.Flags) do
         --         content[i] = v.Value
         --     end
-        --     writefile(Folder1.."/configs/"..cfg..".txt", Neverlose_Main:encode(tostring(http:JSONEncode(content)))) -- FolderName.."/configs/"..name..".cfg"
+        --     writefile(Folder1.."/configs/"..cfg..".txt", Neverlose_Main:encode(tostring(HttpService:JSONEncode(content)))) -- FolderName.."/configs/"..name..".cfg"
         -- end
       
         -- function Neverlose_Main:CreateCfg(cfg)
@@ -2288,14 +2589,14 @@ function Neverlose_Main:Window(config)
         --     for i,v in pairs(Neverlose_Main.Flags) do
         --         content[i] = v.Value
         --     end
-        --     writefile(Folder1.."/configs/"..cfg..".txt", Neverlose_Main:encode(http:JSONEncode(content))) -- FolderName.."/configs/"..name..".cfg"
+        --     writefile(Folder1.."/configs/"..cfg..".txt", Neverlose_Main:encode(HttpService:JSONEncode(content))) -- FolderName.."/configs/"..name..".cfg"
         --     -- writefile("Neverlose/configs/Mana64.txt", Neverlose_Main:encode(tostring(content)))
         -- end
 
         function Neverlose_Main:LoadCfg(cfg)
             local Encoded = readfile(Folder1 .. "/configs/" .. cfg .. ".txt")
 
-            local JSONData = http:JSONDecode(Encoded)
+            local JSONData = HttpService:JSONDecode(Encoded)
             
             table.foreach(JSONData, function(a,b)
                 if Neverlose_Main.Flags[a] then
@@ -2314,7 +2615,7 @@ function Neverlose_Main:Window(config)
                 content[i] = v.Value
             end
             
-            local Encoded = http:JSONEncode(content) -- Convert to JSON string
+            local Encoded = HttpService:JSONEncode(content) -- Convert to JSON string
             
             writefile(Folder1 .. "/configs/" .. cfg .. ".txt", Encoded)
         end
@@ -2325,7 +2626,7 @@ function Neverlose_Main:Window(config)
                 content[i] = v.Value
             end
             
-            local Encoded = http:JSONEncode(content) -- Convert to JSON string
+            local Encoded = HttpService:JSONEncode(content) -- Convert to JSON string
             
             writefile(Folder1 .. "/configs/" .. cfg .. ".txt", Encoded)
         end
