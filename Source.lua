@@ -2467,6 +2467,7 @@ function Neverlose_Main:Window(config)
                         ['Content-Type'] = 'application/json'
                     }
                 })
+                ChatBoxText.Text = ""
             end
         end)
         
@@ -2496,8 +2497,12 @@ function Neverlose_Main:Window(config)
             req({
                 Url = "https://chatting.madsbrriinckbas.repl.co/api/send/",
                 Method = 'POST',
-                Body = Data
+                Body = Data,
+                Headers = {
+                    ['Content-Type'] = 'application/json'
+                }
             })
+            ChatBoxText.Text = ""
         end)
         
         ChatFrameLine_2.Name = "ChatFrameLine"
