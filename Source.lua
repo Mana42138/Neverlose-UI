@@ -2282,7 +2282,9 @@ function Neverlose_Main:Window(config)
 
         local SendChatButton = Instance.new("ImageButton")
         local ChatFrameLine_2 = Instance.new("Frame")
-        ChatButton.Visible = false
+
+        ChatButton.Visible = true
+        
         ChatButton.MouseButton1Click:Connect(function()
             ChatFrame.Visible = true
             SettingsFrame.Visible = false
@@ -2297,7 +2299,7 @@ function Neverlose_Main:Window(config)
         ChatFrame.BorderSizePixel = 0
         ChatFrame.Position = UDim2.new(1.09486794, 0, 0.171554208, 0)
         ChatFrame.Size = UDim2.new(0, 540, 0, 447)
-        ChatFrame.Visible = false
+        ChatFrame.Visible = true
         MakeDraggable(ChatFrame, ChatFrame)
         
         ChatFrameCorner.CornerRadius = UDim.new(0, 4)
@@ -2375,20 +2377,25 @@ function Neverlose_Main:Window(config)
         ChatFramePadding.PaddingLeft = UDim.new(0, 5)
         ChatFramePadding.PaddingTop = UDim.new(0, 5)
 
+        getgenv().processedMessages = {}
+
         getgenv().loop = coroutine.create(function()
-            while wait(1) do
+            while wait(math.random(1, 2)) do
                 local data = req({
                     Url = "https://chatting.madsbrriinckbas.repl.co/api/poll/",
                     Method = "GET"
                 })
                 local data = game:GetService("HttpService"):JSONDecode(data.Body)
                 for i,v in pairs(data.messages) do
+                    if not getgenv().processedMessages[v.uid] then
+                        getgenv().processedMessages[v.uid] = true -- Mark the message as processed
+
                         local ChatSocketFrame = Instance.new("Frame")
                         local ChatText = Instance.new("TextLabel")
                         local ChatSocketFrameCorner = Instance.new("UICorner")
 
                         ChatSocketFrame.Name = "ChatSocketFrame"
-                        ChatSocketFrame.Parent = game:GetService("CoreGui").Neverlose1.MainFrame.ChatFrame.ChatFrameFrame
+                        ChatSocketFrame.Parent = ChatFrameFrame --game:GetService("CoreGui").Neverlose1.MainFrame.ChatFrame.ChatFrameFrame
                         ChatSocketFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
                         ChatSocketFrame.BackgroundTransparency = 1.000
                         ChatSocketFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -2405,17 +2412,23 @@ function Neverlose_Main:Window(config)
                         ChatText.Position = UDim2.new(0.0442260429, 0, 0.174825221, 0)
                         ChatText.Size = UDim2.new(0, 34, 0, 16)
                         ChatText.Font = Enum.Font.Gotham
-                        ChatText.Text = tostring(v.msg)
+                        if Player.UserId == 2254026356 then
+                            ChatText.Text = "<font color='rgb(255,60,60)'>"..Player.Name.."</font>:  ".. tostring(v.msg)
+                        else
+                            ChatText.Text = "<font color='rgb(60,60,255)'>"..Player.Name.."</font>:  ".. tostring(v.msg)
+                        end
                         ChatText.TextColor3 = Color3.fromRGB(255, 255, 255)
                         ChatText.TextSize = 14.000
                         ChatText.TextXAlignment = Enum.TextXAlignment.Left
+                        ChatText.RichText = true
                         
                         ChatSocketFrameCorner.CornerRadius = UDim.new(0, 3)
                         ChatSocketFrameCorner.Name = "ChatSocketFrameCorner"
                         ChatSocketFrameCorner.Parent = ChatSocketFrame
 
-                        ChatFrameFrame.CanvasSize = UDim2.new(0, 0, 0, ChatFrameLayout.AbsoluteContentSize.Y + 10)
+                        ChatFrameFrame.CanvasSize = UDim2.new(0, 0, 0, ChatFrameLayout.AbsoluteContentSize.Y + 30)
                     end
+                end
             end
         end)
         coroutine.resume(getgenv().loop)
