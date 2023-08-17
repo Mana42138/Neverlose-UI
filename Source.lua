@@ -1015,7 +1015,8 @@ function Neverlose_Main:Window(config)
     ToggledFrame.BorderSizePixel = 0
     ToggledFrame.Position = UDim2.new(0.00789993443, 0, 0.0419753082, 0)
     ToggledFrame.Size = UDim2.new(0, 151, 0, 166)
-    
+    ToggledFrame.Visible = false
+
     ToggledFrameLayout.Name = "ToggledFrameLayout"
     ToggledFrameLayout.Parent = ToggledFrame
     ToggledFrameLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
@@ -1403,6 +1404,89 @@ function Neverlose_Main:Window(config)
     BlackCorner.CornerRadius = UDim.new(3, 0)
     BlackCorner.Name = "BlackCorner"
     BlackCorner.Parent = Black
+
+    local KeyBinds = Instance.new("TextLabel")
+    local BindsOn = Instance.new("TextButton")
+    local BindsOnCorner = Instance.new("UICorner")
+    local BindsOff = Instance.new("TextButton")
+    local BindsOffCorner = Instance.new("UICorner")
+    
+    
+    KeyBinds.Name = "KeyBinds"
+    KeyBinds.Parent = SettingsFrame
+    KeyBinds.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    KeyBinds.BackgroundTransparency = 1.000
+    KeyBinds.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    KeyBinds.BorderSizePixel = 0
+    KeyBinds.Position = UDim2.new(0.486033529, 0, 0.874210358, 0)
+    KeyBinds.Size = UDim2.new(0, 170, 0, 32)
+    KeyBinds.Font = Enum.Font.Gotham
+    KeyBinds.Text = "Key Binds"
+    KeyBinds.TextColor3 = Color3.fromRGB(255, 255, 255)
+    KeyBinds.TextSize = 14.000
+    KeyBinds.TextXAlignment = Enum.TextXAlignment.Left
+    
+    BindsOn.Name = "BindsOn"
+    BindsOn.Parent = KeyBinds
+    BindsOn.BackgroundColor3 = Color3.fromRGB(0, 70, 131)
+    BindsOn.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    BindsOn.BorderSizePixel = 0
+    BindsOn.Position = UDim2.new(0.581629872, 0, 0, 0)
+    BindsOn.Size = UDim2.new(0, 32, 0, 32)
+    BindsOn.AutoButtonColor = false
+    BindsOn.Font = Enum.Font.SourceSans
+    BindsOn.Text = ""
+    BindsOn.TextColor3 = Color3.fromRGB(0, 0, 0)
+    BindsOn.TextSize = 14.000
+
+    local BindsStroke = Instance.new("UIStroke")
+
+    BindsStroke.Color = Color3.fromRGB(8, 122, 176)
+    BindsStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+    BindsStroke.LineJoinMode = Enum.LineJoinMode.Round
+    BindsStroke.Thickness = 2
+    BindsStroke.Parent = BindsOff
+
+    BindsOn.MouseButton1Click:Connect(function()
+        BindsStroke.Parent = BindsOn
+        Neverlose_Main:Notify({
+            Text = "Binds ON!",
+            Time = 2,
+            AutoClose = true
+        })
+        ToggledFrame.Visible = true
+    end)
+    
+    BindsOnCorner.CornerRadius = UDim.new(3, 0)
+    BindsOnCorner.Name = "BindsOnCorner"
+    BindsOnCorner.Parent = BindsOn
+    
+    BindsOff.Name = "BindsOff"
+    BindsOff.Parent = KeyBinds
+    BindsOff.BackgroundColor3 = Color3.fromRGB(203, 46, 49)
+    BindsOff.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    BindsOff.BorderSizePixel = 0
+    BindsOff.Position = UDim2.new(0.818197429, 0, 0, 0)
+    BindsOff.Size = UDim2.new(0, 32, 0, 32)
+    BindsOff.AutoButtonColor = false
+    BindsOff.Font = Enum.Font.SourceSans
+    BindsOff.Text = ""
+    BindsOff.TextColor3 = Color3.fromRGB(0, 0, 0)
+    BindsOff.TextSize = 14.000
+
+    BindsOff.MouseButton1Click:Connect(function()
+        BindsStroke.Parent = BindsOff
+        Neverlose_Main:Notify({
+            Text = "Binds OFF!",
+            Time = 2,
+            AutoClose = true
+        })
+        ToggledFrame.Visible = false
+    end)
+    
+    BindsOffCorner.CornerRadius = UDim.new(3, 0)
+    BindsOffCorner.Name = "BindsOffCorner"
+    BindsOffCorner.Parent = BindsOff
 
     LuaButton.Name = "LuaButton"
     LuaButton.Parent = SettingsFrame
