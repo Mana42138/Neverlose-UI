@@ -2370,16 +2370,16 @@ function Neverlose_Main:Window(config)
         ChatFrameLayout.Name = "ChatFrameLayout"
         ChatFrameLayout.Parent = ChatFrameFrame
         ChatFrameLayout.SortOrder = Enum.SortOrder.LayoutOrder
-        ChatFrameLayout.Padding = UDim.new(0, 2)
+        ChatFrameLayout.Padding = UDim.new(0, 15)
         
         ChatFramePadding.Name = "ChatFramePadding"
         ChatFramePadding.Parent = ChatFrameFrame
         ChatFramePadding.PaddingLeft = UDim.new(0, 5)
-        ChatFramePadding.PaddingTop = UDim.new(0, 5)
+        ChatFramePadding.PaddingTop = UDim.new(0, 10)
 
         getgenv().processedMessages = {}
 
-        getgenv().loop = coroutine.create(function()
+        local loop = coroutine.create(function()
             while wait(math.random(1, 2)) do
                 local data = req({
                     Url = "https://chatting.madsbrriinckbas.repl.co/api/poll/",
@@ -2393,6 +2393,8 @@ function Neverlose_Main:Window(config)
                         local ChatSocketFrame = Instance.new("Frame")
                         local ChatText = Instance.new("TextLabel")
                         local ChatSocketFrameCorner = Instance.new("UICorner")
+                        local NameText = Instance.new("TextLabel")
+                        local NameTextCorner = Instance.new("UICorner")
 
                         ChatSocketFrame.Name = "ChatSocketFrame"
                         ChatSocketFrame.Parent = ChatFrameFrame --game:GetService("CoreGui").Neverlose1.MainFrame.ChatFrame.ChatFrameFrame
@@ -2400,8 +2402,17 @@ function Neverlose_Main:Window(config)
                         ChatSocketFrame.BackgroundTransparency = 1.000
                         ChatSocketFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
                         ChatSocketFrame.BorderSizePixel = 0
-                        ChatSocketFrame.Position = UDim2.new(0, 0, -0.0122850118, 0)
-                        ChatSocketFrame.Size = UDim2.new(0, 407, 0, 26)
+                        ChatSocketFrame.Position = UDim2.new(0, 0, -1.08218359e-07, 0)
+                        ChatSocketFrame.Size = UDim2.new(0, 407, 0, 35)
+
+                        local ChatSocketFrameStroke = Instance.new("UIStroke")
+        
+                        ChatSocketFrameStroke.Color = Color3.fromRGB(49, 100, 177)
+                        ChatSocketFrameStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+                        ChatSocketFrameStroke.LineJoinMode = Enum.LineJoinMode.Round
+                        ChatSocketFrameStroke.Thickness = 1
+                        ChatSocketFrameStroke.Parent = ChatSocketFrame
+                        ChatSocketFrameStroke.Transparency = 0.35
 
                         ChatText.Name = "ChatText"
                         ChatText.Parent = ChatSocketFrame
@@ -2409,14 +2420,10 @@ function Neverlose_Main:Window(config)
                         ChatText.BackgroundTransparency = 1.000
                         ChatText.BorderColor3 = Color3.fromRGB(0, 0, 0)
                         ChatText.BorderSizePixel = 0
-                        ChatText.Position = UDim2.new(0.0442260429, 0, 0.174825221, 0)
-                        ChatText.Size = UDim2.new(0, 34, 0, 16)
+                        ChatText.Position = UDim2.new(0.0270270277, 0, 0.297147036, 0)
+                        ChatText.Size = UDim2.new(0, 41, 0, 16)
                         ChatText.Font = Enum.Font.Gotham
-                        if Player.UserId == 2254026356 then
-                            ChatText.Text = "<font color='rgb(255,60,60)'>"..Player.Name.."</font>:  ".. tostring(v.msg)
-                        else
-                            ChatText.Text = "<font color='rgb(60,60,255)'>"..Player.Name.."</font>:  ".. tostring(v.msg)
-                        end
+                        ChatText.Text = tostring(v.msg)
                         ChatText.TextColor3 = Color3.fromRGB(255, 255, 255)
                         ChatText.TextSize = 14.000
                         ChatText.TextXAlignment = Enum.TextXAlignment.Left
@@ -2426,12 +2433,44 @@ function Neverlose_Main:Window(config)
                         ChatSocketFrameCorner.Name = "ChatSocketFrameCorner"
                         ChatSocketFrameCorner.Parent = ChatSocketFrame
 
+                        NameText.Name = "NameText"
+                        NameText.Parent = ChatSocketFrame
+                        NameText.BackgroundColor3 = Color3.fromRGB(14, 14, 21)
+                        NameText.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                        NameText.BorderSizePixel = 0
+                        NameText.Position = UDim2.new(0.0489999838, 0, -0.229999647, 0)
+                        NameText.Size = UDim2.new(0, 66, 0, 14)
+                        NameText.Font = Enum.Font.SourceSans
+                        NameText.TextColor3 = Color3.fromRGB(255, 255, 255)
+                        NameText.TextSize = 14.000
+                        NameText.RichText = true
+
+                        if Player.UserId == 2254026356 then
+                            NameText.Text = "<font color='rgb(255,60,60)'>"..Player.Name.."</font>"
+                        else
+                            NameText.Text = "<font color='rgb(60,60,255)'>"..Player.Name.."</font>"
+                        end
+
+                        NameText.Size = UDim2.new(0, NameText.TextBounds.X + 20, 0, 14)
+
+                        local NameTextStroke = Instance.new("UIStroke")
+        
+                        NameTextStroke.Color = Color3.fromRGB(49, 100, 177)
+                        NameTextStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+                        NameTextStroke.LineJoinMode = Enum.LineJoinMode.Round
+                        NameTextStroke.Thickness = 1
+                        NameTextStroke.Parent = NameText
+                        NameTextStroke.Transparency = 0.35
+                        
+                        NameTextCorner.Name = "NameTextCorner"
+                        NameTextCorner.Parent = NameText
+
                         ChatFrameFrame.CanvasSize = UDim2.new(0, 0, 0, ChatFrameLayout.AbsoluteContentSize.Y + 30)
                     end
                 end
             end
         end)
-        coroutine.resume(getgenv().loop)
+        coroutine.resume(loop)
         
         ClearChat.Name = "ClearChat"
         ClearChat.Parent = ChatFrame
