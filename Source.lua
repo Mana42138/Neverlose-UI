@@ -1052,13 +1052,13 @@ function Neverlose_Main:Window(config)
     end
 
     NotifyHolder.Name = "NotifyHolder"
-    NotifyHolder.Parent = MainFrame
+    NotifyHolder.Parent = Neverlose
     NotifyHolder.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     NotifyHolder.BackgroundTransparency = 1.000
     NotifyHolder.BorderColor3 = Color3.fromRGB(0, 0, 0)
     NotifyHolder.BorderSizePixel = 0
-    NotifyHolder.Position = UDim2.new(0.755366802, 0, 0.0161290318, 0)
-    NotifyHolder.Size = UDim2.new(0.185535014, 20, 0.957842052, 0)
+    NotifyHolder.Position = UDim2.new(0.800791442, 0, 0.00625248672, 0)
+    NotifyHolder.Size = UDim2.new(0.180268392, 20, 0.957842052, 0)
     
     NotifyFrameLayout.Name = "NotifyFrameLayout"
     NotifyFrameLayout.Parent = NotifyHolder
@@ -1067,41 +1067,37 @@ function Neverlose_Main:Window(config)
     NotifyFrameLayout.Padding = UDim.new(0, 10)
 
     function Neverlose_Main:Notify(cfg)
+        local Title = cfg.Title
         local text = cfg.Text
         local Time = cfg.Time or 2
+        local CustomImg = cfg.Image or "http://www.roblox.com/asset/?id=6031280882"
         local AutoClose = true
-
-        -- local AutoClose = cfg.AutoClose or false
 
         local NotifyFrame = Instance.new("Frame")
         local NotifyFrameCorner = Instance.new("UICorner")
-        -- local Close = Instance.new("ImageButton")
         local Description = Instance.new("TextLabel")
+
+        local Notifyimgframe = Instance.new("Frame")
+        local NotifyImg = Instance.new("ImageLabel")
+        local NotifyImgCorner = Instance.new("UICorner")
+        local NotifyimgframeCorner = Instance.new("UICorner")
+        local NotifyLine = Instance.new("Frame")
+        local NotifyLineCorner = Instance.new("UICorner")
+        local TitleNotify = Instance.new("TextLabel")
 
         NotifyFrame.Name = "NotifyFrame"
         NotifyFrame.Parent = NotifyHolder
-        NotifyFrame.BackgroundColor3 = Color3.fromRGB(10, 72, 106)
+        NotifyFrame.BackgroundColor3 = Color3.fromRGB(15, 25, 39)
         NotifyFrame.BackgroundTransparency = 0.100
         NotifyFrame.BorderColor3 = Color3.fromRGB(255, 255, 255)
         NotifyFrame.BorderSizePixel = 0
-        NotifyFrame.Position = UDim2.new(-0.572157621, 0, 0, 0)
-        NotifyFrame.Size = UDim2.new(0, 1, 0, 36)
+        NotifyFrame.Position = UDim2.new(0.0988237932, 0, 0, 0)
+        NotifyFrame.Size = UDim2.new(0, 262, 0, 67)
         
         NotifyFrameCorner.CornerRadius = UDim.new(0, 4)
         NotifyFrameCorner.Name = "NotifyFrameCorner"
         NotifyFrameCorner.Parent = NotifyFrame
         
-        -- Close.Name = "Close"
-        -- Close.Parent = NotifyFrame
-        -- Close.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-        -- Close.BackgroundTransparency = 1.000
-        -- Close.BorderColor3 = Color3.fromRGB(0, 0, 0)
-        -- Close.BorderSizePixel = 0
-        -- Close.Position = UDim2.new(0.899999976, 0, 0, 0)
-        -- Close.Size = UDim2.new(0, 22, 0, 22)
-        -- Close.Image = "http://www.roblox.com/asset/?id=6031094678"
-        -- Close.ImageColor3 = Color3.fromRGB(18, 131, 206)
-        -- Close.Visible = false
         
         Description.Name = "Description"
         Description.Parent = NotifyFrame
@@ -1109,53 +1105,104 @@ function Neverlose_Main:Window(config)
         Description.BackgroundTransparency = 1.000
         Description.BorderColor3 = Color3.fromRGB(0, 0, 0)
         Description.BorderSizePixel = 0
-        Description.Position = UDim2.new(0.0560770966, 0, 0.178571492, 0)
-        Description.Size = UDim2.new(0, 67, 0, 22)
+        Description.Position = UDim2.new(0.231394991, 0, 0.591077864, 0)
+        Description.Size = UDim2.new(0, 139, 0, 22)
         Description.Font = Enum.Font.Gotham
         Description.Text = text
-        Description.TextColor3 = Color3.fromRGB(255, 255, 255)
-        Description.TextSize = 14.000
-        Description.TextWrapped = false
+        Description.TextColor3 = Color3.fromRGB(220, 220, 220)
+        Description.TextSize = 13.000
+        Description.TextWrapped = true
         Description.TextXAlignment = Enum.TextXAlignment.Left
-        Description.Visible = false
 
-        -- Close.MouseButton1Click:Connect(function()
-        --     Description.Visible = false
-        --     Close.Visible = false
-        --     TweenService:Create(
-        --         NotifyFrame,
-        --         TweenInfo.new(.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-        --         {Size = UDim2.new(0, 0, 0, 36)}
-        --     ):Play()
-        --     repeat task.wait() until NotifyFrame.Size == UDim2.new(0, 0, 0, 36)
-        --     NotifyFrame:Destroy()
-        -- end)
+
+
+        Notifyimgframe.Name = "Notifyimgframe"
+        Notifyimgframe.Parent = NotifyFrame
+        Notifyimgframe.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
+        Notifyimgframe.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        Notifyimgframe.BorderSizePixel = 0
+        Notifyimgframe.Position = UDim2.new(0.0305343512, 0, 0.179104477, 0)
+        Notifyimgframe.Size = UDim2.new(0, 43, 0, 42)
+        Notifyimgframe.ZIndex = 2
+        Notifyimgframe.Visible = false
+        
+        NotifyImg.Name = "NotifyImg"
+        NotifyImg.Parent = Notifyimgframe
+        NotifyImg.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
+        NotifyImg.BackgroundTransparency = 1.000
+        NotifyImg.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        NotifyImg.BorderSizePixel = 0
+        NotifyImg.Position = UDim2.new(0.112049192, 0, 0.106940679, 0)
+        NotifyImg.Size = UDim2.new(0, 33, 0, 33)
+        NotifyImg.Image = CustomImg
+        
+        NotifyImgCorner.Name = "NotifyImgCorner"
+        NotifyImgCorner.Parent = NotifyImg
+        
+        NotifyimgframeCorner.Name = "NotifyimgframeCorner"
+        NotifyimgframeCorner.Parent = Notifyimgframe
+        
+        NotifyLine.Name = "NotifyLine"
+        NotifyLine.Parent = NotifyFrame
+        NotifyLine.BackgroundColor3 = Color3.fromRGB(3, 168, 245)
+        NotifyLine.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        NotifyLine.BorderSizePixel = 0
+        NotifyLine.Position = UDim2.new(0, 0, 0.925373137, 0)
+        NotifyLine.Size = UDim2.new(1, 0, 0, 5)
+        
+        NotifyLineCorner.Name = "NotifyLineCorner"
+        NotifyLineCorner.Parent = NotifyLine
+        
+        TitleNotify.Name = "TitleNotify"
+        TitleNotify.Parent = NotifyFrame
+        TitleNotify.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        TitleNotify.BackgroundTransparency = 1.000
+        TitleNotify.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        TitleNotify.BorderSizePixel = 0
+        TitleNotify.Position = UDim2.new(0.231394991, 0, 0.143316701, 0)
+        TitleNotify.Size = UDim2.new(0, 139, 0, 22)
+        TitleNotify.Font = Enum.Font.Gotham
+        TitleNotify.Text = Title
+        TitleNotify.TextColor3 = Color3.fromRGB(255, 255, 255)
+        TitleNotify.TextSize = 15.000
+        TitleNotify.TextWrapped = true
+        TitleNotify.TextXAlignment = Enum.TextXAlignment.Left
+        TitleNotify.Visible = false
+
 
         spawn(function()
         TweenService:Create(
             NotifyFrame,
             TweenInfo.new(.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-            {Size = UDim2.new(0, Description.TextBounds.X + 20, 0, 36)}
+            {Size = UDim2.new(0, Description.TextBounds.X + 200, 0, 67)} -- 262
         ):Play()
-        repeat task.wait() until NotifyFrame.Size == UDim2.new(0, Description.TextBounds.X + 20, 0, 36)
+        repeat task.wait() until NotifyFrame.Size == UDim2.new(0, Description.TextBounds.X + 200, 0, 67)
         Description.Visible = true
-        -- Close.Visible = true
-        task.wait(Time)
+        TitleNotify.Visible = true
+        Notifyimgframe.Visible = true
+        TweenService:Create(
+            NotifyLine,
+            TweenInfo.new(Time, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+            {Size = UDim2.new(0, 0, 0, 5)}
+        ):Play()
+        repeat task.wait() until NotifyLine.Size == UDim2.new(0, 0, 0, 5)
         if AutoClose then
             Description.Visible = false
-            -- Close.Visible = false
+            TitleNotify.Visible = false
+            Notifyimgframe.Visible = false
             TweenService:Create(
                 NotifyFrame,
                 TweenInfo.new(.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-                {Size = UDim2.new(0, 0, 0, 36)}
+                {Size = UDim2.new(0, 0, 0, 67)}
             ):Play()
-            repeat task.wait() until NotifyFrame.Size == UDim2.new(0, 0, 0, 36)
+            repeat task.wait() until NotifyFrame.Size == UDim2.new(0, 0, 0, 67)
             NotifyFrame:Destroy()
         end
     end)
     end
 
     Neverlose_Main:Notify({
+        Title = "Welcome",
         Text = "Welcome | ".. game.Players.LocalPlayer.Name,
         Time = 2
     })
@@ -1343,6 +1390,7 @@ function Neverlose_Main:Window(config)
     Original.MouseButton1Click:Connect(function()
         StyleStroke.Parent = Original
         Neverlose_Main:Notify({
+            Title = "Settings",
             Text = "Feature still in Testing!",
             Time = 2,
             AutoClose = true
@@ -1369,6 +1417,7 @@ function Neverlose_Main:Window(config)
     White.MouseButton1Click:Connect(function()
         StyleStroke.Parent = White
         Neverlose_Main:Notify({
+            Title = "Settings",
             Text = "Feature still in Testing!",
             Time = 2,
             AutoClose = true
@@ -1395,6 +1444,7 @@ function Neverlose_Main:Window(config)
     Black.MouseButton1Click:Connect(function()
         StyleStroke.Parent = Black
         Neverlose_Main:Notify({
+            Title = "Settings",
             Text = "Feature still in Testing!",
             Time = 2,
             AutoClose = true
@@ -1450,6 +1500,7 @@ function Neverlose_Main:Window(config)
     BindsOn.MouseButton1Click:Connect(function()
         BindsStroke.Parent = BindsOn
         Neverlose_Main:Notify({
+            Title = "Settings",
             Text = "Binds ON!",
             Time = 2,
             AutoClose = true
@@ -1477,6 +1528,7 @@ function Neverlose_Main:Window(config)
     BindsOff.MouseButton1Click:Connect(function()
         BindsStroke.Parent = BindsOff
         Neverlose_Main:Notify({
+            Title = "Settings",
             Text = "Binds OFF!",
             Time = 2,
             AutoClose = true
@@ -1893,12 +1945,14 @@ function Neverlose_Main:Window(config)
                             loadfile(v)()
                         end)
                         Neverlose_Main:Notify({
+                            Title = "Settings",
                             Text = file_name_without_extension.." loaded",
                             Time = 2,
                             AutoClose = true
                         })
                         if goo == false then
                             Neverlose_Main:Notify({
+                                Title = "Settings",
                                 Text = "Error: "..file_name_without_extension..bad,
                                 Time = 2,
                                 AutoClose = true
@@ -1925,6 +1979,7 @@ function Neverlose_Main:Window(config)
                             end
                         end
                         Neverlose_Main:Notify({
+                            Title = "Settings",
                             Text = file_name_without_extension.." Unloaded",
                             Time = 2,
                             AutoClose = true
@@ -2009,6 +2064,7 @@ function Neverlose_Main:Window(config)
         
                 DeleteLua.MouseButton1Click:Connect(function()
                     Neverlose_Main:Notify({
+                        Title = "Settings",
                         Text = "Deleted Script!",
                         Time = 2,
                         AutoClose = true
@@ -2025,6 +2081,7 @@ function Neverlose_Main:Window(config)
                         end
                     end
                     Neverlose_Main:Notify({
+                        Title = "Settings",
                         Text = file_name_without_extension.." Unloaded",
                         Time = 2,
                         AutoClose = true
@@ -2048,6 +2105,7 @@ function Neverlose_Main:Window(config)
         
                 EditScript.MouseButton1Click:Connect(function()
                     Neverlose_Main:Notify({
+                        Title = "Settings",
                         Text = "Still in Testing!",
                         Time = 2,
                         AutoClose = true
@@ -2067,6 +2125,7 @@ function Neverlose_Main:Window(config)
         
                 ShareScript.MouseButton1Click:Connect(function()
                     Neverlose_Main:Notify({
+                        Title = "Settings",
                         Text = "Copied to clipboard!",
                         Time = 2,
                         AutoClose = true
@@ -2157,12 +2216,14 @@ function Neverlose_Main:Window(config)
                         loadfile(v)()
                     end)
                     Neverlose_Main:Notify({
+                        Title = "Settings",
                         Text = file_name_without_extension.." loaded",
                         Time = 2,
                         AutoClose = true
                     })
                     if goo == false then
                         Neverlose_Main:Notify({
+                            Title = "Settings",
                             Text = "Error: "..file_name_without_extension..bad,
                             Time = 2,
                             AutoClose = true
@@ -2189,6 +2250,7 @@ function Neverlose_Main:Window(config)
                         end
                     end
                     Neverlose_Main:Notify({
+                        Title = "Settings",
                         Text = file_name_without_extension.." Unloaded",
                         Time = 2,
                         AutoClose = true
@@ -2274,6 +2336,7 @@ function Neverlose_Main:Window(config)
     
             DeleteLua.MouseButton1Click:Connect(function()
                 Neverlose_Main:Notify({
+                    Title = "Settings",
                     Text = "Deleted Script!",
                     Time = 2,
                     AutoClose = true
@@ -2291,6 +2354,7 @@ function Neverlose_Main:Window(config)
                     end
                 end
                 Neverlose_Main:Notify({
+                    Title = "Settings",
                     Text = file_name_without_extension.." Unloaded",
                     Time = 2,
                     AutoClose = true
@@ -2313,6 +2377,7 @@ function Neverlose_Main:Window(config)
     
             EditScript.MouseButton1Click:Connect(function()
                 Neverlose_Main:Notify({
+                    Title = "Settings",
                     Text = "Still in Testing!",
                     Time = 2,
                     AutoClose = true
@@ -2332,6 +2397,7 @@ function Neverlose_Main:Window(config)
     
             ShareScript.MouseButton1Click:Connect(function()
                 Neverlose_Main:Notify({
+                    Title = "Settings",
                     Text = "Copied to clipboard!",
                     Time = 2,
                     AutoClose = true
