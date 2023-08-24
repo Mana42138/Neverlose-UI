@@ -1111,7 +1111,7 @@ function Neverlose_Main:Window(config)
         Description.Text = text
         Description.TextColor3 = Color3.fromRGB(220, 220, 220)
         Description.TextSize = 13.000
-        Description.TextWrapped = true
+        Description.TextWrapped = false
         Description.TextXAlignment = Enum.TextXAlignment.Left
 
 
