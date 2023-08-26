@@ -13,8 +13,10 @@ local Neverlose_Main = {
         HoverSound = "rbxassetid://10066931761",
         ClickSound = "rbxassetid://6895079853",
         PopupSound = "rbxassetid://225320558",
-    }
+    },
+    Targeted_Config = ""
 };
+
 local TweenService = game:GetService("TweenService");
 local UserInputService = game:GetService("UserInputService")
 local req = (syn and syn.request) or (http and http.request) or http_request or nil
@@ -34,7 +36,7 @@ function Neverlose_Main:PlaySound(SoundID)
     sound.SoundId = SoundID
     sound.Looped = false
     sound.Parent = workspace
-    sound.Volume = 100
+    sound.Volume = 50
     sound:Play()
 end
 
@@ -161,6 +163,10 @@ function Neverlose_Main:GetPlayerImage(ID)
     return imageUrl
 end
 
+function Neverlose_Main:SetCFG(name)
+    Neverlose_Main.Targeted_Config = name
+end
+
 function Neverlose_Main:LoadSettings(Folder, CFGName)
 
     local Encoded = readfile(Folder .. "/settings.txt")
@@ -202,6 +208,20 @@ function Neverlose_Main:Window(config)
     
 
     local Folder = tostring(Folder1)
+
+    function Neverlose_Main:GetConfigNames()
+        local ReturnTable = {}
+        local ListScripts = listfiles(Folder.."/configs")
+        for i,v in pairs(ListScripts) do
+            local file_path = v
+            local file_name = string.match(file_path, "[^\\]*$")
+            local file_name_without_extension = string.gsub(file_name, "%..*$", "")
+    
+            table.insert(ReturnTable, file_name_without_extension)
+        end
+        return ReturnTable
+    end
+
     if not isfolder(Folder) then
         makefolder(Folder)
     end
@@ -659,7 +679,7 @@ function Neverlose_Main:Window(config)
     local SettingsFrameLayout = Instance.new("UIListLayout")
     local Settings = Instance.new("ImageButton")
     local Search = Instance.new("ImageButton")
-    local SaveCFG = Instance.new("TextButton")
+    local SaveCFGB = Instance.new("TextButton")
     local SaveCFGStroke = Instance.new("UIStroke")
     local SaveIcon = Instance.new("ImageLabel")
     local SaveCFGPadding = Instance.new("UIPadding")
@@ -964,7 +984,7 @@ function Neverlose_Main:Window(config)
         if SearchToggled == false then
             SearchBar.Visible = true
             TweenService:Create(
-                SaveCFG,
+                SaveCFGB,
                 TweenInfo.new(.6, Enum.EasingStyle.Quad),
                 {Position = UDim2.new(0.711302638, 0, 0.0255102124, 0)}
             ):Play()
@@ -981,7 +1001,7 @@ function Neverlose_Main:Window(config)
             SearchBar.PlaceholderText = ""
             SearchIcon.Visible = false
             TweenService:Create(
-                SaveCFG,
+                SaveCFGB,
                 TweenInfo.new(.6, Enum.EasingStyle.Quad),
                 {Position = UDim2.new(0.0441176482, 0, 0.0255102124, 0)}
             ):Play()
@@ -997,29 +1017,29 @@ function Neverlose_Main:Window(config)
         SearchToggled = not SearchToggled
     end)
     
-    SaveCFG.Name = "SaveCFG"
-    SaveCFG.Parent = MainFrame
-    SaveCFG.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    SaveCFG.BackgroundTransparency = 1.000
-    SaveCFG.BorderColor3 = Color3.fromRGB(48, 168, 254)
-    SaveCFG.BorderSizePixel = 0
-    SaveCFG.Position = UDim2.new(0.0441176482, 0, 0.0255102124, 0)
-    SaveCFG.Size = UDim2.new(0, 104, 0, 36)
-    SaveCFG.AutoButtonColor = false
-    SaveCFG.Font = Enum.Font.GothamBold
-    SaveCFG.Text = "Save"
-    SaveCFG.TextColor3 = Color3.fromRGB(255, 255, 255)
-    SaveCFG.TextSize = 15.000
+    SaveCFGB.Name = "SaveCFG"
+    SaveCFGB.Parent = MainFrame
+    SaveCFGB.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    SaveCFGB.BackgroundTransparency = 1.000
+    SaveCFGB.BorderColor3 = Color3.fromRGB(48, 168, 254)
+    SaveCFGB.BorderSizePixel = 0
+    SaveCFGB.Position = UDim2.new(0.0441176482, 0, 0.0255102124, 0)
+    SaveCFGB.Size = UDim2.new(0, 104, 0, 36)
+    SaveCFGB.AutoButtonColor = false
+    SaveCFGB.Font = Enum.Font.GothamBold
+    SaveCFGB.Text = "Save"
+    SaveCFGB.TextColor3 = Color3.fromRGB(255, 255, 255)
+    SaveCFGB.TextSize = 15.000
 
     SaveCFGStroke.Color = Color3.fromRGB(23, 50, 83)
     SaveCFGStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
     SaveCFGStroke.LineJoinMode = Enum.LineJoinMode.Round
     SaveCFGStroke.Thickness = 1
-    SaveCFGStroke.Parent = SaveCFG
+    SaveCFGStroke.Parent = SaveCFGB
     SaveCFGStroke.Transparency = 0.8
     
     SaveIcon.Name = "SaveIcon"
-    SaveIcon.Parent = SaveCFG
+    SaveIcon.Parent = SaveCFGB
     SaveIcon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     SaveIcon.BackgroundTransparency = 1.000
     SaveIcon.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -1030,12 +1050,12 @@ function Neverlose_Main:Window(config)
     SaveIcon.ImageColor3 = Color3.fromRGB(184, 184, 184)
     
     SaveCFGPadding.Name = "SaveCFGPadding"
-    SaveCFGPadding.Parent = SaveCFG
+    SaveCFGPadding.Parent = SaveCFGB
     SaveCFGPadding.PaddingLeft = UDim.new(0, 12)
     
     SaveCFGCorner.CornerRadius = UDim.new(0, 4)
     SaveCFGCorner.Name = "SaveCFGCorner"
-    SaveCFGCorner.Parent = SaveCFG
+    SaveCFGCorner.Parent = SaveCFGB
     
     ContainerHolder.Name = "ContainerHolder"
     ContainerHolder.Parent = MainFrame
@@ -2911,11 +2931,24 @@ function Neverlose_Main:Window(config)
             writefile(Folder1 .. "/configs/" .. cfg .. ".txt", Encoded)
         end
         
-        SaveCFG.MouseButton1Click:Connect(function()
-            Neverlose_Main:SaveCfg("Mana64")
+        SaveCFGB.MouseButton1Click:Connect(function()
+            if Neverlose_Main.Targeted_Config == "" then
+                Neverlose_Main:Notify({Title = "Neverlose",
+                    Text = 'Please Select a config first!',
+                    Time = 2,
+                    AutoClose = true
+                })
+            else
+                Neverlose_Main:Notify({Title = "Neverlose",
+                    Text = "Saved to: "..tostring(Neverlose_Main.Targeted_Config),
+                    Time = 2,
+                    AutoClose = true
+                })
+                Neverlose_Main:SaveCfg(tostring(Neverlose_Main.Targeted_Config))
+            end
         end)
 
-        SaveCFG.MouseEnter:Connect(function()
+        SaveCFGB.MouseEnter:Connect(function()
             TweenService:Create(
                 SaveCFGStroke,
                 TweenInfo.new(.3, Enum.EasingStyle.Quad),
@@ -2923,7 +2956,7 @@ function Neverlose_Main:Window(config)
             ):Play()
         end)
 
-        SaveCFG.MouseLeave:Connect(function()
+        SaveCFGB.MouseLeave:Connect(function()
             TweenService:Create(
                 SaveCFGStroke,
                 TweenInfo.new(.3, Enum.EasingStyle.Quad),
@@ -3241,6 +3274,8 @@ function Neverlose_Main:Window(config)
                         Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
                         pcall(callback)
                     end)
+                    Section.Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y + 10)
+                    Container.CanvasSize = UDim2.new(0, 0, 0, Container.CanvasSize.Y.Offset + UniNum)
                 end
 
                 function Elements:Toggle(title, callback)
@@ -3385,6 +3420,8 @@ function Neverlose_Main:Window(config)
                     SectionLine.Position = UDim2.new(0.0249999575, 0, 0.73399204, 0)
                     SectionLine.Size = UDim2.new(0.948000014, 0, 0, 1)
 
+                    Section.Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y + 10)
+                    Container.CanvasSize = UDim2.new(0, 0, 0, Container.CanvasSize.Y.Offset + UniNum)
                 end
 
                 function Elements:Dropdown(title, list, callback)
@@ -3593,13 +3630,13 @@ function Neverlose_Main:Window(config)
                         end)
                     end
 
-                    function Dropfunc:Refresh(list)
+                    function Dropfunc:Refresh(newlist)
                         for i,v in pairs(DropdownHolder:GetChildren()) do
                             if v:IsA("TextButton") then
                                 v:Destroy()
                             end
                         end
-                        for i,v in pairs(list) do
+                        for i,v in pairs(newlist) do
                             local Item = Instance.new("TextButton")
                             local ItemPadding = Instance.new("UIPadding")
                             local DropdownHolderPadding = Instance.new("UIPadding")
@@ -3612,9 +3649,9 @@ function Neverlose_Main:Window(config)
                             Item.BorderSizePixel = 0
                             Item.Size = UDim2.new(0, 91, 0, 15)
                             Item.Font = Enum.Font.Gotham
-                            Item.Text = v
+                            Item.Text = "- "..v
                             Item.TextColor3 = Color3.fromRGB(255, 255, 255)
-                            Item.TextSize = 12.000
+                            Item.TextSize = 14
                             Item.TextXAlignment = Enum.TextXAlignment.Left
                             
                             ItemPadding.Name = "ItemPadding"
@@ -3813,6 +3850,90 @@ function Neverlose_Main:Window(config)
 
                     Neverlose_Main.Flags[title] = Sliderfunc
                     return Sliderfunc
+                end
+
+                function Elements:TextBox(title, callback)
+                    local TextBox = Instance.new("TextButton")
+                    local TextBoxCorner = Instance.new("UICorner")
+                    local TextBoxTitle = Instance.new("TextLabel")
+                    local Box = Instance.new("TextBox")
+                    local BoxCorner = Instance.new("UICorner")
+                    local TextBoxStroke = Instance.new("UIStroke")
+                    
+                    TextBox.Name = "TextBox"
+                    TextBox.Parent = Section
+                    TextBox.BackgroundColor3 = Color3.fromRGB(43, 67, 118)
+                    TextBox.BackgroundTransparency = 1.000
+                    TextBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                    TextBox.BorderSizePixel = 0
+                    TextBox.Position = UDim2.new(0.0381034054, 0, 0.327935219, 0)
+                    TextBox.Size = UDim2.new(0, 274, 0, 26)
+                    TextBox.AutoButtonColor = false
+                    TextBox.Font = Enum.Font.Gotham
+                    TextBox.Text = ""
+                    TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+                    TextBox.TextSize = 14.000
+                    
+                    TextBoxCorner.CornerRadius = UDim.new(0, 4)
+                    TextBoxCorner.Name = "TextBoxCorner"
+                    TextBoxCorner.Parent = TextBox
+                    
+                    TextBoxTitle.Name = "TextBoxTitle"
+                    TextBoxTitle.Parent = TextBox
+                    TextBoxTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                    TextBoxTitle.BackgroundTransparency = 1.000
+                    TextBoxTitle.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                    TextBoxTitle.BorderSizePixel = 0
+                    TextBoxTitle.Position = UDim2.new(0.0355987065, 0, 0.233333334, 0)
+                    TextBoxTitle.Size = UDim2.new(0, 49, 0, 15)
+                    TextBoxTitle.Font = Enum.Font.Gotham
+                    TextBoxTitle.Text = title
+                    TextBoxTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+                    TextBoxTitle.TextSize = 13.000
+                    TextBoxTitle.TextXAlignment = Enum.TextXAlignment.Left
+                    TextBoxTitle.TextYAlignment = Enum.TextYAlignment.Top
+                    
+                    Box.Name = "Box"
+                    Box.Parent = TextBox
+                    Box.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                    Box.BackgroundTransparency = 1.000
+                    Box.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                    Box.BorderSizePixel = 0
+                    Box.Position = UDim2.new(0.62156868, 0, 0.153849676, 0)
+                    Box.Size = UDim2.new(0, 100, 0, 20)
+                    Box.Font = Enum.Font.SourceSans
+                    Box.Text = "..."
+                    Box.TextColor3 = Color3.fromRGB(255, 255, 255)
+                    Box.TextSize = 14.000
+
+                    TextBoxStroke.Color = Color3.fromRGB(20, 153, 255)
+                    TextBoxStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+                    TextBoxStroke.LineJoinMode = Enum.LineJoinMode.Round
+                    TextBoxStroke.Thickness = 1
+                    TextBoxStroke.Transparency = 0.8
+                    TextBoxStroke.Parent = Box
+
+                    Box.Changed:Connect(function()
+                        TweenService:Create(
+                            TextBoxStroke,
+                            TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                            {Transparency = 0.1}
+                        ):Play()
+                        task.wait(.1)
+                        TweenService:Create(
+                            TextBoxStroke,
+                            TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                            {Transparency = 0.8}
+                        ):Play()
+                    end)
+
+                    Box.FocusLost:Connect(function()
+                        pcall(callback, Box.Text)
+                    end)
+                    
+                    BoxCorner.CornerRadius = UDim.new(0, 5)
+                    BoxCorner.Name = "BoxCorner"
+                    BoxCorner.Parent = Box
                 end
 
                 -- function Elements:Bind(title, preeset, callback)
@@ -4041,6 +4162,40 @@ function Neverlose_Main:Window(config)
     spawn(function()
         task.wait(.2)
         getgenv().LuaSection = TabsSec:TSection("Lua")
+        local Configs = LuaSection:Tab("Configs")
+        local Sec1 = Configs:Section("Load Config")
+        local Sec2 = Configs:Section("Create Config")
+        
+        Sec2:TextBox("Config Name", function(t)
+            Config_Name = t
+        end)
+        
+        Sec2:Button("Create Config", function()
+            Neverlose_Main:CreateCfg(tostring(Config_Name))
+            Neverlose_Main:Notify({
+                Title = "Neverlose",
+                Text = "Created Config: "..tostring(Config_Name)
+            })
+        end)
+
+        local Configs_Drop = Sec1:Dropdown("Select Config", Neverlose_Main:GetConfigNames(), function(t)
+            Selected_Config = t
+            Neverlose_Main:Notify({Title = "Neverlose",
+                Text = "Targeted CFG: "..tostring(Selected_Config)
+            })
+            Neverlose_Main:SetCFG(tostring(Selected_Config))
+        end)
+
+        Sec1:Button("Refresh Configs", function()
+            Configs_Drop:Refresh(Neverlose_Main:GetConfigNames())
+        end)
+        Sec1:Line()
+        Sec1:Button("Load Selected Config", function()
+            Neverlose_Main:Notify({Title = "Neverlose",
+                Text = "Loaded Config: "..tostring(Selected_Config)
+            })
+            Neverlose_Main:LoadCfg(tostring(Selected_Config))
+        end)
     end)
     return TabsSec
 end
