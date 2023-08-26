@@ -7,7 +7,13 @@ local Neverlose_Main = {
         CloseBind = "RightControl",
     },
     Flags = {},
-    SettingsFlags = {}
+    SettingsFlags = {},
+    Lib_Sounds = {
+        SoundVolume = 0.5,
+        HoverSound = "rbxassetid://10066931761",
+        ClickSound = "rbxassetid://6895079853",
+        PopupSound = "rbxassetid://225320558",
+    }
 };
 local TweenService = game:GetService("TweenService");
 local UserInputService = game:GetService("UserInputService")
@@ -21,6 +27,15 @@ getgenv()[GenerateGUID] = true
 
 if not getgenv()[GenerateGUID] then
     getgenv()[GenerateGUID] = false
+end
+
+function Neverlose_Main:PlaySound(SoundID)
+    local sound = Instance.new("Sound")
+    sound.SoundId = SoundID
+    sound.Looped = false
+    sound.Parent = workspace
+    sound.Volume = 100
+    sound:Play()
 end
 
 local BuildInfo = loadstring(game:HttpGet"https://pastebin.com/raw/HzAeDGm4")()
@@ -416,6 +431,7 @@ function Neverlose_Main:Window(config)
         end
 
         SetupSystemToggle.MouseButton1Click:Connect(function()
+            Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
             SToggled = not SToggled
             SystemTogglefunc:Set(SToggled)
         end)
@@ -523,6 +539,7 @@ function Neverlose_Main:Window(config)
     LoadSettingsCFG("KeyNeverlose")
 
     LoadButton.MouseButton1Click:Connect(function()
+        Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
         if not table.find(KeyAccess, KeyHolderText) then
             TweenService:Create(
                 LoadButton,
@@ -918,6 +935,7 @@ function Neverlose_Main:Window(config)
     Settings.Image = "http://www.roblox.com/asset/?id=6031280882"
 
     Settings.MouseButton1Click:Connect(function()
+        Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
         SettingsToggled = not SettingsToggled
         SettingsFrame.Visible = SettingsToggled
     end)
@@ -942,6 +960,7 @@ function Neverlose_Main:Window(config)
     local SearchToggled = false
 
     Search.MouseButton1Click:Connect(function()
+        Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
         if SearchToggled == false then
             SearchBar.Visible = true
             TweenService:Create(
@@ -997,6 +1016,7 @@ function Neverlose_Main:Window(config)
     SaveCFGStroke.LineJoinMode = Enum.LineJoinMode.Round
     SaveCFGStroke.Thickness = 1
     SaveCFGStroke.Parent = SaveCFG
+    SaveCFGStroke.Transparency = 0.8
     
     SaveIcon.Name = "SaveIcon"
     SaveIcon.Parent = SaveCFG
@@ -1407,6 +1427,7 @@ function Neverlose_Main:Window(config)
     StyleStroke.Parent = Original
 
     Original.MouseButton1Click:Connect(function()
+        Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
         StyleStroke.Parent = Original
         Neverlose_Main:Notify({
             Title = "Settings",
@@ -1434,6 +1455,7 @@ function Neverlose_Main:Window(config)
     White.TextSize = 14.000
 
     White.MouseButton1Click:Connect(function()
+        Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
         StyleStroke.Parent = White
         Neverlose_Main:Notify({
             Title = "Settings",
@@ -1461,6 +1483,7 @@ function Neverlose_Main:Window(config)
     Black.TextSize = 14.000
 
     Black.MouseButton1Click:Connect(function()
+        Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
         StyleStroke.Parent = Black
         Neverlose_Main:Notify({
             Title = "Settings",
@@ -1517,6 +1540,7 @@ function Neverlose_Main:Window(config)
     BindsStroke.Parent = BindsOff
 
     BindsOn.MouseButton1Click:Connect(function()
+        Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
         BindsStroke.Parent = BindsOn
         Neverlose_Main:Notify({
             Title = "Settings",
@@ -1545,6 +1569,7 @@ function Neverlose_Main:Window(config)
     BindsOff.TextSize = 14.000
 
     BindsOff.MouseButton1Click:Connect(function()
+        Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
         BindsStroke.Parent = BindsOff
         Neverlose_Main:Notify({
             Title = "Settings",
@@ -1598,6 +1623,7 @@ function Neverlose_Main:Window(config)
     LuaButtonCode.Image = "http://www.roblox.com/asset/?id=6022668955"
 
     LuaButton.MouseButton1Click:Connect(function()
+        Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
         SettingsFrame.Visible = false
         SettingsToggled = false
         LuaFrame.Visible = true
@@ -1656,6 +1682,7 @@ function Neverlose_Main:Window(config)
     CloseSettings.TextSize = 20.000
 
     CloseSettings.MouseButton1Click:Connect(function()
+        Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
         SettingsFrame.Visible = false
         SettingsToggled = false
     end)
@@ -1728,6 +1755,7 @@ function Neverlose_Main:Window(config)
         CloseLuaFrame.TextSize = 24
 
         CloseLuaFrame.MouseButton1Click:Connect(function()
+            Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
             LuaFrame.Visible = false
         end)
 
@@ -1743,6 +1771,7 @@ function Neverlose_Main:Window(config)
         WriteScript.ImageColor3 = Color3.fromRGB(46, 125, 194)
 
         WriteScript.MouseButton1Click:Connect(function()
+            Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
             WriteScriptFrame.Visible = true
             LuaScriptFrame.Visible = false
         end)
@@ -1812,6 +1841,7 @@ function Neverlose_Main:Window(config)
         WriteButton.TextSize = 14.000
 
         WriteButton.MouseButton1Click:Connect(function()
+            Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
             WriteScriptFrame.Visible = false
             LuaScriptFrame.Visible = true
             writefile(Folder1.."/Scripts/"..NameBox.Text..".txt", WriteBox.Text)
@@ -1835,6 +1865,7 @@ function Neverlose_Main:Window(config)
         CloseWriteFrame.TextSize = 20.000
 
         CloseWriteFrame.MouseButton1Click:Connect(function()
+            Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
             WriteScriptFrame.Visible = false
             LuaScriptFrame.Visible = true
         end)
@@ -1871,6 +1902,7 @@ function Neverlose_Main:Window(config)
         local ListScripts = listfiles(Folder.."/Scripts")
 
         RefreshScripts.MouseButton1Click:Connect(function()
+            Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
             spawn(function()
                 TweenService:Create(
                     RefreshScripts,
@@ -1957,6 +1989,7 @@ function Neverlose_Main:Window(config)
                 LoadScript.TextSize = 14.000
     
                 LoadScript.MouseButton1Click:Connect(function()
+                    Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
                     if LoadText.Text == "Load" then
                         getgenv().Lua = getgenv().LuaSection:Tab(file_name_without_extension)
                         local goo, bad = pcall(function()
@@ -2048,6 +2081,7 @@ function Neverlose_Main:Window(config)
                 local ScriptSettignsToggled = false
 
                 ScriptSettings.MouseButton1Click:Connect(function()
+                    Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
                     ScriptSettignsToggled = not ScriptSettignsToggled
                     SettignsLuaFrame.Visible = ScriptSettignsToggled
                 end)
@@ -2082,6 +2116,7 @@ function Neverlose_Main:Window(config)
                 DeleteLua.ImageColor3 = Color3.fromRGB(255, 69, 72)
         
                 DeleteLua.MouseButton1Click:Connect(function()
+                    Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
                     Neverlose_Main:Notify({
                         Title = "Settings",
                         Text = "Deleted Script!",
@@ -2123,6 +2158,7 @@ function Neverlose_Main:Window(config)
                 EditScript.ImageColor3 = Color3.fromRGB(16, 76, 141)
         
                 EditScript.MouseButton1Click:Connect(function()
+                    Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
                     Neverlose_Main:Notify({
                         Title = "Settings",
                         Text = "Still in Testing!",
@@ -2143,6 +2179,7 @@ function Neverlose_Main:Window(config)
                 ShareScript.ImageColor3 = Color3.fromRGB(16, 76, 141)
         
                 ShareScript.MouseButton1Click:Connect(function()
+                    Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
                     Neverlose_Main:Notify({
                         Title = "Settings",
                         Text = "Copied to clipboard!",
@@ -2228,6 +2265,7 @@ function Neverlose_Main:Window(config)
             LoadScript.TextSize = 14.000
 
             LoadScript.MouseButton1Click:Connect(function()
+                Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
                 if LoadText.Text == "Load" then
                     getgenv().Lua = getgenv().LuaSection:Tab(file_name_without_extension)
                     local goo, bad = pcall(function()
@@ -2320,6 +2358,7 @@ function Neverlose_Main:Window(config)
             local ScriptSettignsToggled = false
 
             ScriptSettings.MouseButton1Click:Connect(function()
+                Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
                 ScriptSettignsToggled = not ScriptSettignsToggled
                 SettignsLuaFrame.Visible = ScriptSettignsToggled
             end)
@@ -2354,6 +2393,7 @@ function Neverlose_Main:Window(config)
             DeleteLua.ImageColor3 = Color3.fromRGB(255, 69, 72)
     
             DeleteLua.MouseButton1Click:Connect(function()
+                Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
                 Neverlose_Main:Notify({
                     Title = "Settings",
                     Text = "Deleted Script!",
@@ -2395,6 +2435,7 @@ function Neverlose_Main:Window(config)
             EditScript.ImageColor3 = Color3.fromRGB(16, 76, 141)
     
             EditScript.MouseButton1Click:Connect(function()
+                Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
                 Neverlose_Main:Notify({
                     Title = "Settings",
                     Text = "Still in Testing!",
@@ -2415,6 +2456,7 @@ function Neverlose_Main:Window(config)
             ShareScript.ImageColor3 = Color3.fromRGB(16, 76, 141)
     
             ShareScript.MouseButton1Click:Connect(function()
+                Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
                 Neverlose_Main:Notify({
                     Title = "Settings",
                     Text = "Copied to clipboard!",
@@ -2423,6 +2465,9 @@ function Neverlose_Main:Window(config)
                 })
                 local readedfile = readfile(v)
                 setclipboard(readedfile)
+            end)
+            ShareScript.MouseEnter:Connect(function()
+                Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.HoverSound)
             end)
         end
         
@@ -2455,9 +2500,14 @@ function Neverlose_Main:Window(config)
         ChatButton.Visible = true
         
         ChatButton.MouseButton1Click:Connect(function()
-            ChatFrame.Visible = true
-            SettingsFrame.Visible = false
-            SettingsToggled = false
+            Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
+            ChatFrame.Visible = false
+            -- SettingsFrame.Visible = false
+            -- SettingsToggled = false
+            Neverlose_Main:Notify({
+                Title = "Neverlose",
+                Text = "Feature Temporarily Disabled!"
+            })
         end)
         
         ChatFrame.Name = "ChatFrame"
@@ -2468,7 +2518,7 @@ function Neverlose_Main:Window(config)
         ChatFrame.BorderSizePixel = 0
         ChatFrame.Position = UDim2.new(1.09486794, 0, 0.171554208, 0)
         ChatFrame.Size = UDim2.new(0, 540, 0, 447)
-        ChatFrame.Visible = true
+        ChatFrame.Visible = false
         MakeDraggable(ChatFrame, ChatFrame)
         
         ChatFrameCorner.CornerRadius = UDim.new(0, 4)
@@ -2522,6 +2572,7 @@ function Neverlose_Main:Window(config)
         CloseChatFrame.TextSize = 20.000
 
         CloseChatFrame.MouseButton1Click:Connect(function()
+            Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
             ChatFrame.Visible = false
         end)
         
@@ -2653,6 +2704,7 @@ function Neverlose_Main:Window(config)
         ClearChat.ImageColor3 = Color3.fromRGB(46, 125, 194)
 
         ClearChat.MouseButton1Click:Connect(function()
+            Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
             for i,v in pairs(ChatFrameFrame:GetChildren()) do
                 if v:IsA("Frame") then
                     v:Destroy()
@@ -2712,6 +2764,7 @@ function Neverlose_Main:Window(config)
         SendChatButton.ImageColor3 = Color3.fromRGB(46, 125, 194)
 
         SendChatButton.MouseButton1Click:Connect(function()
+            Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
             local Data = HttpService:JSONEncode({
                 msg = ChatBoxText.Text
             })
@@ -2859,6 +2912,7 @@ function Neverlose_Main:Window(config)
         end
         
         SaveCFG.MouseButton1Click:Connect(function()
+            Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
             Neverlose_Main:SaveCfg("Mana64")
         end)
 
@@ -2866,7 +2920,7 @@ function Neverlose_Main:Window(config)
             TweenService:Create(
                 SaveCFGStroke,
                 TweenInfo.new(.3, Enum.EasingStyle.Quad),
-                {Thickness = 2}
+                {Transparency = 0}
             ):Play()
         end)
 
@@ -2874,7 +2928,7 @@ function Neverlose_Main:Window(config)
             TweenService:Create(
                 SaveCFGStroke,
                 TweenInfo.new(.3, Enum.EasingStyle.Quad),
-                {Thickness = 1}
+                {Transparency = 0.8}
             ):Play()
         end)
 
@@ -2971,6 +3025,7 @@ function Neverlose_Main:Window(config)
             end
 
             Tab.MouseButton1Click:Connect(function()
+                Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
                 for i,v in pairs(ContainerHolder:GetChildren()) do
                     if v:IsA("ScrollingFrame") then
                         v.Visible = false
@@ -3083,6 +3138,7 @@ function Neverlose_Main:Window(config)
                 SectionLayout.Parent = Section
                 SectionLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
                 SectionLayout.SortOrder = Enum.SortOrder.LayoutOrder
+                SectionLayout.Padding = UDim.new(0, 8)
                 
                 SectionCorner.CornerRadius = UDim.new(0, 8)
                 SectionCorner.Name = "SectionCorner"
@@ -3119,6 +3175,75 @@ function Neverlose_Main:Window(config)
                 local Global_X_Size = 10
 
                 local Elements = {}
+
+                function Elements:Button(title, callback)
+
+                    local Button = Instance.new("TextButton")
+                    local ButtonCorner = Instance.new("UICorner")
+                    local ButtonTitle = Instance.new("TextLabel")
+                    local ButtonStroke = Instance.new("UIStroke")
+
+                    Button.Name = "Button"
+                    Button.Parent = Section
+                    Button.BackgroundColor3 = Color3.fromRGB(43, 67, 118)
+                    Button.BackgroundTransparency = 1.000
+                    Button.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                    Button.BorderSizePixel = 0
+                    Button.Position = UDim2.new(0.0381034054, 0, 0.327935219, 0)
+                    Button.Size = UDim2.new(0, 274, 0, 26)
+                    Button.AutoButtonColor = false
+                    Button.Font = Enum.Font.Gotham
+                    Button.Text = ""
+                    Button.TextColor3 = Color3.fromRGB(255, 255, 255)
+                    Button.TextSize = 14.000
+
+                    ButtonCorner.CornerRadius = UDim.new(0, 4)
+                    ButtonCorner.Name = "ButtonCorner"
+                    ButtonCorner.Parent = Button
+
+                    ButtonTitle.Name = "ButtonTitle"
+                    ButtonTitle.Parent = Button
+                    ButtonTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                    ButtonTitle.BackgroundTransparency = 1.000
+                    ButtonTitle.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                    ButtonTitle.BorderSizePixel = 0
+                    ButtonTitle.Position = UDim2.new(0.0355987065, 0, 0.233333334, 0)
+                    ButtonTitle.Size = UDim2.new(0, 49, 0, 15)
+                    ButtonTitle.Font = Enum.Font.Gotham
+                    ButtonTitle.Text = title
+                    ButtonTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+                    ButtonTitle.TextSize = 13.000
+                    ButtonTitle.TextXAlignment = Enum.TextXAlignment.Left
+                    ButtonTitle.TextYAlignment = Enum.TextYAlignment.Top
+
+                    ButtonStroke.Color = Color3.fromRGB(20, 153, 255)
+                    ButtonStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+                    ButtonStroke.LineJoinMode = Enum.LineJoinMode.Round
+                    ButtonStroke.Thickness = 1
+                    ButtonStroke.Transparency = 0.8
+                    ButtonStroke.Parent = Button
+
+                    Button.MouseEnter:Connect(function()
+                        TweenService:Create(
+                            ButtonStroke,
+                            TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                            {Transparency = 0.1}
+                        ):Play()
+                    end)
+
+                    Button.MouseLeave:Connect(function()
+                        TweenService:Create(
+                            ButtonStroke,
+                            TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                            {Transparency = 0.8}
+                        ):Play()
+                    end)
+                    Button.MouseButton1Click:Connect(function()
+                        Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
+                        pcall(callback)
+                    end)
+                end
+
                 function Elements:Toggle(title, callback)
                     local Togglefunc, Toggled = {Value = false}, false
 
@@ -3153,7 +3278,7 @@ function Neverlose_Main:Window(config)
                     Toggle.BorderColor3 = Color3.fromRGB(0, 0, 0)
                     Toggle.BorderSizePixel = 0
                     Toggle.Position = UDim2.new(0.0171875004, 0, 0, 0)
-                    Toggle.Size = UDim2.new(0, 274, 0, 30)
+                    Toggle.Size = UDim2.new(0, 274, 0, 26)
                     Toggle.AutoButtonColor = false
                     Toggle.Font = Enum.Font.SourceSans
                     Toggle.Text = ""
@@ -3234,6 +3359,7 @@ function Neverlose_Main:Window(config)
                     end
 
                     Toggle.MouseButton1Click:Connect(function()
+                        Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
                         Toggled = not Toggled
                         Togglefunc:Set(Toggled)
                         if Toggled then
@@ -3270,7 +3396,7 @@ function Neverlose_Main:Window(config)
                     Dropdown.BorderColor3 = Color3.fromRGB(0, 0, 0)
                     Dropdown.BorderSizePixel = 0
                     Dropdown.Position = UDim2.new(0.0171875004, 0, 0, 0)
-                    Dropdown.Size = UDim2.new(0, 274, 0, 30)
+                    Dropdown.Size = UDim2.new(0, 274, 0, 26)
                     Dropdown.AutoButtonColor = false
                     Dropdown.Font = Enum.Font.SourceSans
                     Dropdown.Text = ""
@@ -3362,6 +3488,7 @@ function Neverlose_Main:Window(config)
                     Container.CanvasSize = UDim2.new(0, 0, 0, Container.CanvasSize.Y.Offset + UniNum)
 
                     Dropdown.MouseButton1Click:Connect(function()
+                        Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
                         if DropToggled == false then
                             DropdownFrameHold.Visible = true
                             TweenService:Create(
@@ -3433,6 +3560,7 @@ function Neverlose_Main:Window(config)
                         DropdownHolder.CanvasSize = UDim2.new(0, 0, 0, DropdownHolderLayout.AbsoluteContentSize.Y + 10)
 
                         Item.MouseButton1Click:Connect(function()
+                            Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
                             Dropfunc:Set(v)
                             TweenService:Create(
                                 DropdownFrameHold,
@@ -3486,6 +3614,7 @@ function Neverlose_Main:Window(config)
                             DropdownHolderPadding.PaddingTop = UDim.new(0, 1)
     
                             Item.MouseButton1Click:Connect(function()
+                                Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
                                 Dropfunc:Set(v)
                                 TweenService:Create(
                                     DropdownFrameHold,
@@ -3529,7 +3658,7 @@ function Neverlose_Main:Window(config)
                     Slider.BorderColor3 = Color3.fromRGB(0, 0, 0)
                     Slider.BorderSizePixel = 0
                     Slider.Position = UDim2.new(0.0171875004, 0, 0, 0)
-                    Slider.Size = UDim2.new(0, 274, 0, 30)
+                    Slider.Size = UDim2.new(0, 274, 0, 26)
                     Slider.AutoButtonColor = false
                     Slider.Font = Enum.Font.SourceSans
                     Slider.Text = ""
@@ -3696,7 +3825,7 @@ function Neverlose_Main:Window(config)
                 --     Bind.BorderColor3 = Color3.fromRGB(0, 0, 0)
                 --     Bind.BorderSizePixel = 0
                 --     Bind.Position = UDim2.new(-0.001754386, 0, 0.375, 0)
-                --     Bind.Size = UDim2.new(0, 274, 0, 30)
+                --     Bind.Size = UDim2.new(0, 274, 0, 26)
                 --     Bind.AutoButtonColor = false
                 --     Bind.Font = Enum.Font.SourceSans
                 --     Bind.Text = ""
@@ -3819,7 +3948,7 @@ function Neverlose_Main:Window(config)
                 --             Section.Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y + 10)
                 --         else
                 --             ChangeVersion.Visible = false
-                --             Bind.Size = UDim2.new(0, 274, 0, 30)
+                --             Bind.Size = UDim2.new(0, 274, 0, 26)
                 --             Section.Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y + 10)
                 --         end
                 --         BindVerToggled = not BindVerToggled
@@ -3829,25 +3958,25 @@ function Neverlose_Main:Window(config)
                 --         BindText.Text = "None"
                 --         ChangeVersion.Visible = false
                 --         BindVerToggled = false
-                --         Bind.Size = UDim2.new(0, 274, 0, 30)
+                --         Bind.Size = UDim2.new(0, 274, 0, 26)
                 --     end)
                 --     Hold.MouseButton1Click:Connect(function()
                 --         BindText.Text = ""
                 --         ChangeVersion.Visible = false
                 --         BindVerToggled = false
-                --         Bind.Size = UDim2.new(0, 274, 0, 30)
+                --         Bind.Size = UDim2.new(0, 274, 0, 26)
                 --     end)
                 --     Toggle_2.MouseButton1Click:Connect(function()
                 --         BindText.Text = ""
                 --         ChangeVersion.Visible = false
                 --         BindVerToggled = false
-                --         Bind.Size = UDim2.new(0, 274, 0, 30)
+                --         Bind.Size = UDim2.new(0, 274, 0, 26)
                 --     end)
                 --     Always.MouseButton1Click:Connect(function()
                 --         BindText.Text = "Always"
                 --         ChangeVersion.Visible = false
                 --         BindVerToggled = false
-                --         Bind.Size = UDim2.new(0, 274, 0, 30)
+                --         Bind.Size = UDim2.new(0, 274, 0, 26)
                 --     end)
 
                 --     Bind.MouseButton1Click:Connect(function()
