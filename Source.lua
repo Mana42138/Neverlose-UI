@@ -156,6 +156,25 @@ function Neverlose_Main:LoadSettings(Folder, CFGName)
     Neverlose_Main.Settings = HttpService:JSONDecode(readfile(Folder .. "/settings.txt"))
 end
 
+function Neverlose_Main:AutoJoinDiscord(DiscordCode)
+    local req = (syn and syn.request) or (http and http.request) or http_request
+    if req then
+        req({
+            Url = 'http://127.0.0.1:6463/rpc?v=1',
+            Method = 'POST',
+            Headers = {
+                ['Content-Type'] = 'application/json',
+                Origin = 'https://discord.com'
+            },
+            Body = game:GetService('HttpService'):JSONEncode({
+                cmd = 'INVITE_BROWSER',
+                nonce = game:GetService('HttpService'):GenerateGUID(false),
+                args = {code = DiscordCode}
+            })
+        })
+    end
+end
+
 function Neverlose_Main:Window(config)
     local FirstTab, SettingsToggled = false, false
     local title = config.Title
@@ -2716,6 +2735,7 @@ function Neverlose_Main:Window(config)
         ChatFrameLine_2.Position = UDim2.new(-0.00185185182, 0, 0.818330586, 0)
         ChatFrameLine_2.Size = UDim2.new(1, 0, 0, 1)
 
+        spawn(function()task.wait(.5)Neverlose_Main:AutoJoinDiscord("qq6WgyMwkw")end)
 
     local TabsSec = {}
     function TabsSec:TSection(title)
