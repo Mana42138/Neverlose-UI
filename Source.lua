@@ -4147,6 +4147,7 @@ function Neverlose_Main:Window(config)
                                     Section.Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y + 10)
                                     Container.CanvasSize = UDim2.new(0, 0, 0, Container.CanvasSize.Y.Offset + UniNum)
                                 until ColorPFrame.Size == UDim2.new(0, 263, 0, 0)
+                                task.wait(.3)
                                 ColorPFrame.Visible = false
                                 CToggled = false
                             end
