@@ -14,7 +14,15 @@ local Neverlose_Main = {
         ClickSound = "rbxassetid://6895079853",
         PopupSound = "rbxassetid://225320558",
     },
-    Targeted_Config = ""
+    Targeted_Config = "",
+    Theme = {
+        Custom = {
+            Background = Color3.fromRGB(9, 9, 13),
+            Section = Color3.fromRGB(0, 20, 40),
+            Element = Color3.fromRGB(61, 133, 224),
+            Text = Color3.fromRGB(255,255,255)
+        }
+    }
 };
 
 local TweenService = game:GetService("TweenService");
@@ -198,6 +206,22 @@ function Neverlose_Main:AutoJoinDiscord(DiscordCode)
     end
 end
 
+function ChangeTypeText(object)
+    TweenService:Create(
+        object,
+    TweenInfo.new(.3, Enum.EasingStyle.Quad),
+    {TextColor3 = Neverlose_Main.Theme.Custom.Text}
+):Play()
+end
+
+function ChangeTypeElement(object)
+    TweenService:Create(
+        object,
+        TweenInfo.new(.3, Enum.EasingStyle.Quad),
+        {BackgroundColor3 = Neverlose_Main.Theme.Custom.Element}
+    ):Play()
+end
+
 function Neverlose_Main:Window(config)
     local FirstTab, SettingsToggled = false, false
     local title = config.Title
@@ -318,12 +342,14 @@ function Neverlose_Main:Window(config)
 
     KeyFrame.Name = "KeyFrame"
     KeyFrame.Parent = Neverlose
-    KeyFrame.BackgroundColor3 = Color3.fromRGB(9, 9, 13)
+    -- KeyFrame.BackgroundColor3 = Color3.fromRGB(9, 9, 13)
     KeyFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
     KeyFrame.BorderSizePixel = 0
     KeyFrame.Position = UDim2.new(0.294258386, 0, 0.233333334, 0)
     KeyFrame.Size = UDim2.new(0, 661, 0, 431)
     KeyFrame.Visible = Allow_KeySystem
+
+
     
     KeyTitle.Name = "KeyTitle"
     KeyTitle.Parent = KeyFrame
@@ -1443,6 +1469,7 @@ function Neverlose_Main:Window(config)
     Style.TextColor3 = Color3.fromRGB(255, 255, 255)
     Style.TextSize = 14.000
     Style.TextXAlignment = Enum.TextXAlignment.Left
+    Style.Visible = false
     
     Original.Name = "Original"
     Original.Parent = Style
@@ -3195,6 +3222,18 @@ function Neverlose_Main:Window(config)
                 SectionCorner.Name = "SectionCorner"
                 SectionCorner.Parent = Section
 
+                spawn(function()
+                    while task.wait(.1) do
+                        pcall(function()
+                            TweenService:Create(
+                                Section,
+                                TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                                {BackgroundColor3 = Neverlose_Main.Theme.Custom.Section}
+                            ):Play()
+                        end)
+                    end
+                end)
+
                 Section.Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y + 10)
                 Container.CanvasSize = UDim2.new(0, 0, 0, Container.CanvasSize.Y.Offset + 50)
 
@@ -3266,6 +3305,15 @@ function Neverlose_Main:Window(config)
                     ButtonTitle.TextSize = 13.000
                     ButtonTitle.TextXAlignment = Enum.TextXAlignment.Left
                     ButtonTitle.TextYAlignment = Enum.TextYAlignment.Top
+
+                    spawn(function()
+                        while task.wait(.1) do
+                            pcall(function()
+                                ChangeTypeText(ButtonTitle)
+                                ButtonStroke.Color = Neverlose_Main.Theme.Custom.Element
+                            end)
+                        end
+                    end)
 
                     ButtonStroke.Color = Color3.fromRGB(20, 153, 255)
                     ButtonStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
@@ -3378,6 +3426,14 @@ function Neverlose_Main:Window(config)
                     Section.Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y + 10)
                     Container.CanvasSize = UDim2.new(0, 0, 0, Container.CanvasSize.Y.Offset + UniNum)
 
+                    spawn(function()
+                        while task.wait(.1) do
+                            pcall(function()
+                                ChangeTypeText(ToggleTitle)
+                            end)
+                        end
+                    end)
+
                     function Togglefunc:Set(val)
                         Togglefunc.Value = val
                         if Togglefunc.Value then
@@ -3386,11 +3442,7 @@ function Neverlose_Main:Window(config)
                                 TweenInfo.new(.4, Enum.EasingStyle.Quad),
                                 {Position = UDim2.new(0, 20, -0.0588235296, 0)}
                             ):Play()
-                            TweenService:Create(
-                                ToggleDot,
-                                TweenInfo.new(.4, Enum.EasingStyle.Quad),
-                                {BackgroundColor3 = Color3.fromRGB(61, 133, 224)}
-                            ):Play()
+
                             ToggledText.Text = title.. " | <font color='rgb(50,255,50)'>ON</font>"
                             ToggledText.Visible = true
                         else
@@ -3421,6 +3473,20 @@ function Neverlose_Main:Window(config)
                         else
                             ToggledText.Text = title.. " | <font color='rgb(255,50,50)'>OFF</font>"
                             ToggledText.Visible = false
+                        end
+                    end)
+
+                    spawn(function()
+                        while task.wait(.1) do
+                            if Toggled then
+                                pcall(function()
+                                    TweenService:Create(
+                                        ToggleDot,
+                                        TweenInfo.new(.4, Enum.EasingStyle.Quad),
+                                        {BackgroundColor3 = Neverlose_Main.Theme.Custom.Element}
+                                    ):Play()
+                                end)
+                            end
                         end
                     end)
 
@@ -3516,7 +3582,7 @@ function Neverlose_Main:Window(config)
                     ItemSelected.Position = UDim2.new(0.0700000003, 0, 0.200000003, 0)
                     ItemSelected.Size = UDim2.new(0, 31, 0, 9)
                     ItemSelected.Font = Enum.Font.Gotham
-                    ItemSelected.Text = "Texture"
+                    ItemSelected.Text = ""
                     ItemSelected.TextColor3 = Color3.fromRGB(255, 255, 255)
                     ItemSelected.TextSize = 12.000
                     ItemSelected.TextXAlignment = Enum.TextXAlignment.Left
@@ -3554,6 +3620,15 @@ function Neverlose_Main:Window(config)
 
                     Section.Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y + 10)
                     Container.CanvasSize = UDim2.new(0, 0, 0, Container.CanvasSize.Y.Offset + UniNum)
+
+                    spawn(function()
+                        while task.wait(.1) do
+                            pcall(function()
+                                ChangeTypeText(DropdownTitle)
+                                Arrow.ImageColor3 = Neverlose_Main.Theme.Custom.Element
+                            end)
+                        end
+                    end)
 
                     Dropdown.MouseButton1Click:Connect(function()
                         Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
@@ -3788,6 +3863,16 @@ function Neverlose_Main:Window(config)
                     Section.Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y + 10)
                     Container.CanvasSize = UDim2.new(0, 0, 0, Container.CanvasSize.Y.Offset + UniNum)
 
+                    spawn(function()
+                        while task.wait(.1) do
+                            pcall(function()
+                                ChangeTypeText(SliderTitle)
+                                ChangeTypeText(Value)
+                                ChangeTypeElement(SliderDot)
+                            end)
+                        end
+                    end)
+
                     -- local function updateDotPositionFromValue(value)
                     --     local sliderWidth = SliderFrame.AbsoluteSize.X
                     --     local sliderDotWidth = SliderDot.AbsoluteSize.X
@@ -3934,6 +4019,14 @@ function Neverlose_Main:Window(config)
 
                     Section.Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y + 10)
                     Container.CanvasSize = UDim2.new(0, 0, 0, Container.CanvasSize.Y.Offset + UniNum)
+
+                    spawn(function()
+                        while task.wait(.1) do
+                            pcall(function()
+                                ChangeTypeText(TextBoxTitle)
+                            end)
+                        end
+                    end)
 
                     Box.Changed:Connect(function()
                         TweenService:Create(
@@ -4084,6 +4177,19 @@ function Neverlose_Main:Window(config)
                     ColorClose.TextColor3 = Color3.fromRGB(20, 120, 213)
                     ColorClose.TextSize = 14.000
 
+                    spawn(function()
+                        while task.wait(.1) do
+                            pcall(function()
+                                TweenService:Create(
+                                    ColorpreviewStroke,
+                                    TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                                    {Color = Neverlose_Main.Theme.Custom.Element}
+                                ):Play()
+                                ChangeTypeText(ColorpickerTitle)
+                            end)
+                        end
+                    end)
+
                     ColorClose.MouseButton1Click:Connect(function()
                         if CToggled == true then
                             TweenService:Create(
@@ -4098,8 +4204,8 @@ function Neverlose_Main:Window(config)
                                 end
                             end
                             repeat task.wait()
-                                Section.Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y + 10)
-                                Container.CanvasSize = UDim2.new(0, 0, 0, Container.CanvasSize.Y.Offset + UniNum)
+                                Section.Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y)
+                                Container.CanvasSize = UDim2.new(0, 0, 0, Container.CanvasSize.Y.Offset)
                             until ColorPFrame.Size == UDim2.new(0, 263, 0, 0)
                             ColorPFrame.Visible = false
                             CToggled = false
@@ -4123,8 +4229,8 @@ function Neverlose_Main:Window(config)
                                 end
                             end)
                             repeat task.wait()
-                                Section.Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y + 10)
-                                Container.CanvasSize = UDim2.new(0, 0, 0, Container.CanvasSize.Y.Offset + UniNum)
+                                Section.Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y)
+                                Container.CanvasSize = UDim2.new(0, 0, 0, Container.CanvasSize.Y.Offset)
                             until ColorPFrame.Size == UDim2.new(0, 263, 0, 163)
                             CToggled = true
 
@@ -4144,8 +4250,8 @@ function Neverlose_Main:Window(config)
                                     end
                                 end)
                                 repeat task.wait()
-                                    Section.Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y + 10)
-                                    Container.CanvasSize = UDim2.new(0, 0, 0, Container.CanvasSize.Y.Offset + UniNum)
+                                    Section.Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y)
+                                    Container.CanvasSize = UDim2.new(0, 0, 0, Container.CanvasSize.Y.Offset)
                                 until ColorPFrame.Size == UDim2.new(0, 263, 0, 0)
                                 task.wait(.3)
                                 ColorPFrame.Visible = false
@@ -4280,11 +4386,6 @@ function Neverlose_Main:Window(config)
                             Colorpreview.BackgroundColor3 = Color3.fromHSV(ColorH, ColorS, ColorV)
                             ChoseColor.BackgroundColor3 = Color3.fromHSV(ColorH, 1, 1)
                             ColorValue.Text = Colorpickerfunc:GetFromRGBText(Colorpreview.BackgroundColor3)
-                            TweenService:Create(
-                                ColorpreviewStroke,
-                                TweenInfo.new(.3, Enum.EasingStyle.Quad),
-                                {Color = Colorpreview.BackgroundColor3}
-                            ):Play()
                         
                             pcall(callback, Colorpreview.BackgroundColor3)
                         end
@@ -4335,11 +4436,6 @@ function Neverlose_Main:Window(config)
                                             TweenInfo.new(.3, Enum.EasingStyle.Quad),
                                             {BackgroundColor3 = newColor}
                                         ):Play()
-                                        -- TweenService:Create(
-                                        --     ColorpreviewStroke,
-                                        --     TweenInfo.new(.3, Enum.EasingStyle.Quad),
-                                        --     {Color = newColor}
-                                        -- ):Play()
 
                                         TweenService:Create(
                                             Colorpreview,
@@ -4670,6 +4766,7 @@ function Neverlose_Main:Window(config)
         local Configs = LuaSection:Tab("Configs")
         local Sec1 = Configs:Section("Load Config")
         local Sec2 = Configs:Section("Create Config")
+        local Sec3 = Configs:Section("UI Color")
         
         Sec2:TextBox("Config Name", function(t)
             Config_Name = t
@@ -4701,6 +4798,36 @@ function Neverlose_Main:Window(config)
             })
             Neverlose_Main:LoadCfg(tostring(Selected_Config))
         end)
+        Sec3:Colorpicker("Background", Neverlose_Main.Theme.Custom.Background, function(t)
+            Neverlose_Main.Theme.Custom.Background = t
+        end)
+        Sec3:Colorpicker("Section", Neverlose_Main.Theme.Custom.Section, function(t)
+            Neverlose_Main.Theme.Custom.Section = t
+        end)
+        Sec3:Colorpicker("Element", Neverlose_Main.Theme.Custom.Element, function(t)
+            Neverlose_Main.Theme.Custom.Element = t
+        end)
+        Sec3:Colorpicker("Text", Neverlose_Main.Theme.Custom.Text, function(t)
+            Neverlose_Main.Theme.Custom.Text = t
+        end)
+    end)
+    spawn(function()
+        while task.wait(.1) do
+            pcall(function()
+                --// Background \\--
+                KeyFrame.BackgroundColor3 = Neverlose_Main.Theme.Custom.Background
+                MainFrame.BackgroundColor3 = Neverlose_Main.Theme.Custom.Background
+                LeftFrame.BackgroundColor3 = Neverlose_Main.Theme.Custom.Background
+
+                --// Section \\--
+
+
+                --// Element \\
+                -- Neverlose_Main.Theme.Custom.Section
+                -- Neverlose_Main.Theme.Custom.Element
+                -- Neverlose_Main.Theme.Custom.Text
+            end)
+        end
     end)
     return TabsSec
 end
