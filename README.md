@@ -99,6 +99,23 @@ Config:Colorpicker("Background", Color3.fromRGB(0,20,38), function(t)
 end)
 ```
 
+## Creating KeyBinds
+
+```lua
+Config:Bind("On-Shot", function(t)
+    print("Lol", tostring(t))
+end, {
+    { -- This is each keybind you want to setup when the user executes your script!
+        key = Enum.KeyCode.P, -- Set the start key (the user can change this)
+        Toggled = false -- set true if you want it to be toggled (the user can change this)
+    },
+    {
+        key = Enum.KeyCode.R,
+        Toggled = true
+    }
+})
+```
+
 # Lua Scripting
 ## Setting up the Menu hook kinda
 This is a must-have when scripting with Neverlose. It's like requiring a module script. The script auto-sets up a Tab based on your file name:
