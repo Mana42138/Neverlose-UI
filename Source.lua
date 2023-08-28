@@ -20,10 +20,22 @@ local Neverlose_Main = {
             Background = Color3.fromRGB(9, 9, 13),
             Section = Color3.fromRGB(0, 20, 40),
             Element = Color3.fromRGB(61, 133, 224),
-            Text = Color3.fromRGB(255,255,255)
+            Text = Color3.fromRGB(255,255,255),
+            Glow = Color3.fromRGB(14, 191, 255)
         }
     }
 };
+
+local WhitelistedMouse = {Enum.UserInputType.MouseButton1, Enum.UserInputType.MouseButton2,Enum.UserInputType.MouseButton3}
+local BlacklistedKeys = {Enum.KeyCode.Unknown,Enum.KeyCode.W,Enum.KeyCode.A,Enum.KeyCode.S,Enum.KeyCode.D,Enum.KeyCode.Up,Enum.KeyCode.Left,Enum.KeyCode.Down,Enum.KeyCode.Right,Enum.KeyCode.Slash,Enum.KeyCode.Tab,Enum.KeyCode.Backspace,Enum.KeyCode.Escape}
+
+local function CheckKey(tab, key)
+	for i, v in next, tab do
+		if v == key then
+			return true
+		end
+	end
+end
 
 local TweenService = game:GetService("TweenService");
 local UserInputService = game:GetService("UserInputService")
@@ -342,7 +354,7 @@ function Neverlose_Main:Window(config)
 
     KeyFrame.Name = "KeyFrame"
     KeyFrame.Parent = Neverlose
-    -- KeyFrame.BackgroundColor3 = Color3.fromRGB(9, 9, 13)
+    KeyFrame.BackgroundColor3 = Color3.fromRGB(9, 9, 13)
     KeyFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
     KeyFrame.BorderSizePixel = 0
     KeyFrame.Position = UDim2.new(0.294258386, 0, 0.233333334, 0)
@@ -779,6 +791,7 @@ function Neverlose_Main:Window(config)
     local WriteButtonCorner = Instance.new("UICorner")
     local CloseWriteFrame = Instance.new("TextButton")
     
+    local MainFrameGlow = Instance.new("ImageLabel")
 
 
     local MenuToggled = false
@@ -798,6 +811,19 @@ function Neverlose_Main:Window(config)
     MainFrame.Position = UDim2.new(0.346565127, 0, 0.107407406, 0)
     MainFrame.Size = UDim2.new(0, 643, 0, 682)
     MainFrame.ZIndex = 0
+
+    MainFrameGlow.Name = "MainFrameGlow"
+    MainFrameGlow.Parent = MainFrame
+    MainFrameGlow.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    MainFrameGlow.BackgroundTransparency = 1.000
+    MainFrameGlow.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    MainFrameGlow.BorderSizePixel = 0
+    MainFrameGlow.Position = UDim2.new(-0.386666149, 0, -0.0513999686, 0)
+    MainFrameGlow.Size = UDim2.new(0, 939, 0, 754)
+    MainFrameGlow.ZIndex = -1
+    MainFrameGlow.Image = "rbxassetid://4996891970"
+    MainFrameGlow.ImageColor3 = Color3.fromRGB(16, 129, 250)
+    MainFrameGlow.ImageTransparency = 0.52
     
     LeftFrame.Name = "LeftFrame"
     LeftFrame.Parent = MainFrame
@@ -987,13 +1013,6 @@ function Neverlose_Main:Window(config)
         
         SettingsToggled = not SettingsToggled
         SettingsFrame.Visible = SettingsToggled
-    end)
-
-    UserInputService.InputBegan:Connect(function(input, pressed)
-        if input.KeyCode == KeyBind then
-            MainFrame.Visible = MenuToggled
-            MenuToggled = not MenuToggled
-        end
     end)
     
     Search.Name = "Search"
@@ -1298,12 +1317,6 @@ function Neverlose_Main:Window(config)
     Neverlose_Main:Notify({
         Title = "Welcome",
         Text = "Welcome | ".. game.Players.LocalPlayer.Name,
-        Time = 2
-    })
-    task.wait(.5)
-    Neverlose_Main:Notify({
-        Title = "Welcome",
-        Text = "Menu Key | ".. KeyCodeToText(KeyBind),
         Time = 2
     })
     end)
@@ -3223,7 +3236,7 @@ function Neverlose_Main:Window(config)
                 SectionCorner.Parent = Section
 
                 spawn(function()
-                    while task.wait(.1) do
+                    while task.wait() do
                         pcall(function()
                             TweenService:Create(
                                 Section,
@@ -3307,7 +3320,7 @@ function Neverlose_Main:Window(config)
                     ButtonTitle.TextYAlignment = Enum.TextYAlignment.Top
 
                     spawn(function()
-                        while task.wait(.1) do
+                        while task.wait() do
                             pcall(function()
                                 ChangeTypeText(ButtonTitle)
                                 ButtonStroke.Color = Neverlose_Main.Theme.Custom.Element
@@ -3427,7 +3440,7 @@ function Neverlose_Main:Window(config)
                     Container.CanvasSize = UDim2.new(0, 0, 0, Container.CanvasSize.Y.Offset + UniNum)
 
                     spawn(function()
-                        while task.wait(.1) do
+                        while task.wait() do
                             pcall(function()
                                 ChangeTypeText(ToggleTitle)
                             end)
@@ -3477,7 +3490,7 @@ function Neverlose_Main:Window(config)
                     end)
 
                     spawn(function()
-                        while task.wait(.1) do
+                        while task.wait() do
                             if Toggled then
                                 pcall(function()
                                     TweenService:Create(
@@ -3622,7 +3635,7 @@ function Neverlose_Main:Window(config)
                     Container.CanvasSize = UDim2.new(0, 0, 0, Container.CanvasSize.Y.Offset + UniNum)
 
                     spawn(function()
-                        while task.wait(.1) do
+                        while task.wait() do
                             pcall(function()
                                 ChangeTypeText(DropdownTitle)
                                 Arrow.ImageColor3 = Neverlose_Main.Theme.Custom.Element
@@ -3864,7 +3877,7 @@ function Neverlose_Main:Window(config)
                     Container.CanvasSize = UDim2.new(0, 0, 0, Container.CanvasSize.Y.Offset + UniNum)
 
                     spawn(function()
-                        while task.wait(.1) do
+                        while task.wait() do
                             pcall(function()
                                 ChangeTypeText(SliderTitle)
                                 ChangeTypeText(Value)
@@ -4021,7 +4034,7 @@ function Neverlose_Main:Window(config)
                     Container.CanvasSize = UDim2.new(0, 0, 0, Container.CanvasSize.Y.Offset + UniNum)
 
                     spawn(function()
-                        while task.wait(.1) do
+                        while task.wait() do
                             pcall(function()
                                 ChangeTypeText(TextBoxTitle)
                             end)
@@ -4137,6 +4150,7 @@ function Neverlose_Main:Window(config)
                     ColorpreviewCorner.Name = "ColorpreviewCorner"
                     ColorpreviewCorner.Parent = Colorpreview
 
+                    local ColorPFrameGlow = Instance.new("ImageLabel")
                     local ColorPFrame = Instance.new("Frame")
                     local ColorpickerCorner_2 = Instance.new("UICorner")
                     local ColorClose = Instance.new("TextButton")
@@ -4151,13 +4165,38 @@ function Neverlose_Main:Window(config)
                     local HueGradient = Instance.new("UIGradient")
                     local ColorValue = Instance.new("TextBox")
                     local ColorValueCorner = Instance.new("UICorner")
-                    
+
+                    ColorPFrameGlow.Name = "ColorPFrameGlow"
+                    ColorPFrameGlow.Parent = Section
+                    ColorPFrameGlow.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                    ColorPFrameGlow.BackgroundTransparency = 1.000
+                    ColorPFrameGlow.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                    ColorPFrameGlow.BorderSizePixel = 0
+                    ColorPFrameGlow.Position = UDim2.new(0.0120689655, 0, 0.366449565, 0)
+                    ColorPFrameGlow.Size = UDim2.new(0, 286, 0, 0) -- UDim2.new(0, 286, 0, 178)
+                    ColorPFrameGlow.Image = "rbxassetid://4996891970"
+                    ColorPFrameGlow.ImageColor3 = Color3.fromRGB(14, 191, 255)
+                    ColorPFrameGlow.Visible = false
+                    -- ColorPFrameGlow.ImageTransparency = 1
+
+                    spawn(function()
+                        while task.wait() do
+                            pcall(function()
+                                TweenService:Create(
+                                    ColorPFrameGlow,
+                                    TweenInfo.new(.4, Enum.EasingStyle.Quad),
+                                    {ImageColor3 = Neverlose_Main.Theme.Custom.Glow}
+                                ):Play()
+                            end)
+                        end
+                    end)
+
                     ColorPFrame.Name = "ColorPFrame"
-                    ColorPFrame.Parent = Section
-                    ColorPFrame.BackgroundColor3 = Color3.fromRGB(0, 29, 57)
+                    ColorPFrame.Parent = ColorPFrameGlow
+                    ColorPFrame.BackgroundColor3 = Color3.fromRGB(0, 21, 40)
                     ColorPFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
                     ColorPFrame.BorderSizePixel = 0
-                    ColorPFrame.Position = UDim2.new(0.0218984783, 0, -1.57692313, 0)
+                    ColorPFrame.Position = UDim2.new(0.0386760868, 0, 0.0423884057, 0)
                     ColorPFrame.Size = UDim2.new(0, 263, 0, 0)
                     ColorPFrame.Visible = false
                     
@@ -4178,7 +4217,7 @@ function Neverlose_Main:Window(config)
                     ColorClose.TextSize = 14.000
 
                     spawn(function()
-                        while task.wait(.1) do
+                        while task.wait() do
                             pcall(function()
                                 TweenService:Create(
                                     ColorpreviewStroke,
@@ -4197,6 +4236,16 @@ function Neverlose_Main:Window(config)
                                 TweenInfo.new(.4, Enum.EasingStyle.Quad),
                                 {Size = UDim2.new(0, 263, 0, 0)}
                             ):Play()
+                            TweenService:Create(
+                                ColorPFrameGlow,
+                                TweenInfo.new(.4, Enum.EasingStyle.Quad),
+                                {Size = UDim2.new(0, 286, 0, 0)}
+                            ):Play()
+                            TweenService:Create(
+                                ColorPFrameGlow,
+                                TweenInfo.new(.2, Enum.EasingStyle.Quad),
+                                {ImageTransparency = 1}
+                            ):Play()
                             for i,v in pairs(ColorPFrame:GetChildren()) do
                                 if not v:IsA("UICorner") then
                                     v.Visible = false
@@ -4208,6 +4257,7 @@ function Neverlose_Main:Window(config)
                                 Container.CanvasSize = UDim2.new(0, 0, 0, Container.CanvasSize.Y.Offset)
                             until ColorPFrame.Size == UDim2.new(0, 263, 0, 0)
                             ColorPFrame.Visible = false
+                            ColorPFrameGlow.Visible = false
                             CToggled = false
                         end
                     end)
@@ -4215,10 +4265,21 @@ function Neverlose_Main:Window(config)
                     Colorpicker.MouseButton1Click:Connect(function()
                         if CToggled == false then
                             ColorPFrame.Visible = true
+                            ColorPFrameGlow.Visible = true
                             TweenService:Create(
                                 ColorPFrame,
                                 TweenInfo.new(.4, Enum.EasingStyle.Quad),
                                 {Size = UDim2.new(0, 263, 0, 163)}
+                            ):Play()
+                            TweenService:Create(
+                                ColorPFrameGlow,
+                                TweenInfo.new(.4, Enum.EasingStyle.Quad),
+                                {Size = UDim2.new(0, 286, 0, 178)}
+                            ):Play()
+                            TweenService:Create(
+                                ColorPFrameGlow,
+                                TweenInfo.new(.2, Enum.EasingStyle.Quad),
+                                {ImageTransparency = 0}
                             ):Play()
                             spawn(function()
                                 for i,v in pairs(ColorPFrame:GetChildren()) do
@@ -4241,6 +4302,16 @@ function Neverlose_Main:Window(config)
                                     TweenInfo.new(.4, Enum.EasingStyle.Quad),
                                     {Size = UDim2.new(0, 263, 0, 0)}
                                 ):Play()
+                                TweenService:Create(
+                                    ColorPFrameGlow,
+                                    TweenInfo.new(.4, Enum.EasingStyle.Quad),
+                                    {Size = UDim2.new(0, 286, 0, 0)}
+                                ):Play()
+                                TweenService:Create(
+                                    ColorPFrameGlow,
+                                    TweenInfo.new(.2, Enum.EasingStyle.Quad),
+                                    {ImageTransparency = 1}
+                                ):Play()
                                 spawn(function()
                                     for i,v in pairs(ColorPFrame:GetChildren()) do
                                         if not v:IsA("UICorner") then
@@ -4253,8 +4324,8 @@ function Neverlose_Main:Window(config)
                                     Section.Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y)
                                     Container.CanvasSize = UDim2.new(0, 0, 0, Container.CanvasSize.Y.Offset)
                                 until ColorPFrame.Size == UDim2.new(0, 263, 0, 0)
-                                task.wait(.3)
                                 ColorPFrame.Visible = false
+                                ColorPFrameGlow.Visible = false
                                 CToggled = false
                             end
                         end
@@ -4537,222 +4608,1264 @@ function Neverlose_Main:Window(config)
                     return Colorpickerfunc
                 end
 
-                -- function Elements:Bind(title, preeset, callback)
-                --     local Bindfunc, key, BindToggled, BindVersion, BindVerToggled, HoldToggled, ToggleToggled = {Value = ""}, preeset.Name, false, "", false, false, false
+                function Elements:Bind(title, callback, external)
+                    for i,v in pairs(external) do
+                        
+                    end
 
-                --     local Bind = Instance.new("TextButton")
-                --     local BindTitle = Instance.new("TextLabel")
-                --     local BindFrame = Instance.new("TextButton")
-                --     local BindText = Instance.new("TextLabel")
-                --     local BindCorner = Instance.new("UICorner")
-                --     local ChangeVersion = Instance.new("Frame")
-                --     local ChangeVersionLayout = Instance.new("UIListLayout")
-                --     local None = Instance.new("TextButton")
-                --     local Hold = Instance.new("TextButton")
-                --     local Toggle_2 = Instance.new("TextButton")
-                --     local Always = Instance.new("TextButton")
+                    local key, BindToggled, BindVersion, BindVerToggled, HoldToggled, ToggleToggled = '', false, "", false, false, false
 
-                --     Bind.Name = title
-                --     Bind.Parent = Section
-                --     Bind.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-                --     Bind.BackgroundTransparency = 1.000
-                --     Bind.BorderColor3 = Color3.fromRGB(0, 0, 0)
-                --     Bind.BorderSizePixel = 0
-                --     Bind.Position = UDim2.new(-0.001754386, 0, 0.375, 0)
-                --     Bind.Size = UDim2.new(0, 274, 0, 26)
-                --     Bind.AutoButtonColor = false
-                --     Bind.Font = Enum.Font.SourceSans
-                --     Bind.Text = ""
-                --     Bind.TextColor3 = Color3.fromRGB(0, 0, 0)
-                --     Bind.TextSize = 14.000
-                    
-                --     BindTitle.Name = "BindTitle"
-                --     BindTitle.Parent = Bind
-                --     BindTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-                --     BindTitle.BackgroundTransparency = 1.000
-                --     BindTitle.BorderColor3 = Color3.fromRGB(0, 0, 0)
-                --     BindTitle.BorderSizePixel = 0
-                --     BindTitle.Position = UDim2.new(0.0355987065, 0, 0.233333334, 0)
-                --     BindTitle.Size = UDim2.new(0, 49, 0, 15)
-                --     BindTitle.Font = Enum.Font.Gotham
-                --     BindTitle.Text = title
-                --     BindTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
-                --     BindTitle.TextSize = 13.000
-                --     BindTitle.TextXAlignment = Enum.TextXAlignment.Left
-                    
-                --     BindFrame.Name = "BindFrame"
-                --     BindFrame.Parent = Bind
-                --     BindFrame.BackgroundColor3 = Color3.fromRGB(3, 5, 13)
-                --     BindFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
-                --     BindFrame.BorderSizePixel = 0
-                --     BindFrame.Position = UDim2.new(0.845000029, 0, 0.200000003, 0)
-                --     BindFrame.Size = UDim2.new(0, 46, 0, 17)
-                --     BindFrame.AutoButtonColor = false
-                --     BindFrame.Font = Enum.Font.SourceSans
-                --     BindFrame.Text = ""
-                --     BindFrame.TextColor3 = Color3.fromRGB(0, 0, 0)
-                --     BindFrame.TextSize = 14.000
-                    
-                --     BindText.Name = "BindText"
-                --     BindText.Parent = BindFrame
-                --     BindText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-                --     BindText.BackgroundTransparency = 1.000
-                --     BindText.BorderColor3 = Color3.fromRGB(0, 0, 0)
-                --     BindText.BorderSizePixel = 0
-                --     BindText.Size = UDim2.new(1, 0, 0.980000019, 0)
-                --     BindText.Font = Enum.Font.SourceSans
-                --     BindText.Text = key
-                --     BindText.TextColor3 = Color3.fromRGB(255, 255, 255)
-                --     BindText.TextScaled = true
-                --     BindText.TextSize = 14.000
-                --     BindText.TextWrapped = true
-                    
-                --     BindCorner.CornerRadius = UDim.new(0, 3)
-                --     BindCorner.Name = "BindCorner"
-                --     BindCorner.Parent = BindFrame
-                    
-                --     ChangeVersion.Name = "ChangeVersion"
-                --     ChangeVersion.Parent = Bind
-                --     ChangeVersion.BackgroundColor3 = Color3.fromRGB(0, 18, 35)
-                --     ChangeVersion.BorderColor3 = Color3.fromRGB(0, 0, 0)
-                --     ChangeVersion.BorderSizePixel = 0
-                --     ChangeVersion.Position = UDim2.new(0.469255656, 0, 0.233333334, 0)
-                --     ChangeVersion.Size = UDim2.new(0, 62, 0, 70)
-                --     ChangeVersion.Visible = false
-                    
-                --     ChangeVersionLayout.Name = "ChangeVersionLayout"
-                --     ChangeVersionLayout.Parent = ChangeVersion
-                --     ChangeVersionLayout.SortOrder = Enum.SortOrder.LayoutOrder
-                --     ChangeVersionLayout.Padding = UDim.new(0, 3)
-                    
-                --     None.Name = "None"
-                --     None.Parent = ChangeVersion
-                --     None.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-                --     None.BackgroundTransparency = 1.000
-                --     None.BorderColor3 = Color3.fromRGB(0, 0, 0)
-                --     None.BorderSizePixel = 0
-                --     None.Size = UDim2.new(1, 0, 0.214000002, 0)
-                --     None.Font = Enum.Font.SourceSans
-                --     None.Text = "None"
-                --     None.TextColor3 = Color3.fromRGB(255, 255, 255)
-                --     None.TextSize = 14.000
-                    
-                --     Hold.Name = "Hold"
-                --     Hold.Parent = ChangeVersion
-                --     Hold.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-                --     Hold.BackgroundTransparency = 1.000
-                --     Hold.BorderColor3 = Color3.fromRGB(0, 0, 0)
-                --     Hold.BorderSizePixel = 0
-                --     Hold.Size = UDim2.new(1, 0, 0.214000002, 0)
-                --     Hold.Font = Enum.Font.SourceSans
-                --     Hold.Text = "Hold"
-                --     Hold.TextColor3 = Color3.fromRGB(255, 255, 255)
-                --     Hold.TextSize = 14.000
-                    
-                --     Toggle_2.Name = "Toggle"
-                --     Toggle_2.Parent = ChangeVersion
-                --     Toggle_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-                --     Toggle_2.BackgroundTransparency = 1.000
-                --     Toggle_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
-                --     Toggle_2.BorderSizePixel = 0
-                --     Toggle_2.Size = UDim2.new(1, 0, 0.214000002, 0)
-                --     Toggle_2.Font = Enum.Font.SourceSans
-                --     Toggle_2.Text = "Toggle"
-                --     Toggle_2.TextColor3 = Color3.fromRGB(255, 255, 255)
-                --     Toggle_2.TextSize = 14.000
-                    
-                --     Always.Name = "Always"
-                --     Always.Parent = ChangeVersion
-                --     Always.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-                --     Always.BackgroundTransparency = 1.000
-                --     Always.BorderColor3 = Color3.fromRGB(0, 0, 0)
-                --     Always.BorderSizePixel = 0
-                --     Always.Size = UDim2.new(1, 0, 0.214000002, 0)
-                --     Always.Font = Enum.Font.SourceSans
-                --     Always.Text = "Always"
-                --     Always.TextColor3 = Color3.fromRGB(255, 255, 255)
-                --     Always.TextSize = 14.000
+                    local Bind = Instance.new("TextButton")
+                    local BindTitle = Instance.new("TextLabel")
+                    local BindFrame = Instance.new("TextButton")
+                    local BindText = Instance.new("TextLabel")
+                    local BindCorner = Instance.new("UICorner")
+                    local ChangeVersion = Instance.new("Frame")
+                    local ChangeVersionLayout = Instance.new("UIListLayout")
+                    local None = Instance.new("TextButton")
+                    local Hold = Instance.new("TextButton")
+                    local Toggle_2 = Instance.new("TextButton")
+                    local Always = Instance.new("TextButton")
 
-                --     Section.Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y + 10)
+                    Bind.Name = "Bind"
+                    Bind.Parent = Section
+                    Bind.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                    Bind.BackgroundTransparency = 1.000
+                    Bind.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                    Bind.BorderSizePixel = 0
+                    Bind.Position = UDim2.new(-0.001754386, 0, 0.375, 0)
+                    Bind.Size = UDim2.new(0, 274, 0, 26)
+                    Bind.AutoButtonColor = false
+                    Bind.Font = Enum.Font.SourceSans
+                    Bind.Text = ""
+                    Bind.TextColor3 = Color3.fromRGB(0, 0, 0)
+                    Bind.TextSize = 14.000
+                    
+                    BindTitle.Name = "BindTitle"
+                    BindTitle.Parent = Bind
+                    BindTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                    BindTitle.BackgroundTransparency = 1.000
+                    BindTitle.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                    BindTitle.BorderSizePixel = 0
+                    BindTitle.Position = UDim2.new(0.0355987065, 0, 0.233333334, 0)
+                    BindTitle.Size = UDim2.new(0, 49, 0, 15)
+                    BindTitle.Font = Enum.Font.Gotham
+                    BindTitle.Text = title
+                    BindTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+                    BindTitle.TextSize = 13.000
+                    BindTitle.TextXAlignment = Enum.TextXAlignment.Left
+                    
+                    BindFrame.Name = "BindFrame"
+                    BindFrame.Parent = Bind
+                    BindFrame.BackgroundColor3 = Color3.fromRGB(3, 5, 13)
+                    BindFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                    BindFrame.BorderSizePixel = 0
+                    BindFrame.Position = UDim2.new(0.80, 0, 0.200000003, 0)
+                    BindFrame.Size = UDim2.new(0, 60, 0, 17)
+                    BindFrame.AutoButtonColor = false
+                    BindFrame.Font = Enum.Font.SourceSans
+                    BindFrame.Text = ""
+                    BindFrame.TextColor3 = Color3.fromRGB(0, 0, 0)
+                    BindFrame.TextSize = 14.000
+                    
+                    BindText.Name = "BindText"
+                    BindText.Parent = BindFrame
+                    BindText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                    BindText.BackgroundTransparency = 1.000
+                    BindText.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                    BindText.BorderSizePixel = 0
+                    BindText.Size = UDim2.new(1, 0, 0.980000019, 0)
+                    BindText.Font = Enum.Font.SourceSans
+                    BindText.Text = ""
+                    BindText.TextColor3 = Color3.fromRGB(255, 255, 255)
+                    BindText.TextScaled = false
+                    BindText.TextSize = 14.000
+                    BindText.TextWrapped = true
+                    
+                    BindCorner.CornerRadius = UDim.new(0, 3)
+                    BindCorner.Name = "BindCorner"
+                    BindCorner.Parent = BindFrame
 
-                --     Bind.MouseButton2Click:Connect(function()
-                --         if BindVerToggled == false then
-                --             ChangeVersion.Visible = true
-                --             Bind.Size = UDim2.new(0, 274, 0, 90)
-                --             Section.Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y + 10)
-                --         else
-                --             ChangeVersion.Visible = false
-                --             Bind.Size = UDim2.new(0, 274, 0, 26)
-                --             Section.Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y + 10)
-                --         end
-                --         BindVerToggled = not BindVerToggled
-                --     end)
+                    local BindFrameGlow = Instance.new("ImageLabel")
+                    local BindFrame = Instance.new("Frame")
+                    local BindFrameCorner = Instance.new("UICorner")
+                    local BindFrameClose = Instance.new("TextButton")
+                    local BindsList = Instance.new("ScrollingFrame")
+                    local BindsListLayout = Instance.new("UIListLayout")
+                    local AddBind = Instance.new("TextButton")
+                    local AddBindImage = Instance.new("ImageLabel")
+                    local AddBindPadding = Instance.new("UIPadding")
+                    local BindedSettings = Instance.new("Frame")
 
-                --     None.MouseButton1Click:Connect(function()
-                --         BindText.Text = "None"
-                --         ChangeVersion.Visible = false
-                --         BindVerToggled = false
-                --         Bind.Size = UDim2.new(0, 274, 0, 26)
-                --     end)
-                --     Hold.MouseButton1Click:Connect(function()
-                --         BindText.Text = ""
-                --         ChangeVersion.Visible = false
-                --         BindVerToggled = false
-                --         Bind.Size = UDim2.new(0, 274, 0, 26)
-                --     end)
-                --     Toggle_2.MouseButton1Click:Connect(function()
-                --         BindText.Text = ""
-                --         ChangeVersion.Visible = false
-                --         BindVerToggled = false
-                --         Bind.Size = UDim2.new(0, 274, 0, 26)
-                --     end)
-                --     Always.MouseButton1Click:Connect(function()
-                --         BindText.Text = "Always"
-                --         ChangeVersion.Visible = false
-                --         BindVerToggled = false
-                --         Bind.Size = UDim2.new(0, 274, 0, 26)
-                --     end)
+                    local BindKey = Instance.new("TextButton")
+                    local BindTitle = Instance.new("TextLabel")
+                    local BindKeyFrame = Instance.new("TextButton")
+                    local BindKeyFrameText = Instance.new("TextLabel")
+                    local BindKeyFrameCorner = Instance.new("UICorner")
+                    local BindMode = Instance.new("TextButton")
+                    local ModeTitle = Instance.new("TextLabel")
+                    local BModeHold = Instance.new("TextButton")
+                    local BModeHoldText = Instance.new("TextLabel")
+                    local BModeHoldCorner = Instance.new("UICorner")
+                    local BModeToggle = Instance.new("TextButton")
+                    local BModeToggleText = Instance.new("TextLabel")
+                    local BModeToggleCorner = Instance.new("UICorner")
 
-                --     Bind.MouseButton1Click:Connect(function()
-                --         if BindText.Text ~= "None" and BindText.Text ~= "Always" then
-                --         BindText.Text = "..."
-                --         local inputwait = game:GetService("UserInputService").InputBegan:wait()
-                --         if inputwait.KeyCode.Name ~= "Unknown" then
-                --             BindText.Text = inputwait.KeyCode.Name
-                --             key = inputwait.KeyCode.Name
-                --             return
-                --         end
-                --     end
-                --     end)
+                    BindFrameGlow.Name = "BindFrameGlow"
+                    BindFrameGlow.Parent = Section
+                    BindFrameGlow.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                    BindFrameGlow.BackgroundTransparency = 1.000
+                    BindFrameGlow.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                    BindFrameGlow.BorderSizePixel = 0
+                    BindFrameGlow.Position = UDim2.new(0.0120689655, 0, 0.366449565, 0)
+                    BindFrameGlow.Size = UDim2.new(0, 286, 0, 0) -- UDim2.new(0, 286, 0, 178)
+                    BindFrameGlow.Image = "rbxassetid://4996891970"
+                    BindFrameGlow.ImageColor3 = Color3.fromRGB(14, 191, 255)
+                    BindFrameGlow.Visible = false
 
-                --     function Bindfunc:Set(val)
-                --         Bindfunc.Value = val.Name
-                --         BindText.Text = val.Name
-                --         return pcall(callback, Bindfunc.Value)
-                --     end
-                
-                --     UserInputService.InputBegan:Connect(function(input, pressed)
-                --         if BindText.Text == "Always" then
-                --             Bindfunc:Set(true)
-                --         elseif BindText.Text == "None" then
-                --             Bindfunc:Set(false)
-                --         end
-                --         if input.KeyCode == Enum.KeyCode[BindText.Text] and BindVersion == "Toggle" then
-                --             ToggleToggled = not ToggleToggled
-                --             Bindfunc:Set(ToggleToggled)
-                --         end
-                --             if input.KeyCode == Enum.KeyCode[BindText.Text] and BindVersion == "Hold" then
-                --                 HoldToggled = true
-                --                 Bindfunc:Set(HoldToggled)
-                --             else
-                --                 HoldToggled = false
-                --                 Bindfunc:Set(HoldToggled)
-                --             end
-                --     end)
+                    spawn(function()
+                        while task.wait() do
+                            pcall(function()
+                                TweenService:Create(
+                                    BindFrameGlow,
+                                    TweenInfo.new(.4, Enum.EasingStyle.Quad),
+                                    {ImageColor3 = Neverlose_Main.Theme.Custom.Glow}
+                                ):Play()
+                                ChangeTypeText(BindTitle)
+                            end)
+                        end
+                    end)
+                    
+                    BindFrame.Name = "BindFrame"
+                    BindFrame.Parent = BindFrameGlow
+                    BindFrame.BackgroundColor3 = Color3.fromRGB(0, 21, 40)
+                    BindFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                    BindFrame.BorderSizePixel = 0
+                    BindFrame.Position = UDim2.new(0.0386760868, 0, 0.0423884057, 0)
+                    BindFrame.Size = UDim2.new(0, 263, 0, 0) -- UDim2.new(0, 263, 0, 163)
+                    BindFrame.Visible = false
+                    
+                    BindFrameCorner.Name = "BindFrameCorner"
+                    BindFrameCorner.Parent = BindFrame
+                    
+                    BindFrameClose.Name = "BindFrameClose"
+                    BindFrameClose.Parent = BindFrame
+                    BindFrameClose.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                    BindFrameClose.BackgroundTransparency = 1.000
+                    BindFrameClose.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                    BindFrameClose.BorderSizePixel = 0
+                    BindFrameClose.Position = UDim2.new(0.904942989, 0, 0.0306754075, 0)
+                    BindFrameClose.Size = UDim2.new(0, 27, 0, 21)
+                    BindFrameClose.Font = Enum.Font.GothamBold
+                    BindFrameClose.Text = "X"
+                    BindFrameClose.TextColor3 = Color3.fromRGB(20, 120, 213)
+                    BindFrameClose.TextSize = 14.000
+                    
+                    BindsList.Name = "BindsList"
+                    BindsList.Parent = BindFrame
+                    BindsList.Active = true
+                    BindsList.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                    BindsList.BackgroundTransparency = 1.000
+                    BindsList.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                    BindsList.BorderSizePixel = 0
+                    BindsList.Position = UDim2.new(0.0304182507, 0, 0.291273981, 0)
+                    BindsList.Size = UDim2.new(0, 73, 0, 107)
+                    BindsList.ScrollBarThickness = 0
+                    
+                    BindsListLayout.Name = "BindsListLayout"
+                    BindsListLayout.Parent = BindsList
+                    BindsListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+                    BindsListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+                    
+                    AddBind.Name = "AddBind"
+                    AddBind.Parent = BindFrame
+                    AddBind.BackgroundColor3 = Color3.fromRGB(0, 13, 26)
+                    AddBind.BackgroundTransparency = 1.000
+                    AddBind.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                    AddBind.BorderSizePixel = 0
+                    AddBind.Position = UDim2.new(0.0300007518, 0, 0.076918155, 0)
+                    AddBind.Size = UDim2.new(0, 80, 0, 22)
+                    AddBind.AutoButtonColor = false
+                    AddBind.Font = Enum.Font.SourceSans
+                    AddBind.Text = "New Bind"
+                    AddBind.TextColor3 = Color3.fromRGB(255, 255, 255)
+                    AddBind.TextSize = 15.000
+                    AddBind.TextXAlignment = Enum.TextXAlignment.Right
+                    
+                    AddBindImage.Name = "AddBindImage"
+                    AddBindImage.Parent = AddBind
+                    AddBindImage.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                    AddBindImage.BackgroundTransparency = 1.000
+                    AddBindImage.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                    AddBindImage.BorderSizePixel = 0
+                    AddBindImage.Position = UDim2.new(-0.0709379092, 0, 0.150000006, 0)
+                    AddBindImage.Size = UDim2.new(0, 15, 0, 15)
+                    AddBindImage.Image = "http://www.roblox.com/asset/?id=6035047391"
+                    
+                    AddBindPadding.Name = "AddBindPadding"
+                    AddBindPadding.Parent = AddBind
+                    AddBindPadding.PaddingBottom = UDim.new(0, 2)
+                    AddBindPadding.PaddingLeft = UDim.new(0, 8)
+                    AddBindPadding.PaddingRight = UDim.new(0, 4)
 
-                --     Neverlose_Main.Flags[title] = Bindfunc
-                --     return Bindfunc
-                -- end
+                    local AddBindCorner = Instance.new("UICorner")
+                    AddBindCorner.CornerRadius = UDim.new(0, 5)
+                    AddBindCorner.Name = "AddBindCorner"
+                    AddBindCorner.Parent = AddBind
+
+                    AddBind.MouseEnter:Connect(function()
+                        TweenService:Create(
+                            AddBind,
+                            TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                            {BackgroundTransparency = 0.55}
+                        ):Play()
+                    end)
+
+                    AddBind.MouseLeave:Connect(function()
+                        TweenService:Create(
+                            AddBind,
+                            TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                            {BackgroundTransparency = 1}
+                        ):Play()
+                    end)
+
+                    AddBind.MouseButton1Click:Connect(function()
+                        for i,v in pairs(BindedSettings:GetChildren()) do
+                            if v:IsA("Frame") then
+                                v.Visible = false
+                            end
+                        end
+
+                        local BindSetting = Instance.new("TextButton")
+                        local BindSettingPadding = Instance.new("UIPadding")
+                        local BindSettingImage = Instance.new("ImageLabel")
+
+                        BindSetting.Name = "BindSetting"
+                        BindSetting.Parent = BindsList
+                        BindSetting.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                        BindSetting.BackgroundTransparency = 1.000
+                        BindSetting.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                        BindSetting.BorderSizePixel = 0
+                        BindSetting.Position = UDim2.new(0.0300007518, 0, 0.076918155, 0)
+                        BindSetting.Size = UDim2.new(0, 75, 0, 22)
+                        BindSetting.AutoButtonColor = false
+                        BindSetting.Font = Enum.Font.SourceSans
+                        BindSetting.TextColor3 = Color3.fromRGB(255, 255, 255)
+                        BindSetting.TextSize = 15.000
+                        BindSetting.TextXAlignment = Enum.TextXAlignment.Left
+                        
+                        BindSettingPadding.Name = "BindSettingPadding"
+                        BindSettingPadding.Parent = BindSetting
+                        BindSettingPadding.PaddingBottom = UDim.new(0, 2)
+                        BindSettingPadding.PaddingLeft = UDim.new(0, 1)
+                        BindSettingPadding.PaddingRight = UDim.new(0, 8)
+                        
+                        BindSettingImage.Name = "BindSettingImage"
+                        BindSettingImage.Parent = BindSetting
+                        BindSettingImage.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                        BindSettingImage.BackgroundTransparency = 1.000
+                        BindSettingImage.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                        BindSettingImage.BorderSizePixel = 0
+                        BindSettingImage.Position = UDim2.new(0.911746085, 0, 0.200000003, 0)
+                        BindSettingImage.Size = UDim2.new(0, 14, 0, 14)
+                        BindSettingImage.Image = "http://www.roblox.com/asset/?id=6031091008"
+
+                        for i,v in pairs(BindsList:GetChildren()) do
+                            if v:IsA("TextButton") then
+                                TweenService:Create(
+                                    v.BindSettingImage,
+                                    TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                                    {Rotation = 180}
+                                ):Play()
+                                TweenService:Create(
+                                    v.BindSettingImage,
+                                    TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                                    {ImageColor3 = Color3.fromRGB(74, 87, 97)}
+                                ):Play()
+                            end
+                        end
+
+                        TweenService:Create(
+                            BindSettingImage,
+                            TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                            {Rotation = 0}
+                        ):Play()
+
+                        TweenService:Create(
+                            BindSettingImage,
+                            TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                            {ImageColor3 = Neverlose_Main.Theme.Custom.Element}
+                        ):Play()
+                        
+                        local NameToggle = Instance.new("Frame")
+                        local NameToggleLayout = Instance.new("UIListLayout")
+                        local BindKey = Instance.new("TextButton")
+                        local BindTitle = Instance.new("TextLabel")
+                        local BindKeyFrame = Instance.new("TextButton")
+                        local BindKeyFrameText = Instance.new("TextLabel")
+                        local BindKeyFrameCorner = Instance.new("UICorner")
+                        local BindMode = Instance.new("TextButton")
+                        local ModeTitle = Instance.new("TextLabel")
+                        local BModeHold = Instance.new("TextButton")
+                        local BModeHoldText = Instance.new("TextLabel")
+                        local BModeHoldCorner = Instance.new("UICorner")
+                        local BModeToggle = Instance.new("TextButton")
+                        local BModeToggleText = Instance.new("TextLabel")
+                        local BModeToggleCorner = Instance.new("UICorner")
+
+                        NameToggle.Name = title.."Bind"
+                        NameToggle.Parent = BindedSettings
+                        NameToggle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                        NameToggle.BackgroundTransparency = 1.000
+                        NameToggle.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                        NameToggle.BorderSizePixel = 0
+                        NameToggle.Size = UDim2.new(1, 0, 1, 0)
+                        NameToggle.Visible = true
+
+                        NameToggleLayout.Name = "NameToggleLayout"
+                        NameToggleLayout.Parent = NameToggle
+                        NameToggleLayout.SortOrder = Enum.SortOrder.LayoutOrder
+
+                        BindKey.Name = "BindKey"
+                        BindKey.Parent = NameToggle
+                        BindKey.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                        BindKey.BackgroundTransparency = 1.000
+                        BindKey.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                        BindKey.BorderSizePixel = 0
+                        BindKey.Position = UDim2.new(-0.0017542555, 0, 0.0078125, 0)
+                        BindKey.Size = UDim2.new(0, 133, 0, 29)
+                        BindKey.AutoButtonColor = false
+                        BindKey.Font = Enum.Font.SourceSans
+                        BindKey.Text = ""
+                        BindKey.TextColor3 = Color3.fromRGB(0, 0, 0)
+                        BindKey.TextSize = 14.000
+                        
+                        BindTitle.Name = "BindTitle"
+                        BindTitle.Parent = BindKey
+                        BindTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                        BindTitle.BackgroundTransparency = 1.000
+                        BindTitle.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                        BindTitle.BorderSizePixel = 0
+                        BindTitle.Position = UDim2.new(0.0355987065, 0, 0.233333334, 0)
+                        BindTitle.Size = UDim2.new(0, 49, 0, 15)
+                        BindTitle.Font = Enum.Font.Gotham
+                        BindTitle.Text = "Key"
+                        BindTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+                        BindTitle.TextSize = 13.000
+                        BindTitle.TextXAlignment = Enum.TextXAlignment.Left
+                        
+                        BindKeyFrame.Name = "BindKeyFrame"
+                        BindKeyFrame.Parent = BindKey
+                        BindKeyFrame.BackgroundColor3 = Color3.fromRGB(3, 13, 26)
+                        BindKeyFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                        BindKeyFrame.BorderSizePixel = 0
+                        BindKeyFrame.Position = UDim2.new(0.845000029, 0, 0.200000003, 0)
+                        BindKeyFrame.Size = UDim2.new(0, 49, 0, 18)
+                        BindKeyFrame.ZIndex = 3
+                        BindKeyFrame.AutoButtonColor = false
+                        BindKeyFrame.Font = Enum.Font.SourceSans
+                        BindKeyFrame.Text = ""
+                        BindKeyFrame.TextColor3 = Color3.fromRGB(0, 0, 0)
+                        BindKeyFrame.TextSize = 14.000
+                        BindKeyFrame.TextScaled = true
+                        
+                        BindKeyFrameText.Name = "BindKeyFrameText"
+                        BindKeyFrameText.Parent = BindKeyFrame
+                        BindKeyFrameText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                        BindKeyFrameText.BackgroundTransparency = 1.000
+                        BindKeyFrameText.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                        BindKeyFrameText.BorderSizePixel = 0
+                        BindKeyFrameText.Size = UDim2.new(1, 0, 0.980000019, 0)
+                        BindKeyFrameText.Font = Enum.Font.SourceSans
+                        BindKeyFrameText.Text = KeyCodeToText(key)
+                        BindKeyFrameText.TextColor3 = Color3.fromRGB(255, 255, 255)
+                        BindKeyFrameText.TextScaled = true
+                        BindKeyFrameText.TextSize = 14.000
+                        BindKeyFrameText.TextWrapped = true
+                        
+                        BindKeyFrameCorner.CornerRadius = UDim.new(0, 3)
+                        BindKeyFrameCorner.Name = "BindKeyFrameCorner"
+                        BindKeyFrameCorner.Parent = BindKeyFrame
+                        
+                        BindMode.Name = "BindMode"
+                        BindMode.Parent = NameToggle
+                        BindMode.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                        BindMode.BackgroundTransparency = 1.000
+                        BindMode.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                        BindMode.BorderSizePixel = 0
+                        BindMode.Position = UDim2.new(-0.0017542555, 0, 0.0078125, 0)
+                        BindMode.Size = UDim2.new(0, 133, 0, 29)
+                        BindMode.AutoButtonColor = false
+                        BindMode.Font = Enum.Font.SourceSans
+                        BindMode.Text = ""
+                        BindMode.TextColor3 = Color3.fromRGB(0, 0, 0)
+                        BindMode.TextSize = 14.000
+                        
+                        ModeTitle.Name = "ModeTitle"
+                        ModeTitle.Parent = BindMode
+                        ModeTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                        ModeTitle.BackgroundTransparency = 1.000
+                        ModeTitle.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                        ModeTitle.BorderSizePixel = 0
+                        ModeTitle.Position = UDim2.new(0.0355987065, 0, 0.233333334, 0)
+                        ModeTitle.Size = UDim2.new(0, 49, 0, 15)
+                        ModeTitle.Font = Enum.Font.Gotham
+                        ModeTitle.Text = "Mode"
+                        ModeTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+                        ModeTitle.TextSize = 13.000
+                        ModeTitle.TextXAlignment = Enum.TextXAlignment.Left
+                        
+                        BModeHold.Name = "BModeHold"
+                        BModeHold.Parent = BindMode
+                        BModeHold.BackgroundColor3 = Color3.fromRGB(3, 13, 26)
+                        BModeHold.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                        BModeHold.BorderSizePixel = 0
+                        BModeHold.Position = UDim2.new(0.845000029, 0, 0.200000003, 0)
+                        BModeHold.Size = UDim2.new(0, 49, 0, 18)
+                        BModeHold.ZIndex = 3
+                        BModeHold.AutoButtonColor = false
+                        BModeHold.Font = Enum.Font.SourceSans
+                        BModeHold.Text = ""
+                        BModeHold.TextColor3 = Color3.fromRGB(0, 0, 0)
+                        BModeHold.TextSize = 14.000
+                        
+                        BModeHoldText.Name = "BModeHoldText"
+                        BModeHoldText.Parent = BModeHold
+                        BModeHoldText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                        BModeHoldText.BackgroundTransparency = 1.000
+                        BModeHoldText.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                        BModeHoldText.BorderSizePixel = 0
+                        BModeHoldText.Size = UDim2.new(1, 0, 0.980000019, 0)
+                        BModeHoldText.Font = Enum.Font.SourceSans
+                        BModeHoldText.Text = "Hold"
+                        BModeHoldText.TextColor3 = Color3.fromRGB(255, 255, 255)
+                        BModeHoldText.TextScaled = true
+                        BModeHoldText.TextSize = 14.000
+                        BModeHoldText.TextWrapped = true
+                        
+                        BModeHoldCorner.CornerRadius = UDim.new(0, 3)
+                        BModeHoldCorner.Name = "BModeHoldCorner"
+                        BModeHoldCorner.Parent = BModeHold
+                        
+                        BModeToggle.Name = "BModeToggle"
+                        BModeToggle.Parent = BindMode
+                        BModeToggle.BackgroundColor3 = Color3.fromRGB(6, 122, 178)
+                        BModeToggle.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                        BModeToggle.BorderSizePixel = 0
+                        BModeToggle.Position = UDim2.new(0.401391059, 0, 0.199999586, 0)
+                        BModeToggle.Size = UDim2.new(0, 49, 0, 18)
+                        BModeToggle.ZIndex = 3
+                        BModeToggle.AutoButtonColor = false
+                        BModeToggle.Font = Enum.Font.SourceSans
+                        BModeToggle.Text = ""
+                        BModeToggle.TextColor3 = Color3.fromRGB(0, 0, 0)
+                        BModeToggle.TextSize = 14.000
+    
+                        local BModeStroke = Instance.new("UIStroke")
+                        BModeStroke.Color = Color3.fromRGB(10, 41, 65)
+                        BModeStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+                        BModeStroke.LineJoinMode = Enum.LineJoinMode.Round
+                        BModeStroke.Thickness = 1
+                        BModeStroke.Transparency = 0
+                        BModeStroke.Parent = BModeHold
+    
+                        BindSetting.MouseButton1Click:Connect(function()
+                            for i,v in pairs(BindedSettings:GetChildren()) do
+                                if v:IsA("Frame") then
+                                    v.Visible = false
+                                end
+                            end
+
+                            for i,v in pairs(BindsList:GetChildren()) do
+                                if v:IsA("TextButton") then
+                                    TweenService:Create(
+                                        v.BindSettingImage,
+                                        TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                                        {Rotation = 180}
+                                    ):Play()
+                                    TweenService:Create(
+                                        v.BindSettingImage,
+                                        TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                                        {ImageColor3 = Color3.fromRGB(74, 87, 97)}
+                                    ):Play()
+                                end
+                            end
+                            
+                            TweenService:Create(
+                                BindSettingImage,
+                                TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                                {Rotation = 0}
+                            ):Play()
+
+                            TweenService:Create(
+                                BindSettingImage,
+                                TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                                {ImageColor3 = Neverlose_Main.Theme.Custom.Element}
+                            ):Play()
+
+                            NameToggle.Visible = true
+                        end)
+    
+                        local WhatIsToggled = true
+    
+                        BindSetting.Text = 'Toggle ""'
+                        
+                        TweenService:Create(
+                            BModeToggle,
+                            TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                            {BackgroundColor3 = Neverlose_Main.Theme.Custom.Element}
+                        ):Play()
+    
+                        TweenService:Create(
+                            BModeHold,
+                            TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                            {BackgroundColor3 = Color3.fromRGB(3, 13, 26)}
+                        ):Play()
+                        
+                        BModeToggle.MouseButton1Click:Connect(function()
+                            TweenService:Create(
+                                BModeToggle,
+                                TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                                {BackgroundColor3 = Neverlose_Main.Theme.Custom.Element}
+                            ):Play()
+    
+                            TweenService:Create(
+                                BModeHold,
+                                TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                                {BackgroundColor3 = Color3.fromRGB(3, 13, 26)}
+                            ):Play()
+                            BindSetting.Text = 'Toggle "'..KeyCodeToText(key)..'"'
+                            BModeStroke.Parent = BModeHold
+                            WhatIsToggled = true
+                        end)
+    
+                        BModeHold.MouseButton1Click:Connect(function()
+                            TweenService:Create(
+                                BModeHold,
+                                TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                                {BackgroundColor3 = Neverlose_Main.Theme.Custom.Element}
+                            ):Play()
+    
+                            TweenService:Create(
+                                BModeToggle,
+                                TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                                {BackgroundColor3 = Color3.fromRGB(3, 13, 26)}
+                            ):Play()
+                            BModeStroke.Parent = BModeToggle
+                            BindSetting.Text = 'Hold "'..KeyCodeToText(key)..'"'
+                            WhatIsToggled = false
+                        end)
+                        
+                        BModeToggleText.Name = "BModeToggleText"
+                        BModeToggleText.Parent = BModeToggle
+                        BModeToggleText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                        BModeToggleText.BackgroundTransparency = 1.000
+                        BModeToggleText.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                        BModeToggleText.BorderSizePixel = 0
+                        BModeToggleText.Size = UDim2.new(1, 0, 0.980000019, 0)
+                        BModeToggleText.Font = Enum.Font.SourceSans
+                        BModeToggleText.Text = "Toggle"
+                        BModeToggleText.TextColor3 = Color3.fromRGB(255, 255, 255)
+                        BModeToggleText.TextScaled = true
+                        BModeToggleText.TextSize = 14.000
+                        BModeToggleText.TextWrapped = true
+                        
+                        BModeToggleCorner.CornerRadius = UDim.new(0, 4)
+                        BModeToggleCorner.Name = "BModeToggleCorner"
+                        BModeToggleCorner.Parent = BModeToggle
+
+                        local NameToggleFolder = Instance.new("Folder")
+                        local Deletion = Instance.new("Frame")
+                        local DeletionLayout = Instance.new("UIListLayout")
+                        local DeletionButton = Instance.new("ImageButton")
+
+                        NameToggleFolder.Name = "NameToggleFolder"
+                        NameToggleFolder.Parent = NameToggle
+                        
+                        Deletion.Name = "Deletion"
+                        Deletion.Parent = NameToggleFolder
+                        Deletion.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                        Deletion.BackgroundTransparency = 1.000
+                        Deletion.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                        Deletion.BorderSizePixel = 0
+                        Deletion.Position = UDim2.new(-0.0338385366, 0, 0.832324982, 0)
+                        Deletion.Size = UDim2.new(0, 160, 0, 26)
+                        
+                        DeletionLayout.Name = "DeletionLayout"
+                        DeletionLayout.Parent = Deletion
+                        DeletionLayout.FillDirection = Enum.FillDirection.Horizontal
+                        DeletionLayout.HorizontalAlignment = Enum.HorizontalAlignment.Right
+                        DeletionLayout.SortOrder = Enum.SortOrder.LayoutOrder
+                        
+                        DeletionButton.Name = "DeletionButton"
+                        DeletionButton.Parent = Deletion
+                        DeletionButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                        DeletionButton.BackgroundTransparency = 1.000
+                        DeletionButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                        DeletionButton.BorderSizePixel = 0
+                        DeletionButton.Position = UDim2.new(0.1875, 0, 0, 0)
+                        DeletionButton.Size = UDim2.new(0, 17, 0, 17)
+                        DeletionButton.Image = "http://www.roblox.com/asset/?id=6022668885"
+                        DeletionButton.ImageColor3 = Color3.fromRGB(79, 111, 200)
+
+                        DeletionButton.MouseEnter:Connect(function()
+                            TweenService:Create(
+                                DeletionButton,
+                                TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                                {ImageColor3 = Color3.fromRGB(200, 82, 74)}
+                            ):Play()
+                        end)
+
+                        DeletionButton.MouseLeave:Connect(function()
+                            TweenService:Create(
+                                DeletionButton,
+                                TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                                {ImageColor3 = Color3.fromRGB(79, 111, 200)}
+                            ):Play()
+                        end)
+                        local Completely_Stop = false
+                        DeletionButton.MouseButton1Click:Connect(function()
+                            NameToggle:Destroy()
+                            BindSetting:Destroy()
+                            Completely_Stop = true
+                        end)
+
+                        local Bind_ = {Value = "", Binding = false, Holding = false, Toggled = WhatIsToggled}
+
+                        BindKey.MouseButton1Click:Connect(function()
+                            if Completely_Stop then return end
+                            if Bind_.Binding then return end
+                            BindKeyFrameText.Text = ""
+                            Bind_.Binding = true
+                            BindKeyFrameText.Text = "Press a key..."
+                            
+                            local a, b = UserInputService.InputBegan:Wait()
+                            
+                            Bind_.Value = a.KeyCode.Name
+                            BindKeyFrameText.Text = a.KeyCode.Name
+                            key = a.KeyCode
+                            if WhatIsToggled == false then
+                                BindSetting.Text = 'Hold "'..KeyCodeToText(key)..'"'
+                            else
+                                BindSetting.Text = 'Toggle "'..KeyCodeToText(key)..'"'
+                            end
+                            Bind_.Binding = false
+                        end)
+                        
+                        UserInputService.InputBegan:Connect(function(Input)
+                            if Completely_Stop then return end
+                            if UserInputService:GetFocusedTextBox() then return end
+                            if Input.KeyCode.Name == Bind_.Value and not Bind_.Binding then
+                                if WhatIsToggled then
+                                    Bind_.Toggled = not Bind_.Toggled
+                                    callback(Bind_.Toggled)
+                                else
+                                    Bind_.Holding = true
+                                    callback(Bind_.Holding)
+                                end
+                            end
+                        end)
+                        
+                        UserInputService.InputEnded:Connect(function(Input)
+                            if Completely_Stop then return end
+                            if Input.KeyCode.Name == Bind_.Value then
+                                if not WhatIsToggled then
+                                    Bind_.Holding = false
+                                    callback(Bind_.Holding)
+                                end
+                            end
+                        end)
+
+                    end) -- Add Bind End
+
+                    for i,v in pairs(external) do
+                        for i,v in pairs(BindedSettings:GetChildren()) do
+                            if v:IsA("Frame") then
+                                v.Visible = false
+                            end
+                        end
+
+                        local BindSetting = Instance.new("TextButton")
+                        local BindSettingPadding = Instance.new("UIPadding")
+                        local BindSettingImage = Instance.new("ImageLabel")
+
+                        BindSetting.Name = "BindSetting"
+                        BindSetting.Parent = BindsList
+                        BindSetting.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                        BindSetting.BackgroundTransparency = 1.000
+                        BindSetting.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                        BindSetting.BorderSizePixel = 0
+                        BindSetting.Position = UDim2.new(0.0300007518, 0, 0.076918155, 0)
+                        BindSetting.Size = UDim2.new(0, 75, 0, 22)
+                        BindSetting.AutoButtonColor = false
+                        BindSetting.Font = Enum.Font.SourceSans
+                        BindSetting.TextColor3 = Color3.fromRGB(255, 255, 255)
+                        BindSetting.TextSize = 15.000
+                        BindSetting.TextXAlignment = Enum.TextXAlignment.Left
+                        
+                        BindSettingPadding.Name = "BindSettingPadding"
+                        BindSettingPadding.Parent = BindSetting
+                        BindSettingPadding.PaddingBottom = UDim.new(0, 2)
+                        BindSettingPadding.PaddingLeft = UDim.new(0, 1)
+                        BindSettingPadding.PaddingRight = UDim.new(0, 8)
+                        
+                        BindSettingImage.Name = "BindSettingImage"
+                        BindSettingImage.Parent = BindSetting
+                        BindSettingImage.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                        BindSettingImage.BackgroundTransparency = 1.000
+                        BindSettingImage.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                        BindSettingImage.BorderSizePixel = 0
+                        BindSettingImage.Position = UDim2.new(0.911746085, 0, 0.200000003, 0)
+                        BindSettingImage.Size = UDim2.new(0, 14, 0, 14)
+                        BindSettingImage.Image = "http://www.roblox.com/asset/?id=6031091008"
+
+                        for i,v in pairs(BindsList:GetChildren()) do
+                            if v:IsA("TextButton") then
+                                TweenService:Create(
+                                    v.BindSettingImage,
+                                    TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                                    {Rotation = 180}
+                                ):Play()
+                                TweenService:Create(
+                                    v.BindSettingImage,
+                                    TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                                    {ImageColor3 = Color3.fromRGB(74, 87, 97)}
+                                ):Play()
+                            end
+                        end
+
+                        TweenService:Create(
+                            BindSettingImage,
+                            TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                            {Rotation = 0}
+                        ):Play()
+
+                        TweenService:Create(
+                            BindSettingImage,
+                            TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                            {ImageColor3 = Neverlose_Main.Theme.Custom.Element}
+                        ):Play()
+                        
+                        local NameToggle = Instance.new("Frame")
+                        local NameToggleLayout = Instance.new("UIListLayout")
+                        local BindKey = Instance.new("TextButton")
+                        local BindTitle = Instance.new("TextLabel")
+                        local BindKeyFrame = Instance.new("TextButton")
+                        local BindKeyFrameText = Instance.new("TextLabel")
+                        local BindKeyFrameCorner = Instance.new("UICorner")
+                        local BindMode = Instance.new("TextButton")
+                        local ModeTitle = Instance.new("TextLabel")
+                        local BModeHold = Instance.new("TextButton")
+                        local BModeHoldText = Instance.new("TextLabel")
+                        local BModeHoldCorner = Instance.new("UICorner")
+                        local BModeToggle = Instance.new("TextButton")
+                        local BModeToggleText = Instance.new("TextLabel")
+                        local BModeToggleCorner = Instance.new("UICorner")
+
+                        NameToggle.Name = title.."Bind"
+                        NameToggle.Parent = BindedSettings
+                        NameToggle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                        NameToggle.BackgroundTransparency = 1.000
+                        NameToggle.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                        NameToggle.BorderSizePixel = 0
+                        NameToggle.Size = UDim2.new(1, 0, 1, 0)
+                        NameToggle.Visible = true
+
+                        NameToggleLayout.Name = "NameToggleLayout"
+                        NameToggleLayout.Parent = NameToggle
+                        NameToggleLayout.SortOrder = Enum.SortOrder.LayoutOrder
+
+                        BindKey.Name = "BindKey"
+                        BindKey.Parent = NameToggle
+                        BindKey.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                        BindKey.BackgroundTransparency = 1.000
+                        BindKey.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                        BindKey.BorderSizePixel = 0
+                        BindKey.Position = UDim2.new(-0.0017542555, 0, 0.0078125, 0)
+                        BindKey.Size = UDim2.new(0, 133, 0, 29)
+                        BindKey.AutoButtonColor = false
+                        BindKey.Font = Enum.Font.SourceSans
+                        BindKey.Text = ""
+                        BindKey.TextColor3 = Color3.fromRGB(0, 0, 0)
+                        BindKey.TextSize = 14.000
+                        
+                        BindTitle.Name = "BindTitle"
+                        BindTitle.Parent = BindKey
+                        BindTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                        BindTitle.BackgroundTransparency = 1.000
+                        BindTitle.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                        BindTitle.BorderSizePixel = 0
+                        BindTitle.Position = UDim2.new(0.0355987065, 0, 0.233333334, 0)
+                        BindTitle.Size = UDim2.new(0, 49, 0, 15)
+                        BindTitle.Font = Enum.Font.Gotham
+                        BindTitle.Text = "Key"
+                        BindTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+                        BindTitle.TextSize = 13.000
+                        BindTitle.TextXAlignment = Enum.TextXAlignment.Left
+                        
+                        BindKeyFrame.Name = "BindKeyFrame"
+                        BindKeyFrame.Parent = BindKey
+                        BindKeyFrame.BackgroundColor3 = Color3.fromRGB(3, 13, 26)
+                        BindKeyFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                        BindKeyFrame.BorderSizePixel = 0
+                        BindKeyFrame.Position = UDim2.new(0.845000029, 0, 0.200000003, 0)
+                        BindKeyFrame.Size = UDim2.new(0, 49, 0, 18)
+                        BindKeyFrame.ZIndex = 3
+                        BindKeyFrame.AutoButtonColor = false
+                        BindKeyFrame.Font = Enum.Font.SourceSans
+                        BindKeyFrame.Text = ""
+                        BindKeyFrame.TextColor3 = Color3.fromRGB(0, 0, 0)
+                        BindKeyFrame.TextSize = 14.000
+                        BindKeyFrame.TextScaled = true
+                        
+                        BindKeyFrameText.Name = "BindKeyFrameText"
+                        BindKeyFrameText.Parent = BindKeyFrame
+                        BindKeyFrameText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                        BindKeyFrameText.BackgroundTransparency = 1.000
+                        BindKeyFrameText.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                        BindKeyFrameText.BorderSizePixel = 0
+                        BindKeyFrameText.Size = UDim2.new(1, 0, 0.980000019, 0)
+                        BindKeyFrameText.Font = Enum.Font.SourceSans
+                        BindKeyFrameText.Text = KeyCodeToText(key)
+                        BindKeyFrameText.TextColor3 = Color3.fromRGB(255, 255, 255)
+                        BindKeyFrameText.TextScaled = true
+                        BindKeyFrameText.TextSize = 14.000
+                        BindKeyFrameText.TextWrapped = true
+                        
+                        BindKeyFrameCorner.CornerRadius = UDim.new(0, 3)
+                        BindKeyFrameCorner.Name = "BindKeyFrameCorner"
+                        BindKeyFrameCorner.Parent = BindKeyFrame
+                        
+                        BindMode.Name = "BindMode"
+                        BindMode.Parent = NameToggle
+                        BindMode.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                        BindMode.BackgroundTransparency = 1.000
+                        BindMode.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                        BindMode.BorderSizePixel = 0
+                        BindMode.Position = UDim2.new(-0.0017542555, 0, 0.0078125, 0)
+                        BindMode.Size = UDim2.new(0, 133, 0, 29)
+                        BindMode.AutoButtonColor = false
+                        BindMode.Font = Enum.Font.SourceSans
+                        BindMode.Text = ""
+                        BindMode.TextColor3 = Color3.fromRGB(0, 0, 0)
+                        BindMode.TextSize = 14.000
+                        
+                        ModeTitle.Name = "ModeTitle"
+                        ModeTitle.Parent = BindMode
+                        ModeTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                        ModeTitle.BackgroundTransparency = 1.000
+                        ModeTitle.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                        ModeTitle.BorderSizePixel = 0
+                        ModeTitle.Position = UDim2.new(0.0355987065, 0, 0.233333334, 0)
+                        ModeTitle.Size = UDim2.new(0, 49, 0, 15)
+                        ModeTitle.Font = Enum.Font.Gotham
+                        ModeTitle.Text = "Mode"
+                        ModeTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+                        ModeTitle.TextSize = 13.000
+                        ModeTitle.TextXAlignment = Enum.TextXAlignment.Left
+                        
+                        BModeHold.Name = "BModeHold"
+                        BModeHold.Parent = BindMode
+                        BModeHold.BackgroundColor3 = Color3.fromRGB(3, 13, 26)
+                        BModeHold.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                        BModeHold.BorderSizePixel = 0
+                        BModeHold.Position = UDim2.new(0.845000029, 0, 0.200000003, 0)
+                        BModeHold.Size = UDim2.new(0, 49, 0, 18)
+                        BModeHold.ZIndex = 3
+                        BModeHold.AutoButtonColor = false
+                        BModeHold.Font = Enum.Font.SourceSans
+                        BModeHold.Text = ""
+                        BModeHold.TextColor3 = Color3.fromRGB(0, 0, 0)
+                        BModeHold.TextSize = 14.000
+                        
+                        BModeHoldText.Name = "BModeHoldText"
+                        BModeHoldText.Parent = BModeHold
+                        BModeHoldText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                        BModeHoldText.BackgroundTransparency = 1.000
+                        BModeHoldText.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                        BModeHoldText.BorderSizePixel = 0
+                        BModeHoldText.Size = UDim2.new(1, 0, 0.980000019, 0)
+                        BModeHoldText.Font = Enum.Font.SourceSans
+                        BModeHoldText.Text = "Hold"
+                        BModeHoldText.TextColor3 = Color3.fromRGB(255, 255, 255)
+                        BModeHoldText.TextScaled = true
+                        BModeHoldText.TextSize = 14.000
+                        BModeHoldText.TextWrapped = true
+                        
+                        BModeHoldCorner.CornerRadius = UDim.new(0, 3)
+                        BModeHoldCorner.Name = "BModeHoldCorner"
+                        BModeHoldCorner.Parent = BModeHold
+                        
+                        BModeToggle.Name = "BModeToggle"
+                        BModeToggle.Parent = BindMode
+                        BModeToggle.BackgroundColor3 = Color3.fromRGB(6, 122, 178)
+                        BModeToggle.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                        BModeToggle.BorderSizePixel = 0
+                        BModeToggle.Position = UDim2.new(0.401391059, 0, 0.199999586, 0)
+                        BModeToggle.Size = UDim2.new(0, 49, 0, 18)
+                        BModeToggle.ZIndex = 3
+                        BModeToggle.AutoButtonColor = false
+                        BModeToggle.Font = Enum.Font.SourceSans
+                        BModeToggle.Text = ""
+                        BModeToggle.TextColor3 = Color3.fromRGB(0, 0, 0)
+                        BModeToggle.TextSize = 14.000
+    
+                        local BModeStroke = Instance.new("UIStroke")
+                        BModeStroke.Color = Color3.fromRGB(10, 41, 65)
+                        BModeStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+                        BModeStroke.LineJoinMode = Enum.LineJoinMode.Round
+                        BModeStroke.Thickness = 1
+                        BModeStroke.Transparency = 0
+                        BModeStroke.Parent = BModeHold
+    
+                        BindSetting.MouseButton1Click:Connect(function()
+                            for i,v in pairs(BindedSettings:GetChildren()) do
+                                if v:IsA("Frame") then
+                                    v.Visible = false
+                                end
+                            end
+
+                            for i,v in pairs(BindsList:GetChildren()) do
+                                if v:IsA("TextButton") then
+                                    TweenService:Create(
+                                        v.BindSettingImage,
+                                        TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                                        {Rotation = 180}
+                                    ):Play()
+                                    TweenService:Create(
+                                        v.BindSettingImage,
+                                        TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                                        {ImageColor3 = Color3.fromRGB(74, 87, 97)}
+                                    ):Play()
+                                end
+                            end
+                            
+                            TweenService:Create(
+                                BindSettingImage,
+                                TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                                {Rotation = 0}
+                            ):Play()
+
+                            TweenService:Create(
+                                BindSettingImage,
+                                TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                                {ImageColor3 = Neverlose_Main.Theme.Custom.Element}
+                            ):Play()
+
+                            NameToggle.Visible = true
+                        end)
+    
+                        local WhatIsToggled = v.Toggled
+
+                        if WhatIsToggled == false then
+                            TweenService:Create(
+                                BModeHold,
+                                TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                                {BackgroundColor3 = Neverlose_Main.Theme.Custom.Element}
+                            ):Play()
+    
+                            TweenService:Create(
+                                BModeToggle,
+                                TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                                {BackgroundColor3 = Color3.fromRGB(3, 13, 26)}
+                            ):Play()
+                            BModeStroke.Parent = BModeToggle
+                            BindSetting.Text = 'Hold "'..KeyCodeToText(key)..'"'
+                        else
+                            TweenService:Create(
+                                BModeToggle,
+                                TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                                {BackgroundColor3 = Neverlose_Main.Theme.Custom.Element}
+                            ):Play()
+    
+                            TweenService:Create(
+                                BModeHold,
+                                TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                                {BackgroundColor3 = Color3.fromRGB(3, 13, 26)}
+                            ):Play()
+                            BindSetting.Text = 'Toggle "'..KeyCodeToText(key)..'"'
+                            BModeStroke.Parent = BModeHold
+                        end
+                        
+                        BModeToggle.MouseButton1Click:Connect(function()
+                            TweenService:Create(
+                                BModeToggle,
+                                TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                                {BackgroundColor3 = Neverlose_Main.Theme.Custom.Element}
+                            ):Play()
+    
+                            TweenService:Create(
+                                BModeHold,
+                                TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                                {BackgroundColor3 = Color3.fromRGB(3, 13, 26)}
+                            ):Play()
+                            BindSetting.Text = 'Toggle "'..KeyCodeToText(key)..'"'
+                            BModeStroke.Parent = BModeHold
+                            WhatIsToggled = true
+                        end)
+    
+                        BModeHold.MouseButton1Click:Connect(function()
+                            TweenService:Create(
+                                BModeHold,
+                                TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                                {BackgroundColor3 = Neverlose_Main.Theme.Custom.Element}
+                            ):Play()
+    
+                            TweenService:Create(
+                                BModeToggle,
+                                TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                                {BackgroundColor3 = Color3.fromRGB(3, 13, 26)}
+                            ):Play()
+                            BModeStroke.Parent = BModeToggle
+                            BindSetting.Text = 'Hold "'..KeyCodeToText(key)..'"'
+                            WhatIsToggled = false
+                        end)
+                        
+                        BModeToggleText.Name = "BModeToggleText"
+                        BModeToggleText.Parent = BModeToggle
+                        BModeToggleText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                        BModeToggleText.BackgroundTransparency = 1.000
+                        BModeToggleText.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                        BModeToggleText.BorderSizePixel = 0
+                        BModeToggleText.Size = UDim2.new(1, 0, 0.980000019, 0)
+                        BModeToggleText.Font = Enum.Font.SourceSans
+                        BModeToggleText.Text = "Toggle"
+                        BModeToggleText.TextColor3 = Color3.fromRGB(255, 255, 255)
+                        BModeToggleText.TextScaled = true
+                        BModeToggleText.TextSize = 14.000
+                        BModeToggleText.TextWrapped = true
+                        
+                        BModeToggleCorner.CornerRadius = UDim.new(0, 4)
+                        BModeToggleCorner.Name = "BModeToggleCorner"
+                        BModeToggleCorner.Parent = BModeToggle
+
+                        local NameToggleFolder = Instance.new("Folder")
+                        local Deletion = Instance.new("Frame")
+                        local DeletionLayout = Instance.new("UIListLayout")
+                        local DeletionButton = Instance.new("ImageButton")
+
+                        NameToggleFolder.Name = "NameToggleFolder"
+                        NameToggleFolder.Parent = NameToggle
+                        
+                        Deletion.Name = "Deletion"
+                        Deletion.Parent = NameToggleFolder
+                        Deletion.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                        Deletion.BackgroundTransparency = 1.000
+                        Deletion.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                        Deletion.BorderSizePixel = 0
+                        Deletion.Position = UDim2.new(-0.0338385366, 0, 0.832324982, 0)
+                        Deletion.Size = UDim2.new(0, 160, 0, 26)
+                        
+                        DeletionLayout.Name = "DeletionLayout"
+                        DeletionLayout.Parent = Deletion
+                        DeletionLayout.FillDirection = Enum.FillDirection.Horizontal
+                        DeletionLayout.HorizontalAlignment = Enum.HorizontalAlignment.Right
+                        DeletionLayout.SortOrder = Enum.SortOrder.LayoutOrder
+                        
+                        DeletionButton.Name = "DeletionButton"
+                        DeletionButton.Parent = Deletion
+                        DeletionButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                        DeletionButton.BackgroundTransparency = 1.000
+                        DeletionButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                        DeletionButton.BorderSizePixel = 0
+                        DeletionButton.Position = UDim2.new(0.1875, 0, 0, 0)
+                        DeletionButton.Size = UDim2.new(0, 17, 0, 17)
+                        DeletionButton.Image = "http://www.roblox.com/asset/?id=6022668885"
+                        DeletionButton.ImageColor3 = Color3.fromRGB(79, 111, 200)
+
+                        DeletionButton.MouseEnter:Connect(function()
+                            TweenService:Create(
+                                DeletionButton,
+                                TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                                {ImageColor3 = Color3.fromRGB(200, 82, 74)}
+                            ):Play()
+                        end)
+
+                        DeletionButton.MouseLeave:Connect(function()
+                            TweenService:Create(
+                                DeletionButton,
+                                TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                                {ImageColor3 = Color3.fromRGB(79, 111, 200)}
+                            ):Play()
+                        end)
+                        local Completely_Stop = false
+                        DeletionButton.MouseButton1Click:Connect(function()
+                            NameToggle:Destroy()
+                            BindSetting:Destroy()
+                            Completely_Stop = true
+                        end)
+
+                        local Bind_ = {Value = v.key.Name, Binding = false, Holding = false, Toggled = WhatIsToggled}
+
+                        BindKey.MouseButton1Click:Connect(function()
+                            if Completely_Stop then return end
+                            if Bind_.Binding then return end
+                            BindKeyFrameText.Text = ""
+                            Bind_.Binding = true
+                            BindKeyFrameText.Text = "Press a key..."
+                            
+                            local a, b = UserInputService.InputBegan:Wait()
+                            
+                            Bind_.Value = a.KeyCode.Name
+                            BindKeyFrameText.Text = a.KeyCode.Name
+                            key = a.KeyCode
+                            if WhatIsToggled == false then
+                                BindSetting.Text = 'Hold "'..KeyCodeToText(v.key)..'"'
+                            else
+                                BindSetting.Text = 'Toggle "'..KeyCodeToText(v.key)..'"'
+                            end
+                            Bind_.Binding = false
+                        end)
+
+                        if WhatIsToggled == false then
+                            BindSetting.Text = 'Hold "'..KeyCodeToText(v.key)..'"'
+                        else
+                            BindSetting.Text = 'Toggle "'..KeyCodeToText(v.key)..'"'
+                        end
+
+                        BindKeyFrameText.Text = v.key.Name
+                        
+                        UserInputService.InputBegan:Connect(function(Input)
+                            if Completely_Stop then return end
+                            if UserInputService:GetFocusedTextBox() then return end
+                            if Input.KeyCode.Name == Bind_.Value and not Bind_.Binding then
+                                if WhatIsToggled then
+                                    Bind_.Toggled = not Bind_.Toggled
+                                    callback(Bind_.Toggled)
+                                else
+                                    Bind_.Holding = true
+                                    callback(Bind_.Holding)
+                                end
+                            end
+                        end)
+                        
+                        UserInputService.InputEnded:Connect(function(Input)
+                            if Completely_Stop then return end
+                            if Input.KeyCode.Name == Bind_.Value then
+                                if not WhatIsToggled then
+                                    Bind_.Holding = false
+                                    callback(Bind_.Holding)
+                                end
+                            end
+                        end)
+                    end
+                    
+                    BindedSettings.Name = "BindedSettings"
+                    BindedSettings.Parent = BindFrame
+                    BindedSettings.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                    BindedSettings.BackgroundTransparency = 1.000
+                    BindedSettings.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                    BindedSettings.BorderSizePixel = 0
+                    BindedSettings.Position = UDim2.new(0.353611469, 0, 0.159509197, 0)
+                    BindedSettings.Size = UDim2.new(0, 151, 0, 128)
+                    
+
+
+                    Section.Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y + 10)
+
+                    local BToggled = false
+
+                    BindFrameClose.MouseButton1Click:Connect(function()
+                        if BToggled == true then
+                            TweenService:Create(
+                                BindFrame,
+                                TweenInfo.new(.4, Enum.EasingStyle.Quad),
+                                {Size = UDim2.new(0, 263, 0, 0)}
+                            ):Play()
+                            TweenService:Create(
+                                BindFrameGlow,
+                                TweenInfo.new(.4, Enum.EasingStyle.Quad),
+                                {Size = UDim2.new(0, 286, 0, 0)}
+                            ):Play()
+                            TweenService:Create(
+                                BindFrameGlow,
+                                TweenInfo.new(.2, Enum.EasingStyle.Quad),
+                                {ImageTransparency = 1}
+                            ):Play()
+                            for i,v in pairs(BindFrame:GetChildren()) do
+                                if not v:IsA("UICorner") then
+                                    v.Visible = false
+                                    task.wait()
+                                end
+                            end
+                            repeat task.wait()
+                                Section.Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y)
+                                Container.CanvasSize = UDim2.new(0, 0, 0, Container.CanvasSize.Y.Offset)
+                            until BindFrame.Size == UDim2.new(0, 263, 0, 0)
+                            BindFrame.Visible = false
+                            BindFrameGlow.Visible = false
+                            BToggled = false
+                        end
+                    end)
+
+                    Bind.MouseButton1Click:Connect(function()
+                        if BToggled == false then
+                            BindFrame.Visible = true
+                            BindFrameGlow.Visible = true
+                            TweenService:Create(
+                                BindFrame,
+                                TweenInfo.new(.4, Enum.EasingStyle.Quad),
+                                {Size = UDim2.new(0, 263, 0, 163)}
+                            ):Play()
+                            TweenService:Create(
+                                BindFrameGlow,
+                                TweenInfo.new(.4, Enum.EasingStyle.Quad),
+                                {Size = UDim2.new(0, 286, 0, 178)}
+                            ):Play()
+                            TweenService:Create(
+                                BindFrameGlow,
+                                TweenInfo.new(.2, Enum.EasingStyle.Quad),
+                                {ImageTransparency = 0}
+                            ):Play()
+                            spawn(function()
+                                for i,v in pairs(BindFrame:GetChildren()) do
+                                    if not v:IsA("UICorner") then
+                                        v.Visible = true
+                                        task.wait(.1)
+                                    end
+                                end
+                            end)
+                            repeat task.wait()
+                                Section.Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y)
+                                Container.CanvasSize = UDim2.new(0, 0, 0, Container.CanvasSize.Y.Offset)
+                            until BindFrame.Size == UDim2.new(0, 263, 0, 163)
+                            BToggled = true
+                        else
+                            if BToggled == true then
+                                TweenService:Create(
+                                    BindFrame,
+                                    TweenInfo.new(.4, Enum.EasingStyle.Quad),
+                                    {Size = UDim2.new(0, 263, 0, 0)}
+                                ):Play()
+                                TweenService:Create(
+                                    BindFrameGlow,
+                                    TweenInfo.new(.4, Enum.EasingStyle.Quad),
+                                    {Size = UDim2.new(0, 286, 0, 0)}
+                                ):Play()
+                                TweenService:Create(
+                                    BindFrameGlow,
+                                    TweenInfo.new(.2, Enum.EasingStyle.Quad),
+                                    {ImageTransparency = 1}
+                                ):Play()
+                                spawn(function()
+                                    for i,v in pairs(BindFrame:GetChildren()) do
+                                        if not v:IsA("UICorner") then
+                                            v.Visible = false
+                                            task.wait()
+                                        end
+                                    end
+                                end)
+                                repeat task.wait()
+                                    Section.Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y)
+                                    Container.CanvasSize = UDim2.new(0, 0, 0, Container.CanvasSize.Y.Offset)
+                                until BindFrame.Size == UDim2.new(0, 263, 0, 0)
+                                BindFrame.Visible = false
+                                BindFrameGlow.Visible = false
+                                BToggled = false
+                            end
+                        end
+                    end)
+                end
 
                 return Elements
             end -- Sections end
@@ -4767,6 +5880,7 @@ function Neverlose_Main:Window(config)
         local Sec1 = Configs:Section("Load Config")
         local Sec2 = Configs:Section("Create Config")
         local Sec3 = Configs:Section("UI Color")
+        local Sec4 = Configs:Section("Keys")
         
         Sec2:TextBox("Config Name", function(t)
             Config_Name = t
@@ -4810,15 +5924,38 @@ function Neverlose_Main:Window(config)
         Sec3:Colorpicker("Text", Neverlose_Main.Theme.Custom.Text, function(t)
             Neverlose_Main.Theme.Custom.Text = t
         end)
+        Sec3:Colorpicker("Glow", Neverlose_Main.Theme.Custom.Glow, function(t)
+            Neverlose_Main.Theme.Custom.Glow = t
+        end)
+
+        Sec4:Bind("Toggle Menu", function(t)
+            MainFrame.Visible = t
+        end, {
+            {
+                key = Enum.KeyCode.LeftControl,
+                Toggled = true
+            }
+        })
+
+        Neverlose_Main:Notify({
+            Title = "Welcome",
+            Text = "Menu Key | LeftControl",
+            Time = 2
+        })
     end)
     spawn(function()
-        while task.wait(.1) do
+        while task.wait() do
             pcall(function()
                 --// Background \\--
                 KeyFrame.BackgroundColor3 = Neverlose_Main.Theme.Custom.Background
                 MainFrame.BackgroundColor3 = Neverlose_Main.Theme.Custom.Background
                 LeftFrame.BackgroundColor3 = Neverlose_Main.Theme.Custom.Background
 
+                TweenService:Create(
+                    MainFrameGlow,
+                    TweenInfo.new(.4, Enum.EasingStyle.Quad),
+                    {ImageColor3 = Neverlose_Main.Theme.Custom.Glow}
+                ):Play()
                 --// Section \\--
 
 
