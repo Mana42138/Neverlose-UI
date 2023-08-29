@@ -3280,6 +3280,7 @@ function Neverlose_Main:Window(config)
                 local Elements = {}
 
                 function Elements:Button(title, callback)
+                    local Buttonfunc = {}
 
                     local Button = Instance.new("TextButton")
                     local ButtonCorner = Instance.new("UICorner")
@@ -3356,6 +3357,12 @@ function Neverlose_Main:Window(config)
                     end)
                     Section.Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y + 10)
                     Container.CanvasSize = UDim2.new(0, 0, 0, Container.CanvasSize.Y.Offset + UniNum)
+
+                    function Buttonfunc:visibility(state)
+                        Button.Visible = state
+                    end
+
+                    return Buttonfunc
                 end
 
                 function Elements:Toggle(title, callback)
@@ -3367,6 +3374,10 @@ function Neverlose_Main:Window(config)
                     local ToggleFrameCorner = Instance.new("UICorner")
                     local ToggleDot = Instance.new("Frame")
                     local ToggleDotCorner = Instance.new("UICorner")
+
+                    function Togglefunc:visibility(state)
+                        Toggle.Visible = state
+                    end
 
                     local ToggledText = Instance.new("TextLabel")
 
@@ -3508,7 +3519,13 @@ function Neverlose_Main:Window(config)
                 end
 
                 function Elements:Line()
+                    local linefunc = {}
                     local SectionLine = Instance.new("Frame")
+
+                    function linefunc:visibility(state)
+                        SectionLine.Visible = state
+                    end
+
                     SectionLine.Name = "SectionLine"
                     SectionLine.Parent = Section
                     SectionLine.BackgroundColor3 = Color3.fromRGB(33, 71, 118)
@@ -3520,6 +3537,7 @@ function Neverlose_Main:Window(config)
 
                     Section.Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y + 10)
                     Container.CanvasSize = UDim2.new(0, 0, 0, Container.CanvasSize.Y.Offset + UniNum)
+                    return linefunc
                 end
 
                 function Elements:Dropdown(title, list, callback)
@@ -3535,6 +3553,10 @@ function Neverlose_Main:Window(config)
                     local DropdownFrameHoldCorner = Instance.new("UICorner")
                     local DropdownHolder = Instance.new("ScrollingFrame")
                     local DropdownHolderLayout = Instance.new("UIListLayout")
+
+                    function Dropfunc:visibility(state)
+                        Dropdown.Visible = state
+                    end
 
                     Dropdown.Name = title
                     Dropdown.Parent = Section
@@ -3807,6 +3829,10 @@ function Neverlose_Main:Window(config)
                     local Value = Instance.new("TextBox")
                     local ValueCorner = Instance.new("UICorner")
 
+                    function Sliderfunc:visibility(state)
+                        Slider.Visible = state
+                    end
+
                     Slider.Name = title
                     Slider.Parent = Section
                     Slider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -3970,12 +3996,17 @@ function Neverlose_Main:Window(config)
                 end
 
                 function Elements:TextBox(title, callback)
+                    local Textbocfunc = {}
                     local TextBox = Instance.new("TextButton")
                     local TextBoxCorner = Instance.new("UICorner")
                     local TextBoxTitle = Instance.new("TextLabel")
                     local Box = Instance.new("TextBox")
                     local BoxCorner = Instance.new("UICorner")
                     local TextBoxStroke = Instance.new("UIStroke")
+
+                    function Textbocfunc:visibility(state)
+                        TextBox.Visible = state
+                    end
                     
                     TextBox.Name = "TextBox"
                     TextBox.Parent = Section
@@ -4091,6 +4122,10 @@ function Neverlose_Main:Window(config)
                     local ColorpickerTitle = Instance.new("TextLabel")
                     local Colorpreview = Instance.new("TextButton")
                     local ColorpreviewCorner = Instance.new("UICorner")
+
+                    function Colorpickerfunc:visibility(state)
+                        Colorpicker.Visible = state
+                    end
                     
                     Colorpicker.Name = "Colorpicker"
                     Colorpicker.Parent = Section
@@ -4609,9 +4644,7 @@ function Neverlose_Main:Window(config)
                 end
 
                 function Elements:Bind(title, callback, external)
-                    for i,v in pairs(external) do
-                        
-                    end
+                    local Bindfunc = {}
 
                     local key, BindToggled, BindVersion, BindVerToggled, HoldToggled, ToggleToggled = '', false, "", false, false, false
 
@@ -4626,6 +4659,10 @@ function Neverlose_Main:Window(config)
                     local Hold = Instance.new("TextButton")
                     local Toggle_2 = Instance.new("TextButton")
                     local Always = Instance.new("TextButton")
+
+                    function Bindfunc:visibility(state)
+                        Bind.Visible = state
+                    end
 
                     Bind.Name = "Bind"
                     Bind.Parent = Section
@@ -5865,6 +5902,7 @@ function Neverlose_Main:Window(config)
                             end
                         end
                     end)
+                    return Bindfunc
                 end
 
                 return Elements
