@@ -3146,8 +3146,9 @@ function Neverlose_Main:Window(config)
                 TweenService:Create(TabTitle,TweenInfo.new(.3, Enum.EasingStyle.Quad),{TextColor3 = Color3.fromRGB(255,255,255)}):Play()
                 Container.Visible = true
             end)
-
+            
             SearchBar.Changed:Connect(function(ep)
+                if not UserInputService:GetFocusedTextBox() then return end
                     for i,v in pairs(Container:GetChildren()) do
                         if v:IsA("Frame") then
                             for i,v in pairs(v:GetChildren()) do
@@ -3397,32 +3398,6 @@ function Neverlose_Main:Window(config)
                     local ToggleDot = Instance.new("Frame")
                     local ToggleDotCorner = Instance.new("UICorner")
 
-                    function Togglefunc:visibility(state)
-                        local Trans = nil
-                        for i,v in pairs(Toggle:GetChildren()) do
-                            if not v:IsA("UICorner") and v.Name ~= "ToggleTitle" then
-                                v.Visible = state
-                            end
-                        end
-                        if state then
-                            Trans = 0
-                        elseif state == false then
-                            Trans = 1
-                        end
-                        TweenService:Create(
-                            ToggleTitle,
-                            TweenInfo.new(.3, Enum.EasingStyle.Quad),
-                            {TextTransparency = Trans}
-                        ):Play()
-                        task.wait(.3)
-                        Toggle.Visible = state
-                        TweenService:Create(
-                            Section,
-                            TweenInfo.new(.5, Enum.EasingStyle.Quad),
-                            {Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y + 10)}
-                        ):Play()
-                    end
-
                     local ToggledText = Instance.new("TextLabel")
 
                     ToggledText.Name = "ToggledText"
@@ -3529,6 +3504,33 @@ function Neverlose_Main:Window(config)
                         end
                         Toggled = Togglefunc.Value
                         return pcall(callback, Togglefunc.Value)
+                    end
+
+                    function Togglefunc:visibility(t)
+                        local state = t or nil
+                        local Trans = nil
+                        for i,v in pairs(Toggle:GetChildren()) do
+                            if not v:IsA("UICorner") and v.Name ~= "ToggleTitle" then
+                                v.Visible = state
+                            end
+                        end
+                        if state then
+                            Trans = 0
+                        elseif state == false then
+                            Trans = 1
+                        end
+                        TweenService:Create(
+                            ToggleTitle,
+                            TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                            {TextTransparency = Trans}
+                        ):Play()
+                        task.wait(.3)
+                        Toggle.Visible = state
+                        TweenService:Create(
+                            Section,
+                            TweenInfo.new(.5, Enum.EasingStyle.Quad),
+                            {Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y + 10)}
+                        ):Play()
                     end
 
                     Toggle.MouseButton1Click:Connect(function()
