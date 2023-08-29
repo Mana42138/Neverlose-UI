@@ -3359,7 +3359,29 @@ function Neverlose_Main:Window(config)
                     Container.CanvasSize = UDim2.new(0, 0, 0, Container.CanvasSize.Y.Offset + UniNum)
 
                     function Buttonfunc:visibility(state)
+                        local Trans = nil
+                        for i,v in pairs(Button:GetChildren()) do
+                            if not v:IsA("UICorner") and v.Name ~= "ButtonTitle" then
+                                v.Visible = state
+                            end
+                        end
+                        if state then
+                            Trans = 0
+                        elseif state == false then
+                            Trans = 1
+                        end
+                        TweenService:Create(
+                            ButtonTitle,
+                            TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                            {TextTransparency = Trans}
+                        ):Play()
+                        task.wait(.3)
                         Button.Visible = state
+                        TweenService:Create(
+                            Section,
+                            TweenInfo.new(.5, Enum.EasingStyle.Quad),
+                            {Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y + 10)}
+                        ):Play()
                     end
 
                     return Buttonfunc
@@ -3376,7 +3398,29 @@ function Neverlose_Main:Window(config)
                     local ToggleDotCorner = Instance.new("UICorner")
 
                     function Togglefunc:visibility(state)
+                        local Trans = nil
+                        for i,v in pairs(Toggle:GetChildren()) do
+                            if not v:IsA("UICorner") and v.Name ~= "ToggleTitle" then
+                                v.Visible = state
+                            end
+                        end
+                        if state then
+                            Trans = 0
+                        elseif state == false then
+                            Trans = 1
+                        end
+                        TweenService:Create(
+                            ToggleTitle,
+                            TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                            {TextTransparency = Trans}
+                        ):Play()
+                        task.wait(.3)
                         Toggle.Visible = state
+                        TweenService:Create(
+                            Section,
+                            TweenInfo.new(.5, Enum.EasingStyle.Quad),
+                            {Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y + 10)}
+                        ):Play()
                     end
 
                     local ToggledText = Instance.new("TextLabel")
@@ -3524,6 +3568,11 @@ function Neverlose_Main:Window(config)
 
                     function linefunc:visibility(state)
                         SectionLine.Visible = state
+                        TweenService:Create(
+                            Section,
+                            TweenInfo.new(.5, Enum.EasingStyle.Quad),
+                            {Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y + 10)}
+                        ):Play()
                     end
 
                     SectionLine.Name = "SectionLine"
@@ -3555,7 +3604,29 @@ function Neverlose_Main:Window(config)
                     local DropdownHolderLayout = Instance.new("UIListLayout")
 
                     function Dropfunc:visibility(state)
+                        local Trans = nil
+                        for i,v in pairs(Dropdown:GetChildren()) do
+                            if not v:IsA("UICorner") and v.Name ~= "DropdownTitle" then
+                                v.Visible = state
+                            end
+                        end
+                        if state then
+                            Trans = 0
+                        elseif state == false then
+                            Trans = 1
+                        end
+                        TweenService:Create(
+                            DropdownTitle,
+                            TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                            {TextTransparency = Trans}
+                        ):Play()
+                        task.wait(.3)
                         Dropdown.Visible = state
+                        TweenService:Create(
+                            Section,
+                            TweenInfo.new(.5, Enum.EasingStyle.Quad),
+                            {Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y + 10)}
+                        ):Play()
                     end
 
                     Dropdown.Name = title
@@ -3830,7 +3901,29 @@ function Neverlose_Main:Window(config)
                     local ValueCorner = Instance.new("UICorner")
 
                     function Sliderfunc:visibility(state)
+                        local Trans = nil
+                        for i,v in pairs(Slider:GetChildren()) do
+                            if not v:IsA("UICorner") and v.Name ~= "SliderTitle" then
+                                v.Visible = state
+                            end
+                        end
+                        if state then
+                            Trans = 0
+                        elseif state == false then
+                            Trans = 1
+                        end
+                        TweenService:Create(
+                            SliderTitle,
+                            TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                            {TextTransparency = Trans}
+                        ):Play()
+                        task.wait(.3)
                         Slider.Visible = state
+                        TweenService:Create(
+                            Section,
+                            TweenInfo.new(.5, Enum.EasingStyle.Quad),
+                            {Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y + 10)}
+                        ):Play()
                     end
 
                     Slider.Name = title
@@ -4005,7 +4098,29 @@ function Neverlose_Main:Window(config)
                     local TextBoxStroke = Instance.new("UIStroke")
 
                     function Textbocfunc:visibility(state)
+                        local Trans = nil
+                        for i,v in pairs(TextBox:GetChildren()) do
+                            if not v:IsA("UICorner") and v.Name ~= "TextBoxTitle" then
+                                v.Visible = state
+                            end
+                        end
+                        if state then
+                            Trans = 0
+                        elseif state == false then
+                            Trans = 1
+                        end
+                        TweenService:Create(
+                            TextBoxTitle,
+                            TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                            {TextTransparency = Trans}
+                        ):Play()
+                        task.wait(.3)
                         TextBox.Visible = state
+                        TweenService:Create(
+                            Section,
+                            TweenInfo.new(.5, Enum.EasingStyle.Quad),
+                            {Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y + 10)}
+                        ):Play()
                     end
                     
                     TextBox.Name = "TextBox"
@@ -4124,7 +4239,29 @@ function Neverlose_Main:Window(config)
                     local ColorpreviewCorner = Instance.new("UICorner")
 
                     function Colorpickerfunc:visibility(state)
+                        local Trans = nil
+                        for i,v in pairs(Colorpicker:GetChildren()) do
+                            if not v:IsA("UICorner") and v.Name ~= "ColorpickerTitle" then
+                                v.Visible = state
+                            end
+                        end
+                        if state then
+                            Trans = 0
+                        elseif state == false then
+                            Trans = 1
+                        end
+                        TweenService:Create(
+                            ColorpickerTitle,
+                            TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                            {TextTransparency = Trans}
+                        ):Play()
+                        task.wait(.3)
                         Colorpicker.Visible = state
+                        TweenService:Create(
+                            Section,
+                            TweenInfo.new(.5, Enum.EasingStyle.Quad),
+                            {Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y + 10)}
+                        ):Play()
                     end
                     
                     Colorpicker.Name = "Colorpicker"
@@ -4661,7 +4798,29 @@ function Neverlose_Main:Window(config)
                     local Always = Instance.new("TextButton")
 
                     function Bindfunc:visibility(state)
+                        local Trans = nil
+                        for i,v in pairs(Bind:GetChildren()) do
+                            if not v:IsA("UICorner") and v.Name ~= "BindTitle" then
+                                v.Visible = state
+                            end
+                        end
+                        if state then
+                            Trans = 0
+                        elseif state == false then
+                            Trans = 1
+                        end
+                        TweenService:Create(
+                            BindTitle,
+                            TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                            {TextTransparency = Trans}
+                        ):Play()
+                        task.wait(.3)
                         Bind.Visible = state
+                        TweenService:Create(
+                            Section,
+                            TweenInfo.new(.5, Enum.EasingStyle.Quad),
+                            {Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y + 10)}
+                        ):Play()
                     end
 
                     Bind.Name = "Bind"
