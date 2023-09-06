@@ -4632,7 +4632,7 @@ function Neverlose_Main:Window(config)
                             ChoseColor.BackgroundColor3 = Color3.fromHSV(ColorH, 1, 1)
                             ColorValue.Text = Colorpickerfunc:GetFromRGBText(Colorpreview.BackgroundColor3)
                         
-                            pcall(callback, Colorpreview.BackgroundColor3)
+                            Colorpickerfunc:Set(Colorpreview.BackgroundColor3)
                         end
                         
                         local function UpdateColorFromRGB(r, g, b)
@@ -4699,7 +4699,7 @@ function Neverlose_Main:Window(config)
               
                      Colorpreview.BackgroundColor3 = preset
                      ChoseColor.BackgroundColor3 = preset
-                     pcall(callback, Colorpreview.BackgroundColor3)
+                     Colorpickerfunc:Set(Colorpreview.BackgroundColor3)
               
                      ChoseColor.InputBegan:Connect(
                         function(input)
@@ -4777,7 +4777,7 @@ function Neverlose_Main:Window(config)
                            end
                         end
                      )
-
+                     
                     Neverlose_Main.Flags[title] = Colorpickerfunc
                     return Colorpickerfunc
                 end
