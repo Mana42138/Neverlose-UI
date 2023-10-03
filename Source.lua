@@ -6186,3 +6186,4 @@ function Neverlose_Main:Window(config)
     end)
     return TabsSec
 end
+return Neverlose_Main
