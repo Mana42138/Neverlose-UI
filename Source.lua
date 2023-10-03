@@ -2979,6 +2979,22 @@ function Neverlose_Main:Window(config)
             writefile(Folder1 .. "/configs/" .. cfg .. ".txt", Encoded)
         end
         
+        function Neverlose_Main:Edit_LastLoad(cfg)
+            writefile(Folder1.."/LastLoaded.txt", HttpService:JSONEncode({["CFG"] = tostring(cfg)}))
+        end
+
+        function Neverlose_Main:LastConfigSaved()
+            if isfile(Folder1.."/LastLoaded.txt") then
+                return HttpService:JSONDecode(readfile(Folder1.."/LastLoaded.txt")).CFG
+            else
+                Neverlose_Main:Notify({Title = "Neverlose",
+                    Text = 'Please Save a config first!',
+                    Time = 2,
+                    AutoClose = true
+                })
+            end
+        end
+        
         function Neverlose_Main:CreateCfg(cfg)
             local content = {}
             for i, v in pairs(Neverlose_Main.Flags) do
@@ -3004,6 +3020,7 @@ function Neverlose_Main:Window(config)
                     AutoClose = true
                 })
                 Neverlose_Main:SaveCfg(tostring(Neverlose_Main.Targeted_Config))
+                Edit_LastLoad(tostring(Neverlose_Main.Targeted_Config))
             end
         end)
 
@@ -6110,6 +6127,7 @@ function Neverlose_Main:Window(config)
                 Text = "Loaded Config: "..tostring(Selected_Config)
             })
             Neverlose_Main:LoadCfg(tostring(Selected_Config))
+            Neverlose_Main:Edit_LastLoad(tostring(Selected_Config))
         end)
         Sec3:Colorpicker("Background", Neverlose_Main.Theme.Custom.Background, function(t)
             Neverlose_Main.Theme.Custom.Background = t
@@ -6141,6 +6159,7 @@ function Neverlose_Main:Window(config)
             Text = "Menu Key | LeftControl",
             Time = 2
         })
+
     end)
     spawn(function()
         while task.wait() do
@@ -6167,4 +6186,3 @@ function Neverlose_Main:Window(config)
     end)
     return TabsSec
 end
-return Neverlose_Main
