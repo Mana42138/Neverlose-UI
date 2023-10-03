@@ -2978,7 +2978,7 @@ function Neverlose_Main:Window(config)
             
             writefile(Folder1 .. "/configs/" .. cfg .. ".txt", Encoded)
         end
-        
+
         function Neverlose_Main:Edit_LastLoad(cfg)
             writefile(Folder1.."/LastLoaded.txt", HttpService:JSONEncode({["CFG"] = tostring(cfg)}))
         end
@@ -6186,4 +6186,5 @@ function Neverlose_Main:Window(config)
     end)
     return TabsSec
 end
+
 return Neverlose_Main
