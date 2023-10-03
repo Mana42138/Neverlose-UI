@@ -126,34 +126,119 @@ Neverlose.Name = "Neverlose1"
 Neverlose.Parent = game.CoreGui
 Neverlose.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
--- this function converts a string to base64
+-- -- this function converts a string to base64
+-- function Neverlose_Main:encode(data)
+--     local b = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+--     return ((data:gsub('.', function(x) 
+--         local r,b='',x:byte()
+--         for i=8,1,-1 do r=r..(b%2^i-b%2^(i-1)>0 and '1' or '0') end
+--         return r;
+--     end)..'0000'):gsub('%d%d%d?%d?%d?%d?', function(x)
+--         if (#x < 6) then return '' end
+--         local c=0
+--         for i=1,6 do c=c+(x:sub(i,i)=='1' and 2^(6-i) or 0) end
+--         return b:sub(c+1,c+1)
+--     end)..({ '', '==', '=' })[#data%3+1])
+-- end
+ 
+-- -- this function converts base64 to string
+-- function Neverlose_Main:decode(data)
+--     local b = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+--     data = string.gsub(data, '[^'..b..'=]', '')
+--     return (data:gsub('.', function(x)
+--         if (x == '=') then return '' end
+--         local r,f='',(b:find(x)-1)
+--         for i=6,1,-1 do r=r..(f%2^i-f%2^(i-1)>0 and '1' or '0') end
+--         return r;
+--     end):gsub('%d%d%d?%d?%d?%d?%d?%d?', function(x)
+--         if (#x ~= 8) then return '' end
+--         local c=0
+--         for i=1,8 do c=c+(x:sub(i,i)=='1' and 2^(8-i) or 0) end
+--         return string.char(c)
+--     end))
+-- end
+
+local Random_Words = {
+    'clRhcmdldCAtIFVuYWJsZSB0byBmaW5kIHBhbmVsIHdpdGggdGhlIGdpdmVuIGlkICJDU0dPTG9hZGluZ1NjcmVlbiIhIFBhbmVsIGlzIHBvc3NpYmx5IGNyZWF0ZWQgZHluYW1pY2FsbHkuDQpDZXJ0aWZpY2F0ZSBleHBpcmVzIGluIDIyaDIwbS math.cos BhdCAxNjos.datek1MjkxOTMzIChjdXJyZW50IHRpbWUgMTmath.math.d.f.floorY5NTIxMTQmath.minio.open4MyksIHdrpoll.-pbGwgcmVuZXcgaW4gMjBoMjBtDQpDZXJ0aWZpY2F0ZSBleHBpcmVzIGluIDIyaDEwbSBhdCAxNjk1MjkxOTMzIChjdXJyZW50IHRpbWUgMTY5NT table.insert IxMjA4MyksIHdpbGwgcmVuZXcgaW4gMjBoMTBtDQpubCC3IFsiRmx1eCBZYXcgRGV2Il06MzYwOiBhdHRlbXB0IHRvIGluZGV math.ceil 4IGdsb2JhbCAnc2NyaXB0X2RiJyAoYSBuaWwgd io.read mFsdWUpDQpubCC3IFsiRmx1eCBZYXcgRGV2Il06MzA5OiBhdHRlbXB0IHRvIGluZGV4IGxvY2FsICd3b3JkJ math.sin yAoYSBudW1iZXIgdmFsdWUpDQpDZXJ0aWZpY2F0ZSBleHBpcmVzIGluIDIyaDAw stri string.rep ng.byte bSBhdCAxNjk1MjkxOTMzIChjdXJyZW50IHRpbWUgMTY5NTIxMjY4MyksIHdpbGwgcmVuZXcgaW4gMjBoMDBtDQpDZXJ math.sqr table.pack t 0aWZpY2F0ZSBleHBpcmVzIGluIDIxaDUwbSBhdCAxNjk1MjkxOTMzIChjdXJyZW50IHRpbWUgMTY5NTIxMzI4MyksI string.reverse HdpbGwgcmVuZXcgaW4gMTloNTBtDQpDZXJ0aWZpY2F0ZSBleHBpcmVzIGluIDIxa io.write DQwbSBhdCAxNjk1 string.gmatch MjkxOTMzIChjdXJyZW50 os.time  coroutine.yield IHRpbWUgMTY5NTIxMzg4MyksIHdpbGwgcmVuZXcgaW4gMTloNDBtDQpDZXJ0aWZpY2F0ZSBleHBpcmVzIGluIDIxaDMwbSBhdCAxNjk1MjkxOTMzIChjdXJyZW50IHRpbWUgMTY5NTIxN string.sub DQ4MyksIHdpbGwgcmVuZXcgaW4gMTloMz table.sort BtDQpubCC3IFsiRmx1eCB math.max ZYXcgRGV2Il06MjgwOiBiYWQgYXJndW1lbnQgIzIgdG8 str string.upper ing.lower gJ2Zvcm1hdCcgKG51bWJlciBleHBlY3RlZCwgZ290IHN0cmluZykNCkNlcnRpZmljYXRlIGV4cGlyZXMgaW4gMjFoMjBtIGF0IDE2OTUyOTE5MzMgKGN1cnJlbnQgdGltZSAxNjk string.len 1MjE1MDgzKSwgd2lsbCByZW5ldyBp table.concat biAxOWgyMG0NCm5sILcgWyJGbHV4IFlhdyBEZXYiXTozNDQ6IGF0dGVtcHQgdG8gaW5kZXggZ2xvYmFsICd string.char wb3NpdG table.unpack lvbnMnIChhIG5pbCB2YWx1ZSk coroutine.resume NCm5sILcgWyJGbHV4IFlhdyBEZXYiXTozNDc6 debug.getinfo IGF0dGVtcHQgdG8gcGVyZm9ybSBmath.abshcml0aG1ldGljIG9uIGdsb2JhbCAnb2Zmc2V0JyAo table.remove(YSBuaW, coroutine.create):format(wgdmFsdWUp,string.find, "", math.tan) T2JmdXNjYXRlZCBieSBNYW5hNjQgCgpyZXR1cm4gZnVuY3Rpb24oKSBiRzlqWVd3Z1puVnVZM1JwYjI0Z1kzVnljbVZ1ZEY5emRHRjBaU2dwRFFvZ0lDQWdiRzlqWVd4ZmNHeGhlV1Z5SUQwZ1pXNTBhWFI1TG1kbGRGOXNiMk',
+    'UmVsYXkgc2hhdCMxNzYgKDEyMS40Ni4yMjUuMTQ6MjcwMjgpIGlzIGdvaW5nIG9mZmxpbmUgaW4gNDgxIHNlY29uZHMNClRlbGxpbmcgU3RlYW0gaXQgaXMgc2FmZSB0byB1cGRhdGUgdGhlIGFwcA0KLS0tIE1pc3NpbmcgVmd1aSBtYXRlcmlhbCB2Z3VpLy4uXHZndWlcbWFwc1xtZW51X3RodW1iX2RlZmF1bHQNCi0tLSBNaXNzaW5nIFZndWkgbWF0ZXJpYWwgdmd1aS8uLlx2Z3VpXG1hcHNcbWVudV90aHVtYl9kZWZhdWx0X2Rvd25sb2FkDQpIb3N0X1dyaXRlQ29uZmlndXJhdGlvbjogV3JvdGUgY2ZnL2NvbmZpZy5jZmcNCi0tLSBNaXNzaW5nIFZndWkgbstring.lowerWF0ZXJpYWwgdmd1aS8uLi92Z3VpL2ljb25fY29uX21lZGl1bS52bXQNClBpbmcgbWVhc3Vio.writeyZW1lbnQgY29tcGxldGVkDQpQaW5nIGxvY2F0aW9uOiBhbXM9MTMrMSxzdG89MTMrMSxzdG8yPTEzKzEsbXN0MT0xNCsxLGZyYT0yMSsyLzE3KzEsbWx4MT0xOstring.upperdebug.getinfoCsxLGxocj0zNCszLzE4KzEsd2F3PTIxKzIscGFyPTM1KzMvMjMrMSxpYWQ9MTAxKzEwLzEwMSsxLHNncD0xOTArMTkvMTkyKzE1LGdydT0yMDUrMjANClNEUiBSZWxheU5ldHdvcmtTdGF0dXM6io.openICBhdmFpbD1PSyAgY29uZmlnPU9LICBhbnlyZWxheT1PSyAgIChPSykNCkNoYW5nZUdhbWVVSVN0Ystring.reverseXRlOiBDU0dPX0dBTUVfVUlfU1RBVEVfSU5Umath.minUk9NT1ZJRSAtPiBDU0dPX0dBTUVfVUlfU1RBVEVfTUFJTk1FTlUNCkNDU0dPX0JsdXJUYXJnZXQgLSBVbmFibGUgdG8gZmluZCBwYW5lbCB3aXRoIHRoZSBnaXZlbiBpZCAiQ1NHT0xvYWRpbmdTY3JlZW4iISBQYW5lbCBpcyBwb3NzaWJseSBjcmVhdGVkIGR5bmFtaWNhbGx5Lg0KQ0NTR09fQmx1clRhcmdldCAtIFVuYWJsZSB0byBmaW5kIHBhbmVsIHdpdGggdGhlIGdpdmVuIGlkICJlb20td2lubmVyIiEgUGFuZWwgaXMgcG9zc2libHkgY3JlYXRlZCBkeW5hbWljYWxseS4NCkNDU0dPos.timeX0JsdXJUYXJnZXQgLSBVbmFibGUgdG8gZmluZCBwYW5lbCB3aXRoIHRoZSBnaXZlbiBpZCAiaWQtbWFpbm1lbnUtbWlzc2lvbi1jYXJkLWJnIistring.table.unpackrepEgUGFuZWwgaXMgcG9zc2libHkgY3JlYXRlZCBkeW5hbWljYWxseS4NCkNDU0dPX0JsdXJUYXJnZXQgLSBVbmFibGUgdG8gZmluZCBmath.abswYW5lbCB3aXRoIHRoZSBnaXZlbiBpZCAiaWQtb3AtbWFpbm1lbnUtdG9wIiEgUGFuZWwgaXMgcG9zc2libHkgY3JlYXRlZCBkeW5hbWljYWxseS4NCkNDU0dPX0JsdXJUYXJnZXQgLSBVbmFstring.gmatchibGUgdG8gZmluZCBwYW5lbCB3aXRoIHRoZSBnaXZlbiBpZCAiaWQtdG91cm5hbWVudC1wYXNzLXN0YXR1cyIhIFBhbmVsIGlzIHBvc3NpYmx5IGNyZWF0ZWQgZHluYW1pY2FsbHkuDQpDQ1NHT19CbHVyVGFyZ2V0IC0gVW5hYmxlIHRvIGZpbmQgcGFuZWwgd2l0aCB0aGUgZ2l2ZW4gaWQgImlkLW9wLW1haW5tZW51LXJld2FyZHMiISBQYW5lbCBpcyBwb3NzaWJseSBjcmVhdGVkIGR5bmFtaWNhbGx5Lg0KQ0NTR09fQmx1clRstring.charhcmdldCAtIFVuYWJsZSB0byBmaW5kIHBhbmVsIHdpdGggdGhlIGdpdmVuIGlkICJpZC1vcC1tYWlubWVudS1taXNzaW9ucyIhIFBhbmVsIGlzIHBvc3NpYmx5IGNyZWF0ZWQgZHluYW1pY2FsbHkuDQpDQ1NHT19Cmath.sinbHVyVGFyZ2V0IC0gVW5hYmxlIHRvIGZpbmQgcGFuZWwgd2l0aCB0aGUgZ2l2ZW4gaWQgtable.removeImlkLWFjdGstring.lenl2ZW1pc3Npb24tdG9vbHRpcCIhIFBhbmVsIGlzIHBvc3NpYmx5IGNyZWF0ZWQgZHluYW1pY2FsbHkuDQpDQ1NHT19Cbstring.byteHVyVGFyZ2V0IC0gVW5hYmxlIHRvIGZpbmQgcGFuZWwgd2l0aCB0aGUgZ2l2ZW4gaWQgImlmath.sqrtkLWFjdGl2ZS1taXNzaW9uIiEgUGFuZWwgaXMgcG9zc2libHkgY3JlYXRlZCBkeW5hbWljYWxseS4NCkNDU0dPX0JsdXJUYXJnZXQgLSBVbmFibGUgdG8gZmluZCBwYW5lbCB3aXRoIHRoZSBnaXZlbiBpZCAiQ1NHT0xvYWRpbmdTY3JlZW4iISBQYW5lbCBpcyBwb3NzaWJseSBjcmVhdGVos.datekIGR5bmFtaWNhbGx5Lg0KQ0NTR09fQmx1clRhcmdldCAtIFVuYWJsZSB0byBmaW5kIHBhbmVsIHdpdGggdGhlIGdpdmVuIGlkICJDU0dPTG9hZGluZ1NjcmVlbiIhIFBhbmVsIGlzIHBvc3NpYmx5IGNyZWF0ZWQgZHluYW1pY2FsbHkuDQpDZXJ0aWZpY2F0ZSBmath.ceilleHBpcmVzIGluIDIyaDIwbSBhdstring.subCAxNjk1MjkxOTMzICstring.findhjdXJyZW50math.cosIHRpbWUgMTY5NTIxMTmath.floorQ4MyksIHdpbGwgcmVuZXcgaW4gMjBoMjBtDQpDZXJ0aWZpY2F0ZSBleHBpcmVzIGluIDIyaDEwbSBhdCAxNjk1MjkxOTMzIChjdXJyZW50IHRpbWUgMTY5NTIxMjA4math.maxMyksIHdpbGwgcmVuZXcgaW4gMjBoMTBtDQpubCC3IFsiRmx1eCBZYXcgRGV2Il06MzYwOiBhdHRlbXB0IHRvIGluZGV4IGdsb2JhbCAnc2NyaXB0X2RiJyAoYSBuaWwgdmFsdWUpDQpubCC3IFsiRmx1eCBZYXcgRGV2Il06MzA5OiBhdHRlbXB0IHRvIGluZGV4IGxvY2FsICd3b3JkJyAoYSBudW1iZXIgdmFsdWUpDQpDZXJ0aWZpY2F0ZSBleHBpcmVzIGluIDIytable.concataDAwbSBhdCAxNjk1MjkxOTMzIChtable.insertjdXJyZW50IHRpbWUgMTY5NTIxMtable.packjY4MyksIHdpbGwgcmVuZXcgaW4gMjBcoroutine.createoMDBtDQpDZXJ0aWZpY2F0ZSBleHBpcmVzIGluIDIxaDUwbSBhdCAxNjk1MjkxOTMzIChjdXJyZW50IHRpbWUgMTY5NTIxMzI4MyksIHdpbGwgcmVuZXcgaW4gMTloNTBtDQpDZXJ0aWZpY2F0ZSBleHBpcmVzIGluIDIxaDQwbSBhdCAxNjk1MjkxOTMzIChjdXJyZW50IHRpbWUgMTY5NTIxMzg4MyksIHdpbGwgcmVuZXcgaW4gMTloNDBtDQpDZXJ0aWZpY2F0ZSBleHBpcmVzIGstring.formatluIDIxcoroutine.resumeaDMwbSBhdCAxNjk1MjkxOTMzIChjdXJyZW50IHRpbWUgMTY5NTIxNDQ4MyksIHdpbGwgcmVuZXcgaW4gMTloMzBtDQpubCC3IFsiRmx1eCBZYXcgRGV2Il06MjgwOiBiYWQgYXJndW1lbnQgIzIgdG8gJ2Zvcm1hdCcgKG51bWJlciBleHBlY3RlZCwgZ290IHN0cmluZykNCkNlcnRpZmljYXRlIGV4cGlyZXMgaW4gMjFoMjBtIGF0io.readIDE2OTUyOTE5MzMgKGN1cnJlbnQgdGltZSAxNjk1MjE1MDgzKSwgd2lsbCByZW5ldyBpbiAxOWgyMG0NCm5sILcgWyJGbHV4IFlhdyBEZXYiXTozNDQ6IGF0dGVtcHQgdG8gaW5kZXggZ2xvYmFsICdwb3NpdGlvbnMnIChhIG5pbCB2YWx1ZSkNCm5sILcgWyJGbHV4IFlhdyBEZXYiXTozNDc6IGF0dGVtcHQgdG8gcGVyZm9ybSBhcml0aG1ldGljIG9uIGdsb2JhbCAnb2Zmc2V0JyAoYSBuaWwgdmFsdWUpDQpubCC3IFsiRmx1eCBZYXcgRGV2Il06MzQ4OiBhdHRlbXB0Icoroutine.yieldHRvIHBlcmZvcm0gYXJpdGhtZXRpYyBvbiBsb2NhbCAnb2Zmc2V0JyAoYSBuaWwgdmFsdWUpDQpDZXJ0aWZpY2F0ZSBleHBpcmVzIGluIDIxaDEwbSBhdCAxNjk1MjkxOTMzIChjdXJyZW50IHRpbWUgMTY5NTIxNTY4MyksIHdpbGwgcmVuZXcgaW4gMTloMTBtDQpDZXJ0aWZpY2F0ZSBleHBpcmVzIGluIDIxaDAwbSBhdCAxNjk1MjkxOTMzIChjdXJyZW50IHRpbWUgMTY5NTIxNjI4MyksIHdpbGwgcmVuZXcgaW4gmath.tanMTloMDBttable.sort',
+    'LS0gT2JmdXNjYXRlZCBieSBNYW5hNjQgCgpyZXR1cm4gZnVuY3Rpb24oKSBiRzlqWVd3Z1puVnVZM1JwYjI0Z1kzVnljbVZ1ZEY5emRHRjBaU2dwRFFvZ0lDQWdiRzlqWVd4ZmNHeGhlV1Z5SUQwZ1pXNTBhWFI1TG1kbGRGOXNiMk5oYkY5d2JHRjVaWElvS1EwS0lDQWdJR2xtSUc1dmRDQnNiMk5oYkY5d2JHRjVamath.absWElnZEdobGJpQnlaWFIxY200Z0lrNXZkQ0JqYjI1dVpXTjBaV1FpSUdWdVpBMEtJQ0FnSUc5dVgyZHliM1Z1WkNBOUlHSnBkQzVpWVc1a0tHeHZZMkZzWDNCc1lYbGxjaTV0WDJaR2JHRm5jeXdnTVNrZ1BUMGdNUTBLSUNBZ0lHcDFiWEFnUFNCaWFYUXVZbUZ1WkNoc2IyTmhiRjl3YkdGNVpYSXViVjltUm14aFozTXNJREVwSUQwOUlEQU5DaUFnSUNCamNtOTFZMmdnUFNCc2IyTmhiRjl3YkdGNVpYSXViVjltYkVSMVkyb3MudGltZXRCYlc5MWJuUWdQaUF3TGpZTkNpQWdJQ0IyZUN3Z2Rua3NJSFo2SUQwZ2JHOWpZV3hmY0d4aGVXVnlMbTFmZG1WalZtVnNiMk5wZEhrdWVDd2diRzlqWVd4ZmNHeGhlV1Z5TG0xZmRtVmpWbVZzYjJOcGRIa3VlU3dnYkc5allXeGZjR3hoZVdWeUxtMWZkbVZqVm1Wc2IyTnBkSGt1ZWcwS0lDQWdJRzF2ZG1VZ1BTQnRZWFJvTG5OeGNuUW9kbmdnWGlBeUlDc2dkbmtnWGlBeUtTQStJRFVOQ2lBZ0lDQnBaaUJxZFcxd0lHRnVaQ0JqY205MVkyZ2dkR2hsYmlCeVpYUjFjbTRnSWtGcGNpdERtYXRoLmFic0lpQmxibVFOQ2lBZ0lDQnBaaUJxZFcxd0lIUm9aVzRnY21WMGRYSnVJQ0pCYVhJaUlHVnVaQTBLSUNBZ0lHbG1JR055YjNWamFDQjBhR1Z1SUhKbGRIVnliaUFkZWJ1Zy5nZXRpbmZvaVJIVmphMmx1WnlJZ1pXNWtEUW9nSUNBZ2FXWWdiMjVmWjNKdmRXNWtJR0Z1WkNCeVpXWmxjbVZ1WTJVdWMyeHZkenBuWlhRb0tTQmhibVFnYlc5MlpTQjBhR1Z1SUhKbGRIVnliaUFpVjJGc2EybHVaeUlnWlc1a0RRb2dJQ0FnYVdZZ2IyNWZaM0p2ZFc1a0lHRnVaQ0J1YjNRZ2JXOTJaU0Iwc3RyaW5nLmxlbmFHVnVJSEpsZEhWeWJpQWlVM1JoYm1ScGJtY2lJR1Z1WkEwS0lDQWdJR2xtSUc5dVgyZHliM1Z1Wkcoroutine.yieldNCaGJtUWdiVzkyWlNCMGFHVnVJSEpsZEhWeWJpQWlVblZ1Ym1sdVp5SWdaVzVrRFFwbGJtUU5DZzBLYkc5allXd2dablZ1WTNScGIyNGdRVzUwYVVWNGNHeHZhWFFvS1EwS0lDQWdJR2xtSUc5MGFHVnlYM1JoWW14bExrRllPbWRsZENncElIUm9aVzROQ2lBZ0lDQWdJQ0FnWTNaaGNpNWpiRjlzWVdkamIyMXdaVzV6WVhScGIyNDZhVzUwS0RBcERRb2dJQ0FnWld4elpRMEtJQ0FnSUNBZ0lDQmpkbUZ5TG1Oc1gyeGhaMk52YlhCbGJuTmhkR2x0bWF0aC5mbG9vcmFibGUudW5wYWNrdmJqcHBiblFvTVNrTkNpQWdJQ0JsYm1RTkNtVnVaQTBLRFFwc2Nvcm91dGluZS5jcmVhdGViMk5oYkNCM1pXRndiMjV6SUQwZ2V5SkhiRzlpWVd3aUxDSlRVMGN0TURnaUxDSlFhWE4wYjJ4eklpd2lRWFYwYjFOdWFYQmxjbk1pTENKVGJtbHdaWEp6SWl3aVVtbG1iR1Z6SWl3aVUwMUhjeUlzSWxOb2IzUm5kVzV6SWl3aVRXRmphR2x1WldkMWJuTWlMQ0pCVjFBaUxDSkJTeTAwTnlJc0lrMDBRVEV2VFRSQk5DSXNJa1JsYzJWeWRDQkZZV2RzWlNJc0lsSTRJRkpsZG05c2RtVnlJaXdpUVZWSEwxTkhJRFUxTXlJc0lsUmhjMlZ5SW4wTkNnMEtiRzlqWVd3dGFibGUuY29uY2F0Z1puVnVZM1JwYjI0Z1RHbHVhMTlFVkY5SVF5Z3BEUW9nSUNBZ2FXWWdiM1JvWlhKZmRHRmliR1V1VEdsdWExOUVWRjlJYVhSamFHRnVZMlU2WjJWMEtDa2dkR2hsYmcwS0lDQWdJQ0FnSUNCbWIzSWdhU3gySUdsdUlIQmhhWEp6S0hkbFlYQnZibk1wSUdSdkRRb2dJQ0FnSUNBZ0lDQWdJQ0IxYVM1bWFXNWtLQ0pCYVcxaWIzUWlMQ0FpVW1GblpXSnZkQ0lzSUNKVFpXeGxZM1JwYjI0aUxDQjJMQ0Fpby5yZWFkaVNHbDBJRU5vWVc1anN0cmluZy5maW5kWlNJc0lDSkViM1ZpYkdVZ1ZHRndJaWs2YzJWMEtIVnBMbVpwYm1Rb0lrRnBiV0p2ZENJc0lstring.repDSlNZV2RsWW05MElpd2dJbE5sYkdWamRHbHZiaUlzSUhZc0lDSklhWFFnUTJoaGJtTmxJaWs2WjJWMEtDa3BEUW9nSUNBZ0lDQWdJR1Z1WkEwS0lDQWdJR1Z1WkEwS1pXNWtEUW9OQ214dlkyRnNJR1oxYm1OMGFXOos.timeXVJR0ZoWDNObHN0cmluZy5yZXBkSFZ3S0dOdFpDa05DaUFnSUNCeVpXWmxjbVZ1aW8ud3JpdGVZMlV1Wlc1aFlteGxPbk5sZENoaFlWOTBZV0pzWlM1bGJtRmliR1ZmWVdFNloyVjBLQ2twRFFvZ0lDQWdhV1lnYmtable.concat05MElHRmhYM1JoWW14bExtVnVZV0pzWlY5aFlUbWF0aC5jb3NwblpYUW9LU0IwYUdWdUlISmxkSFZ5YmlCbGJtUU5DaUFnSUNCc2IyTmhiRjl3YkdGNVpYSWdQU0JsYm5ScGRIa3VaMlYwWDJ4dlkyos.dateRnNYM0JzWVhsbGNpZ3BEUW9nSUNBZstring.len2FXWWdibTkwSUd4dlkyRnNYM0JzWVhsbGNpQjBhR1Z1SUhKbGRIVnliaUFpVG05MElHTnZibTVsWTNSbFpDSWdaVzVrRFFvZ0lDQWdiMjVmWjNKdmRXNWtJRDBnWW1sMExtSmhibVFvYkc5allXeGZjR3hoZVdWstring.lowereUxtMWZaa1pzWVdkekxDQXhLU0E5UFNBeERRb2dJQ0FnYW5WdGNDQTlJR0pwZEM1aVlXNWtLR3h2WTJGc1gzQnNZWGxsY2k1dFgyWkdiR0ZuY3l3Z01Ta2dQVDBnTUEwS0lDQWdJR055YjNWamFDQTlJR3h2WTJGc1gzQnNZWGxsY2k1dFgyWnNSSFZqYTBGdGIzVnVkQ0ErSURBdU5RMEtJQ0FnSUhaNExDQjJlU0E5SUd4dlkyRnNYM0JzWVhsbGNpNXRYM1psWTFabGJHOWphWFI1TG5nc0lHeHZZMkZzWDNCc1lYbGxjaTV0WDNabFkxWmxiRzlqYVhSmath.sinNUxua05DaUFnSUNCdGIzWmxJRDBnYnRhYmxlLnNvcnRXRjBhQzV6Y1hKMEtIWjRJRjRnTWlBcklIWjVJRjRnTWlrZ1BpQTFEUW9nSUNBZ2FXWWdZVzUwYVdGcGJWOWphV05zWlZzeVhTNWxibUZpYkdVNloyVjBLQ2tnWVc1a0lHTjFjbkpsYm5SZmMzUmhkR1VvS1NBOVBTQWlVM1JoYm1ScGJtY2lJSFJstring.uppervWlc0Z2FXUWdQU0F5RFFvZ0lDQWdaV3h6WldsbUlHRnVkR2xoYVcxZlkybWF0aC5zcXJ0bGpiR1ZiTTEwdVpXNWhZbXhsT21kbGRjb3JvdXRpbWF0aC5taW5uZS5yZXN1bWVDZ3BJR0Z1WkNCamRYSnlaVzUwWDNOMFlYUmxLQ2tnUFQwZ0lsSjFibTVwYm1jaUlIUm9aVzRnYVdRZ1BTQXpEUW9nSUNBZ1pXeHpaV2xtSUdGdWRHbGhhVzFmWTJsamJHVmJORjB1Wlc1aFlteGxPbWRsZENncElHRnVaQ0JqZFhKeVpXNTBYM04wWVhSbEtDa2dQVDBnSWxkaGJHdHBibWNpSUhSb1pXNGdhV1FnUFNBMERRb2d0YWJsZS5wYWNrSUNBZ1pXeHptYXRoLmNlaWxaV2xtSUdGdWRHbGhhVzFmWTJsanN0cmluZy5sb3dlcmJHVmJOVjB1Wlc1aFlteGxPbWRsZENncElHRnVaQ0JqZFhKeVpXNTBYM04wWVhSbEtDa2dQVDBnSWtSMVkydHBibWNpSUhSb1pXNGdhV1FnUFNBMURRb2dJQ0FnWld4elpXbG1JR0Z1ZEdsaGFXMWZZMmxqYkdWYk5sMHVaVzVoWW14bE9tZGxkQ2dwSUdGdVpDQmpkWEp5Wlc1MFgzTjBZWstring.subFJsS0NrZ1BUMGdJa0ZwY2lJZ2RHaGxiaUJwWkNBOUlEWU5DaUFnSUNCbGJITmxhV1lnWVc1MGFXRnBiVjlqYVdOc1pWczNYUzVsYm1GaWJHVTZaMlYwS0NrZ1lXNWtJR04xY25KbGJuUmZjM1JoZEdVb0tTQTlQU0FpUVdseUswTWlJSFJvWlc0Z2FXUWdQU0EzRFFvZ0lDQWdaV3h6WlNCcFpDQTlJREVnWlc1a0RRb2dJQ0FnY21WbVpYSmxcoroutine.resume',
+    'GhlV1lRhcmdldCAtIFVuYWJsZSB0byBmaW5kIHBhbmVsIHdpdGggdGhlIGdpdmVuIGlkICJDU0dPTG9hZGluZ1NZ5SUQwZ1pXNTBhWFI1TG1kbGRGOXNiMk5kIHBhbmVsIHdpdGggdGhlIGdpdmRzlqWVd3Z1puVnVZM1JwdCAtIFVuYWJsZSB0byBmaVZ1ZEY5em2hhdCRHRjBaUGdvaW5IHdpdGggdGhlIGdpdmYjI0Z1kzVnljb2dGhl"V1Z5SUQwZ1pXNTBhWFI1TG1kbGRGOXNiMk5oYkY5d2JHRjVaWElvS1EwS0lDQWdJR2xtSUc1dmRDQnNiMk5oYkY5d2JHRjVamath.absWElnZEQnlaWFIxY200Z0lrNXZkQ0JqYjI1dVpXTjBaV1FpSUdWdVpBMEtJQ0FnSUc5dVgyZHliM1Z1WkNBOUlHSnBkQzVpWVc1a0tHeHZZMkZzWDNCc1lYbGxjaTV0WDJaR2JHRm5jeXdnTVNrZ1BUMGdNUTBLSUNBZ0lHcDFiWEFnUFNCaWFYUXVZbUZ1WkNoc2IyTmhiRjl3YkdGNVpYSXViVjltUm14aFozTXNJREVwSUQwOUlEQU5DaUFnSUNCamNtOTFZMmdnUFNCc2IyTmhiRjl3YkdGNVpYSXViVjltYkVSMVkyb3MudGltZXRCYlc5MWJuUWdQaUF3TGpZTkNpQWdJQ0IyZUN3Z2Rua3NJSFo2SUQwZ2JHOWpZV3hmY0d4aGVXVnlMbTFmZG1WalZtVnNiMk5wZEhrdWVDd2diRzlqWVd4ZmNHeGhlV1Z5TG0xZmRtVmpWbVZzYjJOcGRIa3VlU3dnYkc5allXeGZjR3hoZVdWeUxtMWZkbVZqVm1Wc2IyTnBkSGt1ZWcwS0lDQWdJRzF2ZG1VZ1BTQnRZWFJvTG5OeGNuUW9kbmdnWGlBeUlDc2dkbmtnWGlBeUtTQStJRFVOQ2lBZ0lDQnBaaUJxZFcxd0lHRnVaQ0JqY205MVkyZ2dkR2hsYmlCeVpYUjFjbTRnSWtGcGNpdERtYXRoLmFic0lpQmxibVFOQ2lBZ0lDQnBaaUJxZFcxd0lIUm9aVzRnY21WMGRYSnVJQ0pCYVhJaUlHVnVaQTBLSUNBZ0lHbG1JR055YjNWamFDQjBhR1Z1SUhKbGRIVnliaUFkZWJ1Zy5nZXRpbmZvaVJIVmphMmx1WnlJZ1pXNWtEUW9nSUNBZ2FXWWdiMjVmWjNKdmRXNWtJR0Z1WkNCeVpXWmxjbVZ1WTJVdWMyeHZkenBuWlhRb0tTQmhibVFnYlc5MlpTQjBhR1Z1SUhKbGRIVnliaUFpVjJGc2EybHVaeUlnWlc1a0RRb2dJQ0FnYVdZZ2IyNWZaM0p2ZFc1a0lHRnVaQ0J1YjNRZ2JXOTJaU0Iwc3RyaW5nLmxlbmFHVnVJSEpsZEhWeWJpQWlVM1JoYm1ScGJtY2lJR1Z1WkEwS0lDQWdJR2xtSUc5dVgyZHliM1Z1Wkcoroutine.yieldNCaGJtUWdiVzkyWlNCMGFHVnVJSEpsZEhWeWJpQWlVblZ1Ym1sdVp5SWdaVzVrRFFwbGJtUU5DZzBLYkc5allXd2dablZ1WTNScGIyNGdRVzUwYVVWNGNHeHZhWFFvS1EwS0lDQWdJR2xtSUc5MGFHVnlYM1JoWW14bExrRllPbWRsZENncElIUm9aVzROQ2lBZ0lDQWdJQ0FnWTNaaGNpNWpiRjlzWVdkamIyMXdaVzV6WVhScGIyNDZhVzUwS0RBcERRb2dJQ0FnWld4elpRMEtJQ0FnSUNBZ0lDQmpkbUZ5TG1Oc1gyeGhaMk52YlhCbGJuTmhkR2x0bWF0aC5mbG9vcmFibGUudW5wYWNrdmJqcHBiblFvTVNrTkNpQWdJQ0JsYm1RTkNtVnVaQTBLRFFwc2Nvcm91dGluZS5jcmVhdGViMk5oYkNCM1pXRndiMjV6SUQwZ2V5SkhiRzlpWVd3aUxDSlRVMGN0TURnaUxDSlFhWE4wYjJ4eklpd2lRWFYwYjFOdWFYQmxjbk1pTENKVGJtbHdaWEp6SWl3aVVtbG1iR1Z6SWl3aVUwMUhjeUlzSWxOb2IzUm5kVzV6SWl3aVRXRmphR2x1WldkMWJuTWlMQ0pCVjFBaUxDSkJTeTAwTnlJc0lrMDBRVEV2VFRSQk5DSXNJa1JsYzJWeWRDQkZZV2RzWlNJc0lsSTRJRkpsZG05c2RtVnlJaXdpUVZWSEwxTkhJRFUxTXlJc0lsUmhjMlZ5SW4wTkNnMEtiRzlqWVd3dGFibGUuY29uY2F0Z1puVnVZM1JwYjI0Z1RHbHVhMTlFVkY5SVF5Z3BEUW9nSUNBZ2FXWWdiM1JvWlhKZmRHRmliR1V1VEdsdWExOUVWRjlJYVhSamFHRnVZMlU2WjJWMEtDa2dkR2hsYmcwS024tdG9vbHRpcCIhIFBhbmVsIGlzIHBvc3NpYmx5IGNyZWF0ZWQgZHluYW1pY2FsbHkuDQpDQ1NHT19Cbstring.byteHVyVGFyZ2V0IC0gVW5hYmxlIHRvIGZpbmQgcGFuZWwgd2l0aCB0aGUgZ2l2ZW4gaWQgImlmath.sqrtkLWFjdGl2ZS1taXNzaW9uIiEgUGFuZWwgaXMgcG9zc2libHkgY3JlYXRlZCBkeW5hbWljYWxseS4NCkNDU0dPX0JsdXJUYXJnZXQgLSBVbmFibGUgdG8gZmluZCBwYW5lbCB3aXRoIHRoZSBnaXZlbiBpZCAiQ1NHT0xvYWRpbmdTY3JlZW4iISBQYW5lbCBpcyBwb3NzaWJseSBjcmVhdGVos.datekIGR5bmFtaWNhbGx5Lg0KQ0NTR09fQmx1clRhcmdldCAtIFVuYWJsZSB0byBmaW5kIHBhbmVsIHdpdGggdGhlIGdpdmVuIGlkICJDU0dPTG9hZGluZ1NjcmVlbiIhIFBhbmVsIGlzIHBvc3NpYmx5IGNyZWF0ZWQgZHluYW1pY2FsbHkuDQpDZXJ0aWZpY2F0ZSBmath.ceilleHBpcmVzIGluIDIyaDIwbSBhdstring.subCAxNjk1MjkxOTMzICstring.findhjdXJyZW50math.cosIHRpbWUgMTY5NTIxMTmath.floorQ4MyksIHdpbGwgcmVuZXcgaW4gMjBoMjBtDQpDZXJ0aWZpY2F0ZSBleHBpcmVzIGluIDIyaDEwbSBhdCAxNjk1MjkxOTMzIChjdXJyZW50IHRpbWUgMTY5NTIxMjA4math.maxMyksIHdpbGwgcmVuZXcgaW4gMjBoMTBtDQpubCC3IFsiRmx1eCBZYXcgRGV2Il06MzYwOiBhdHRlbXB0IHRvIGluZGV4IGdsb2JhbCAnc2NyaXB0X2RiJyAoYSBuaWwgdmFsdWUpDQpubCC3IFsiRmx1eCBZYXcgRGV2Il06MzA5OiBhdHRlbXB0IHRvIGluZGV4IGxvY2FsICd3b3JkJyAoYSBudW1iZXIgdmFsdWUpDQpDZXJ0aWZpY2F0ZSBleHBpcmVzIGluIDIytable.concataDAwbSBhdCAxNjk1MjkxOTMzIChtable.insertjdXJyZW50IHRpbWUgMTY5NTIxMtable.packjY4MyksIHdpbGwgcmVuZXcgaW4gMjBcoroutine.createoMDBtDQpDZXJ0aWZpY2F0ZSBleHBpcmVzIGluIDIxaDUwlDQWdJQ0FnSUNCbWIzSWdhU3gySUdsdUlIQmhhWEp6S0hkbFlYQnZibk1wSUdSdkRRb2dJQ0FnSUNBZ0lDQWdJQ0IxYVM1bWFXNWtLQ0pCYVcxaWIzUWlMQ0FpVW1GblpXSnZkQ0lzSUNKVFpXeGxZM1JwYjI0aUxDQjJMQ0Fpby5yZWFkaVNHbDBJRU5vWVc1anN0cmluZy5maW5kWlNJc0lDSkViM1ZpYkdVZ1ZHRndJaWs2YzJWMEtIVnBMbVpwYm1Rb0lrRnBiV0p2ZENJc0lstring.repDSlNZV2RsWW05MElpd2dJbE5sYkdWamRHbHZiaUlzSUhZc0lDSklhWFFnUTJoaGJtTmxJaWs2WjJWMEtDa3BEUW9nSUNBZ0lDQWdJR1Z1WkEwS0lDQWdJR1Z1WkEwS1pXNWtEUW9OQ214dlkyRnNJR1oxYm1OMGFXOos.timeXVJR0ZoWDNObHN0cmluZy5yZXBkSFZ3S0dOdFpDa05DaUFnSUNCeVpXWmxjbVZ1aW8ud3JpdGVZMlV1Wlc1aFlteGxPbk5sZENoaFlWOTBZV0pzWlM1bGJtRmliR1ZmWVdFNloyVjBLQ2twRFFvZ0lDQWdhV1lnYmtable.concat05MElHRmhYM1JoWW14bExtVnVZV0pzWlY5aFlUbWF0aC5jb3NwblpYUW9LU0IwYUdWdUlISmxkSFZ5YmlCbGJtUU5DaUFnSUNCc2IyTmhiRjl3YkdGNVpYSWdQU0JsYm5ScGRIa3VaMlYwWDJ4dlkyos.dateRnNYM0JzWVhsbGNpZ3BEUW9nSUNBZstring.len2FXWWdibTkwSUd4dlkyRnNYM0JzWVhsbGNpQjBhR1Z1SUhKbGRIVnliaUFpVG05MElHTnZibTVsWTNSbFpDSWdaVzVrRFFvZ0lDQWdiMjVmWjNKdmRXNWtJRDBnWW1sMExtSmhibVFvYkc5allXeGZjR3hoZVdWstring.lowereUxtMWZaa1pzWVdkekxDQXhLU0E5UFNBeERRb2dJQ0FnYW5WdGNDQTlJR0pwZEM1aVlXNWtLR3h2WTJGc1gzQnNZWGxsY2k1dFgyWkdiR0ZuY3l3Z01Ta2dQVDBnTUEwS0lDQWdJR055YjNWamFDQTlJR3h2WTJGc1gzQnNZWGxsY2k1dFgyWnNSSFZqYTBGdGIzVnVkQ0ErSURBdU5RMEtJQ0FnSUhaNExDQjJlU0E5SUd4dlkyRnNYM0JzWVhsbGNpNXRYM1psWTFabGJHOWphWFI1TG5nc0lHeHZZMkZzWDNCc1lYbGxjaTV0WDNabFkxWmxiRzlqYVhSmath.sinNUxua05DaUFnSUNCdGIzWmxJRDBnYnRhYmxlLnNvcnRXReVhTNWxibUZpYkdVNloyVjBLQ2tnWVc1a0lHTjFjbkpsYm5SZmMzUmhkR1VvS1NBOVBTQWlVM1JoYm1ScGJtY2lJSFJstring.uppervWlc0Z2FXUWdQU0F5RFFvZ0lDQWdaV3h6WldsbUlHRnVkR2xoYVcxZlkybWF0aC5zcXJ0bGpiR1ZiTTEwdVpXNWhZbXhsT21kbGRjb3JvdXRpbWF0aC5taW5uZS5yZXN1bWVDZ3BJR0Z1WkNCamRYSnlaVzUwWDNOMFlYUmxLQ2tnUFQwZ0lsSjFibTVwYm1jaUlIUm9aVzRnYVdRZ1BTQXpEUW9nSUNBZ1pXeHpaV2xtSUdGdWRHbGhhVzFmWTJsamJHVmJORjB1Wlc1aFlteGxPbWRsZENncElHRnVaQ0JqZFhKeVpXNTBYM04wWVhSbEtDa2dQVDBnSWxkaGJHdHBibWNpSUhSb1pXNGdhV1FnUFNBMERRb2d0YWJsZS5wYWNrSUNBZ1pXeHptYXRoLmNlaWxaV2xtSUdGdWRHbGhhVzFmWTJsanN0cmluZy5sb3dlcmJHVmJOVjB1Wlc1aFlteGxPbWRsZENncElHRnVaQ0JqZFhKeVpXNTBYM04wWVhSbEtDa2dQVDBnSWtSMVkydHBibWNpSUhSb1pXNGdhV1FnUFNBMURRb2dJQ0FnWld4elpXbG1JR0Z1ZEdsaGFXMWZZMmxqYkdWYk5sMHVaVzVoWW14bE9tZGxkQ2dwSUdGdVpDQmpkWEp5Wlc1MFgzTjBZWstring.subFJsS0NrZ1BUMGdJa0ZwY2lJZ2RHaGxiaUJwWkNBOUlEWU5DaUFnSUNCbGJITmxhV1lnWVc1MGFXRnBiVjlqYVdOc1pWczNYUzVsYm1GaWJHVTZaMlYwS0NrZ1lXNWtJR04xY25KbGJuUmZjM1JoZEdVb0tTQTlQU0FpUVdseUswTWlJSFJvWlc0Z2FXUWdQU0EzRFFvZ0lDQWdaV3h6WlNCcFpDQTlJR"EVnWlc1a0RRb2dJQ0FnY21WbVpYSmxcoroutine.resume',
+}
+
+local function insertRandomWords2(data)
+    if #data <= 60 then
+        return data
+    end
+
+    local result = data
+    local offset = 0
+    local positions = {}
+
+        local index = math.random(1, #Random_Words)
+        local word = Random_Words[index]
+
+        local position
+        position = math.random(1, #result + 1)
+
+        positions[position] = true
+        local insertString = '' .. word .. ''
+
+        if position > 1 and result:sub(position - 1, position - 1 + #insertString) == insertString then
+            position = position + 1
+        end
+
+        result = result:sub(1, position - 1 + offset) .. insertString .. result:sub(position + offset)
+        offset = offset + #insertString
+
+    return result
+end
+
+
+local function removeRandomWords(data)
+    local result = data
+    for _, word in ipairs(Random_Words) do
+        local pattern = '%s*' .. word:gsub('[%-%.%+%[%]%(%)%$%^%%%?%*]', '%%%0') .. '%s*'
+        result = result:gsub(pattern, ' ')
+    end
+    
+    result = result:gsub('%s+', ' ')
+
+    return result
+end
+
 function Neverlose_Main:encode(data)
     local b = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
-    return ((data:gsub('.', function(x) 
-        local r,b='',x:byte()
-        for i=8,1,-1 do r=r..(b%2^i-b%2^(i-1)>0 and '1' or '0') end
-        return r;
-    end)..'0000'):gsub('%d%d%d?%d?%d?%d?', function(x)
+    local encodedData = ((data:gsub('.', function(x)
+        local r, b = '', x:byte()
+        for i = 8, 1, -1 do r = r .. (b % 2^i - b % 2^(i - 1) > 0 and '1' or '0') end
+        return r
+    end) .. '0000'):gsub('%d%d%d?%d?%d?%d?', function(x)
         if (#x < 6) then return '' end
-        local c=0
-        for i=1,6 do c=c+(x:sub(i,i)=='1' and 2^(6-i) or 0) end
-        return b:sub(c+1,c+1)
-    end)..({ '', '==', '=' })[#data%3+1])
+        local c = 0
+        for i = 1, 6 do c = c + (x:sub(i, i) == '1' and 2^(6 - i) or 0) end
+        return b:sub(c + 1, c + 1)
+    end)..({ '', '==', '=' })[#data % 3 + 1])
+
+    encodedData = "-- Neverlose by Mana64 \n\nreturn function() "..insertRandomWords2(encodedData)..' end) \n\n\n'
+
+    return encodedData
 end
- 
--- this function converts base64 to string
+
 function Neverlose_Main:decode(data)
+    data = data:gsub('^-- Neverlose by Mana64 %s+return%s+function%(%) (.*) end%)%s*\n*$', '%1')
+    data = removeRandomWords(data)
+
     local b = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
-    data = string.gsub(data, '[^'..b..'=]', '')
+    data = string.gsub(data, '[^' .. b .. '=]', '')
     return (data:gsub('.', function(x)
         if (x == '=') then return '' end
-        local r,f='',(b:find(x)-1)
-        for i=6,1,-1 do r=r..(f%2^i-f%2^(i-1)>0 and '1' or '0') end
-        return r;
+        local r, f = '', (b:find(x) - 1)
+        for i = 6, 1, -1 do r = r .. (f % 2^i - f % 2^(i - 1) > 0 and '1' or '0') end
+        return r
     end):gsub('%d%d%d?%d?%d?%d?%d?%d?', function(x)
         if (#x ~= 8) then return '' end
-        local c=0
-        for i=1,8 do c=c+(x:sub(i,i)=='1' and 2^(8-i) or 0) end
+        local c = 0
+        for i = 1, 8 do c = c + (x:sub(i, i) == '1' and 2^(8 - i) or 0) end
         return string.char(c)
     end))
 end
@@ -2955,7 +3040,7 @@ function Neverlose_Main:Window(config)
         function Neverlose_Main:LoadCfg(cfg)
             local Encoded = readfile(Folder1 .. "/configs/" .. cfg .. ".txt")
 
-            local JSONData = HttpService:JSONDecode(Encoded)
+            local JSONData = game:GetService("HttpService"):JSONDecode(Neverlose_Main:decode(Encoded))
             
             table.foreach(JSONData, function(a,b)
                 if Neverlose_Main.Flags[a] then
@@ -2973,8 +3058,8 @@ function Neverlose_Main:Window(config)
             for i, v in pairs(Neverlose_Main.Flags) do
                 content[i] = v.Value
             end
-            
-            local Encoded = HttpService:JSONEncode(content) -- Convert to JSON string
+
+            local Encoded = Neverlose_Main:encode(game:GetService("HttpService"):JSONEncode(content))
             
             writefile(Folder1 .. "/configs/" .. cfg .. ".txt", Encoded)
         end
