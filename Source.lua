@@ -712,7 +712,13 @@ function Neverlose_Main:Window(config)
                 TweenInfo.new(.3, Enum.EasingStyle.Quad),
                 {Size = UDim2.new(0, 5, 0, 26)}
             ):Play()
-        
+
+            TweenService:Create(
+                LoadButton,
+                TweenInfo.new(3, Enum.EasingStyle.Quad),
+                {BackgroundColor3 = Color3.fromRGB(3, 81, 130)}
+            ):Play()
+
             LoadButton.Text = ""
         
             repeat task.wait() until LoadButton.Size == UDim2.new(0, 5, 0, 26)
