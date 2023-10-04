@@ -2,6 +2,10 @@ if game.CoreGui:FindFirstChild("Neverlose1") then
     game.CoreGui.Neverlose1:Destroy()
 end
 
+for i,v in pairs(getconnections(game.Players.LocalPlayer.Idled)) do
+    v:Disable()
+end
+
 local Neverlose_Main = {
     Settings = {
         CloseBind = "RightControl",
