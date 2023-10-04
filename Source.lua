@@ -243,8 +243,8 @@ function Neverlose_Main:decode(data)
     end))
 end
 
-function Neverlose_Main:GetDistance(Endpoint)
-    local HumanoidRootPart = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+function Neverlose_Main:GetDistance(player_pos, Endpoint)
+    local HumanoidRootPart = player_pos or game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
     if typeof(Endpoint) == "Instance" then
         Endpoint = Vector3.new(Endpoint.Position.X, HumanoidRootPart.Position.Y, Endpoint.Position.Z)
     elseif typeof(Endpoint) == "CFrame" then
