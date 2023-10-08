@@ -35,7 +35,6 @@ local Neverlose_Main = {
         Market = game:GetService("MarketplaceService"),
         Workspace = game:GetService("Workspace"),
         ReplStorage = game:GetService("ReplicatedStorage"),
-        Players = game:GetService("Players"),
         CoreGui = game:GetService("CoreGui"),
         VirtualUser = game:GetService("VirtualUser"),
         VirtualInputManager = game:GetService("VirtualInputManager"),
