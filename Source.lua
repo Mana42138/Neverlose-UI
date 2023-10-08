@@ -3864,6 +3864,34 @@ function Neverlose_Main:Window(config)
                         end
                     end)
 
+                    function Dropfunc:visibility(state)
+                        local Trans = nil
+                        for i,v in pairs(Dropdown:GetChildren()) do
+                            if not v:IsA("UICorner") and v.Name ~= "DropdownTitle" then
+                                v.Visible = state
+                            end
+                        end
+                        if state then
+                            Trans = 0
+                        elseif state == false then
+                            Trans = 1
+                        end
+                        TweenService:Create(
+                            DropdownTitle,
+                            TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                            {TextTransparency = Trans}
+                        ):Play()
+                        task.wait(.3)
+                        Dropdown.Visible = state
+                        TweenService:Create(
+                            Section,
+                            TweenInfo.new(.5, Enum.EasingStyle.Quad),
+                            {Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y + 10)}
+                        ):Play()
+                        DropdownHolder.Visible = false
+                        DropToggled = false
+                    end
+
                     Dropdown.MouseButton1Click:Connect(function()
                         Neverlose_Main:PlaySound(Neverlose_Main.Lib_Sounds.ClickSound)
                         if DropToggled == false then
