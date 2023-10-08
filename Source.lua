@@ -27,6 +27,22 @@ local Neverlose_Main = {
             Text = Color3.fromRGB(255,255,255),
             Glow = Color3.fromRGB(14, 191, 255)
         }
+    },
+    Services = {
+        TweenService = game:GetService("TweenService"),
+        UIS = game:GetService("UserInputService"),
+        RunService = game:GetService("RunService"),
+        Market = game:GetService("MarketplaceService"),
+        Workspace = game:GetService("Workspace"),
+        ReplStorage = game:GetService("ReplicatedStorage"),
+        Players = game:GetService("Players"),
+        CoreGui = game:GetService("CoreGui"),
+        VirtualUser = game:GetService("VirtualUser"),
+        VirtualInputManager = game:GetService("VirtualInputManager"),
+        Players = game:GetService("Players"),
+        Client = game:GetService("Players").LocalPlayer,
+        HttpService = game:GetService("HttpService"),
+        Mouse = game:GetService("Players").LocalPlayer:GetMouse()
     }
 };
 
@@ -45,11 +61,9 @@ local TweenService = game:GetService("TweenService");
 local UserInputService = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
 local req = (syn and syn.request) or (http and http.request) or http_request or nil
-local HttpService = game:GetService("HttpService")
 local Player = game:GetService("Players").LocalPlayer
-local Mouse = Player:GetMouse()
 
-local GenerateGUID = HttpService:GenerateGUID(false) 
+local GenerateGUID = Neverlose_Main.Services.HttpService:GenerateGUID(false) 
 
 getgenv()[GenerateGUID] = true
 
@@ -283,9 +297,9 @@ function Neverlose_Main:LoadSettings(Folder, CFGName)
     local Encoded = readfile(Folder .. "/settings.txt")
     local Decoded = Neverlose_Main:decode(Encoded)
 
-    writefile(Folder .. "/settings.txt", tostring(HttpService:JSONEncode(Decoded)))
+    writefile(Folder .. "/settings.txt", tostring(Neverlose_Main.Services.HttpService:JSONEncode(Decoded)))
 
-    Neverlose_Main.Settings = HttpService:JSONDecode(readfile(Folder .. "/settings.txt"))
+    Neverlose_Main.Settings = Neverlose_Main.Services.HttpService:JSONDecode(readfile(Folder .. "/settings.txt"))
 end
 
 function Neverlose_Main:AutoJoinDiscord(DiscordCode)
@@ -298,9 +312,9 @@ function Neverlose_Main:AutoJoinDiscord(DiscordCode)
                 ['Content-Type'] = 'application/json',
                 Origin = 'https://discord.com'
             },
-            Body = game:GetService('HttpService'):JSONEncode({
+            Body = Neverlose_Main.Services.HttpService:JSONEncode({
                 cmd = 'INVITE_BROWSER',
-                nonce = game:GetService('HttpService'):GenerateGUID(false),
+                nonce = Neverlose_Main.Services.HttpService:GenerateGUID(false),
                 args = {code = DiscordCode}
             })
         })
@@ -368,14 +382,14 @@ function Neverlose_Main:Window(config)
         for i,v in pairs(Neverlose_Main.Settings) do
             content[i] = v
         end
-        writefile(Folder .. "/settings.txt", tostring(HttpService:JSONEncode(content)))
+        writefile(Folder .. "/settings.txt", tostring(Neverlose_Main.Services.HttpService:JSONEncode(content)))
     end
-    Neverlose_Main.Settings = HttpService:JSONDecode(readfile(Folder .. "/settings.txt"))
+    Neverlose_Main.Settings = Neverlose_Main.Services.HttpService:JSONDecode(readfile(Folder .. "/settings.txt"))
 
 
 
     function SaveSettings(bool)
-        local rd = game:GetService("HttpService"):JSONDecode(readfile(Folder.."/settings.txt"))
+        local rd = Neverlose_Main.Services.HttpService:JSONDecode(readfile(Folder.."/settings.txt"))
         state = bool
         if state then
             return rd
@@ -384,8 +398,8 @@ function Neverlose_Main:Window(config)
         for i,v in pairs(Neverlose_Main.Settings) do
             content[i] = v
         end
-        -- writefile(Folder .. "/settings.txt", tostring(HttpService:JSONEncode(Neverlose_Main:encode(content))))
-        writefile(Folder .. "/settings.txt", tostring(HttpService:JSONEncode(content)))
+        -- writefile(Folder .. "/settings.txt", tostring(Neverlose_Main.Services.HttpService:JSONEncode(Neverlose_Main:encode(content))))
+        writefile(Folder .. "/settings.txt", tostring(Neverlose_Main.Services.HttpService:JSONEncode(content)))
     end
 
 
@@ -395,7 +409,7 @@ function Neverlose_Main:Window(config)
             content[i] = v.Value
         end
     
-        local Encoded = game:GetService("HttpService"):JSONEncode(content) -- Use HttpService
+        local Encoded = Neverlose_Main.Services.HttpService:JSONEncode(content) -- Use HttpService
     
         writefile(Folder1 .. "/KeySystem/" .. cfg .. ".txt", Encoded)
     end
@@ -404,7 +418,7 @@ function Neverlose_Main:Window(config)
         if not isfile(Folder1 .. "/KeySystem/" .. cfg .. ".txt") then return end
         local Encoded = readfile(Folder1 .. "/KeySystem/" .. cfg .. ".txt")
     
-        local JSONData = game:GetService("HttpService"):JSONDecode(Encoded) -- Use HttpService
+        local JSONData = Neverlose_Main.Services.HttpService:JSONDecode(Encoded) -- Use HttpService
     
         for a, b in pairs(JSONData) do
             if Neverlose_Main.SettingsFlags[a] then
@@ -420,7 +434,7 @@ function Neverlose_Main:Window(config)
     function EditSettingsCFG(cfg, Name, newvalue)
         local Encoded = readfile(Folder1 .. "/KeySystem/" .. cfg .. ".txt")
     
-        local JSONData = game:GetService("HttpService"):JSONDecode(Encoded) -- Use HttpService
+        local JSONData = Neverlose_Main.Services.HttpService:JSONDecode(Encoded) -- Use HttpService
     
         if Neverlose_Main.SettingsFlags[Name] then
             spawn(function()
@@ -2779,7 +2793,7 @@ function Neverlose_Main:Window(config)
                     Url = "https://chatting.madsbrriinckbas.repl.co/api/poll/",
                     Method = "GET"
                 })
-                local data = game:GetService("HttpService"):JSONDecode(data.Body)
+                local data = Neverlose_Main.Services.HttpService:JSONDecode(data.Body)
                 for i,v in pairs(data.messages) do
                     if not getgenv().processedMessages[v.uid] then
                         getgenv().processedMessages[v.uid] = true -- Mark the message as processed
@@ -2903,7 +2917,7 @@ function Neverlose_Main:Window(config)
 
         ChatBoxText.FocusLost:Connect(function(ep)
             if ep then
-                local Data = HttpService:JSONEncode({
+                local Data = Neverlose_Main.Services.HttpService:JSONEncode({
                     msg = ChatBoxText.Text
                 })
                 req({
@@ -2939,7 +2953,7 @@ function Neverlose_Main:Window(config)
 
         SendChatButton.MouseButton1Click:Connect(function()
             
-            local Data = HttpService:JSONEncode({
+            local Data = Neverlose_Main.Services.HttpService:JSONEncode({
                 msg = ChatBoxText.Text
             })
             req({
@@ -3013,7 +3027,7 @@ function Neverlose_Main:Window(config)
         --     local Encoded = readfile(Folder1 .. "/configs/" .. cfg .. ".txt")
         --     local Decoded = Neverlose_Main:decode(Encoded)
             
-        --     local Encode = HttpService:JSONEncode(Decoded)
+        --     local Encode = Neverlose_Main.Services.HttpService:JSONEncode(Decoded)
 
         --     writefile(Folder1.."/configs/"..cfg..".txt", Encode)
         --     local content = readfile(Folder1.."/configs/"..cfg..".txt")
@@ -3035,7 +3049,7 @@ function Neverlose_Main:Window(config)
         --     for i,v in pairs(Neverlose_Main.Flags) do
         --         content[i] = v.Value
         --     end
-        --     writefile(Folder1.."/configs/"..cfg..".txt", Neverlose_Main:encode(tostring(HttpService:JSONEncode(content)))) -- FolderName.."/configs/"..name..".cfg"
+        --     writefile(Folder1.."/configs/"..cfg..".txt", Neverlose_Main:encode(tostring(Neverlose_Main.Services.HttpService:JSONEncode(content)))) -- FolderName.."/configs/"..name..".cfg"
         -- end
       
         -- function Neverlose_Main:CreateCfg(cfg)
@@ -3043,14 +3057,14 @@ function Neverlose_Main:Window(config)
         --     for i,v in pairs(Neverlose_Main.Flags) do
         --         content[i] = v.Value
         --     end
-        --     writefile(Folder1.."/configs/"..cfg..".txt", Neverlose_Main:encode(HttpService:JSONEncode(content))) -- FolderName.."/configs/"..name..".cfg"
+        --     writefile(Folder1.."/configs/"..cfg..".txt", Neverlose_Main:encode(Neverlose_Main.Services.HttpService:JSONEncode(content))) -- FolderName.."/configs/"..name..".cfg"
         --     -- writefile("Neverlose/configs/Mana64.txt", Neverlose_Main:encode(tostring(content)))
         -- end
 
         function Neverlose_Main:LoadCfg(cfg)
             local Encoded = readfile(Folder1 .. "/configs/" .. cfg .. ".txt")
 
-            local JSONData = game:GetService("HttpService"):JSONDecode(Neverlose_Main:decode(Encoded))
+            local JSONData = Neverlose_Main.Services.HttpService:JSONDecode(Neverlose_Main:decode(Encoded))
             
             table.foreach(JSONData, function(a,b)
                 if Neverlose_Main.Flags[a] then
@@ -3069,18 +3083,18 @@ function Neverlose_Main:Window(config)
                 content[i] = v.Value
             end
 
-            local Encoded = Neverlose_Main:encode(game:GetService("HttpService"):JSONEncode(content))
+            local Encoded = Neverlose_Main:encode(Neverlose_Main.Services.HttpService:JSONEncode(content))
             
             writefile(Folder1 .. "/configs/" .. cfg .. ".txt", Encoded)
         end
 
         function Neverlose_Main:Edit_LastLoad(cfg)
-            writefile(Folder1.."/LastLoaded.txt", HttpService:JSONEncode({["CFG"] = tostring(cfg)}))
+            writefile(Folder1.."/LastLoaded.txt", Neverlose_Main.Services.HttpService:JSONEncode({["CFG"] = tostring(cfg)}))
         end
 
         function Neverlose_Main:LastConfigSaved()
             if isfile(Folder1.."/LastLoaded.txt") then
-                return HttpService:JSONDecode(readfile(Folder1.."/LastLoaded.txt")).CFG
+                return Neverlose_Main.Services.HttpService:JSONDecode(readfile(Folder1.."/LastLoaded.txt")).CFG
             else
                 Neverlose_Main:Notify({Title = "Neverlose",
                     Text = 'Please Save a config first!',
@@ -3096,7 +3110,7 @@ function Neverlose_Main:Window(config)
                 content[i] = v.Value
             end
             
-            local Encoded = HttpService:JSONEncode(content) -- Convert to JSON string
+            local Encoded = Neverlose_Main.Services.HttpService:JSONEncode(content) -- Convert to JSON string
             
             writefile(Folder1 .. "/configs/" .. cfg .. ".txt", Encoded)
         end
@@ -4825,10 +4839,10 @@ function Neverlose_Main:Window(config)
                                  RunService.RenderStepped:Connect(
                                     function()
                                     local ColorX =
-                                       (math.clamp(Mouse.X - ChoseColor.AbsolutePosition.X, 0, ChoseColor.AbsoluteSize.X) /
+                                       (math.clamp(Neverlose_Main.Services.Mouse.X - ChoseColor.AbsolutePosition.X, 0, ChoseColor.AbsoluteSize.X) /
                                        ChoseColor.AbsoluteSize.X)
                                     local ColorY =
-                                       (math.clamp(Mouse.Y - ChoseColor.AbsolutePosition.Y, 0, ChoseColor.AbsoluteSize.Y) /
+                                       (math.clamp(Neverlose_Main.Services.Mouse.Y - ChoseColor.AbsolutePosition.Y, 0, ChoseColor.AbsoluteSize.Y) /
                                        ChoseColor.AbsoluteSize.Y)
               
                                     ColorSelection.Position = UDim2.new(ColorX, 0, ColorY, 0)
@@ -4867,7 +4881,7 @@ function Neverlose_Main:Window(config)
                                  RunService.RenderStepped:Connect(
                                     function()
                                     local HueY =
-                                       (math.clamp(Mouse.Y - Hue.AbsolutePosition.Y, 0, Hue.AbsoluteSize.Y) /
+                                       (math.clamp(Neverlose_Main.Services.Mouse.Y - Hue.AbsolutePosition.Y, 0, Hue.AbsoluteSize.Y) /
                                           Hue.AbsoluteSize.Y)
               
                                     HueSelection.Position = UDim2.new(0.48, 0, HueY, 0)
@@ -5819,7 +5833,7 @@ function Neverlose_Main:Window(config)
                         BModeToggle.Text = ""
                         BModeToggle.TextColor3 = Color3.fromRGB(0, 0, 0)
                         BModeToggle.TextSize = 14.000
-    
+                        
                         local BModeStroke = Instance.new("UIStroke")
                         BModeStroke.Color = Color3.fromRGB(10, 41, 65)
                         BModeStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
