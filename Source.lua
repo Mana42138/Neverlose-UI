@@ -3685,8 +3685,6 @@ function Neverlose_Main:Window(config)
                         end
                     end)
 
-                    callback(false)
-
                     Neverlose_Main.Flags[title] = Togglefunc
                     return Togglefunc
                 end
@@ -6298,3 +6296,4 @@ function Neverlose_Main:Window(config)
 end
 
 return Neverlose_Main
+
