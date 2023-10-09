@@ -2786,98 +2786,98 @@ function Neverlose_Main:Window(config)
 
         getgenv().processedMessages = {}
 
-        local loop = coroutine.create(function()
-            while wait(math.random(1, 2)) do
-                local data = req({
-                    Url = "https://chatting.madsbrriinckbas.repl.co/api/poll/",
-                    Method = "GET"
-                })
-                local data = Neverlose_Main.Services.HttpService:JSONDecode(data.Body)
-                for i,v in pairs(data.messages) do
-                    if not getgenv().processedMessages[v.uid] then
-                        getgenv().processedMessages[v.uid] = true -- Mark the message as processed
+        -- local loop = coroutine.create(function()
+        --     while wait(math.random(1, 2)) do
+        --         local data = req({
+        --             Url = "https://chatting.madsbrriinckbas.repl.co/api/poll/",
+        --             Method = "GET"
+        --         })
+        --         local data = Neverlose_Main.Services.HttpService:JSONDecode(data.Body)
+        --         for i,v in pairs(data.messages) do
+        --             if not getgenv().processedMessages[v.uid] then
+        --                 getgenv().processedMessages[v.uid] = true -- Mark the message as processed
 
-                        local ChatSocketFrame = Instance.new("Frame")
-                        local ChatText = Instance.new("TextLabel")
-                        local ChatSocketFrameCorner = Instance.new("UICorner")
-                        local NameText = Instance.new("TextLabel")
-                        local NameTextCorner = Instance.new("UICorner")
+        --                 local ChatSocketFrame = Instance.new("Frame")
+        --                 local ChatText = Instance.new("TextLabel")
+        --                 local ChatSocketFrameCorner = Instance.new("UICorner")
+        --                 local NameText = Instance.new("TextLabel")
+        --                 local NameTextCorner = Instance.new("UICorner")
 
-                        ChatSocketFrame.Name = "ChatSocketFrame"
-                        ChatSocketFrame.Parent = ChatFrameFrame --game:GetService("CoreGui").Neverlose1.MainFrame.ChatFrame.ChatFrameFrame
-                        ChatSocketFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-                        ChatSocketFrame.BackgroundTransparency = 1.000
-                        ChatSocketFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
-                        ChatSocketFrame.BorderSizePixel = 0
-                        ChatSocketFrame.Position = UDim2.new(0, 0, -1.08218359e-07, 0)
-                        ChatSocketFrame.Size = UDim2.new(0, 407, 0, 35)
+        --                 ChatSocketFrame.Name = "ChatSocketFrame"
+        --                 ChatSocketFrame.Parent = ChatFrameFrame --game:GetService("CoreGui").Neverlose1.MainFrame.ChatFrame.ChatFrameFrame
+        --                 ChatSocketFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        --                 ChatSocketFrame.BackgroundTransparency = 1.000
+        --                 ChatSocketFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        --                 ChatSocketFrame.BorderSizePixel = 0
+        --                 ChatSocketFrame.Position = UDim2.new(0, 0, -1.08218359e-07, 0)
+        --                 ChatSocketFrame.Size = UDim2.new(0, 407, 0, 35)
 
-                        local ChatSocketFrameStroke = Instance.new("UIStroke")
+        --                 local ChatSocketFrameStroke = Instance.new("UIStroke")
         
-                        ChatSocketFrameStroke.Color = Color3.fromRGB(49, 100, 177)
-                        ChatSocketFrameStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-                        ChatSocketFrameStroke.LineJoinMode = Enum.LineJoinMode.Round
-                        ChatSocketFrameStroke.Thickness = 1
-                        ChatSocketFrameStroke.Parent = ChatSocketFrame
-                        ChatSocketFrameStroke.Transparency = 0.35
+        --                 ChatSocketFrameStroke.Color = Color3.fromRGB(49, 100, 177)
+        --                 ChatSocketFrameStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+        --                 ChatSocketFrameStroke.LineJoinMode = Enum.LineJoinMode.Round
+        --                 ChatSocketFrameStroke.Thickness = 1
+        --                 ChatSocketFrameStroke.Parent = ChatSocketFrame
+        --                 ChatSocketFrameStroke.Transparency = 0.35
 
-                        ChatText.Name = "ChatText"
-                        ChatText.Parent = ChatSocketFrame
-                        ChatText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-                        ChatText.BackgroundTransparency = 1.000
-                        ChatText.BorderColor3 = Color3.fromRGB(0, 0, 0)
-                        ChatText.BorderSizePixel = 0
-                        ChatText.Position = UDim2.new(0.0270270277, 0, 0.297147036, 0)
-                        ChatText.Size = UDim2.new(0, 41, 0, 16)
-                        ChatText.Font = Enum.Font.Gotham
-                        ChatText.Text = tostring(v.msg)
-                        ChatText.TextColor3 = Color3.fromRGB(255, 255, 255)
-                        ChatText.TextSize = 14.000
-                        ChatText.TextXAlignment = Enum.TextXAlignment.Left
-                        ChatText.RichText = true
+        --                 ChatText.Name = "ChatText"
+        --                 ChatText.Parent = ChatSocketFrame
+        --                 ChatText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        --                 ChatText.BackgroundTransparency = 1.000
+        --                 ChatText.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        --                 ChatText.BorderSizePixel = 0
+        --                 ChatText.Position = UDim2.new(0.0270270277, 0, 0.297147036, 0)
+        --                 ChatText.Size = UDim2.new(0, 41, 0, 16)
+        --                 ChatText.Font = Enum.Font.Gotham
+        --                 ChatText.Text = tostring(v.msg)
+        --                 ChatText.TextColor3 = Color3.fromRGB(255, 255, 255)
+        --                 ChatText.TextSize = 14.000
+        --                 ChatText.TextXAlignment = Enum.TextXAlignment.Left
+        --                 ChatText.RichText = true
                         
-                        ChatSocketFrameCorner.CornerRadius = UDim.new(0, 3)
-                        ChatSocketFrameCorner.Name = "ChatSocketFrameCorner"
-                        ChatSocketFrameCorner.Parent = ChatSocketFrame
+        --                 ChatSocketFrameCorner.CornerRadius = UDim.new(0, 3)
+        --                 ChatSocketFrameCorner.Name = "ChatSocketFrameCorner"
+        --                 ChatSocketFrameCorner.Parent = ChatSocketFrame
 
-                        NameText.Name = "NameText"
-                        NameText.Parent = ChatSocketFrame
-                        NameText.BackgroundColor3 = Color3.fromRGB(14, 14, 21)
-                        NameText.BorderColor3 = Color3.fromRGB(0, 0, 0)
-                        NameText.BorderSizePixel = 0
-                        NameText.Position = UDim2.new(0.0489999838, 0, -0.229999647, 0)
-                        NameText.Size = UDim2.new(0, 66, 0, 14)
-                        NameText.Font = Enum.Font.SourceSans
-                        NameText.TextColor3 = Color3.fromRGB(255, 255, 255)
-                        NameText.TextSize = 14.000
-                        NameText.RichText = true
+        --                 NameText.Name = "NameText"
+        --                 NameText.Parent = ChatSocketFrame
+        --                 NameText.BackgroundColor3 = Color3.fromRGB(14, 14, 21)
+        --                 NameText.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        --                 NameText.BorderSizePixel = 0
+        --                 NameText.Position = UDim2.new(0.0489999838, 0, -0.229999647, 0)
+        --                 NameText.Size = UDim2.new(0, 66, 0, 14)
+        --                 NameText.Font = Enum.Font.SourceSans
+        --                 NameText.TextColor3 = Color3.fromRGB(255, 255, 255)
+        --                 NameText.TextSize = 14.000
+        --                 NameText.RichText = true
 
-                        if Player.UserId == 2254026356 then
-                            NameText.Text = "<font color='rgb(255,60,60)'>"..Player.Name.."</font>"
-                        else
-                            NameText.Text = "<font color='rgb(60,60,255)'>"..Player.Name.."</font>"
-                        end
+        --                 if Player.UserId == 2254026356 then
+        --                     NameText.Text = "<font color='rgb(255,60,60)'>"..Player.Name.."</font>"
+        --                 else
+        --                     NameText.Text = "<font color='rgb(60,60,255)'>"..Player.Name.."</font>"
+        --                 end
 
-                        NameText.Size = UDim2.new(0, NameText.TextBounds.X + 20, 0, 14)
+        --                 NameText.Size = UDim2.new(0, NameText.TextBounds.X + 20, 0, 14)
 
-                        local NameTextStroke = Instance.new("UIStroke")
+        --                 local NameTextStroke = Instance.new("UIStroke")
         
-                        NameTextStroke.Color = Color3.fromRGB(49, 100, 177)
-                        NameTextStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-                        NameTextStroke.LineJoinMode = Enum.LineJoinMode.Round
-                        NameTextStroke.Thickness = 1
-                        NameTextStroke.Parent = NameText
-                        NameTextStroke.Transparency = 0.35
+        --                 NameTextStroke.Color = Color3.fromRGB(49, 100, 177)
+        --                 NameTextStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+        --                 NameTextStroke.LineJoinMode = Enum.LineJoinMode.Round
+        --                 NameTextStroke.Thickness = 1
+        --                 NameTextStroke.Parent = NameText
+        --                 NameTextStroke.Transparency = 0.35
                         
-                        NameTextCorner.Name = "NameTextCorner"
-                        NameTextCorner.Parent = NameText
+        --                 NameTextCorner.Name = "NameTextCorner"
+        --                 NameTextCorner.Parent = NameText
 
-                        ChatFrameFrame.CanvasSize = UDim2.new(0, 0, 0, ChatFrameLayout.AbsoluteContentSize.Y + 30)
-                    end
-                end
-            end
-        end)
-        coroutine.resume(loop)
+        --                 ChatFrameFrame.CanvasSize = UDim2.new(0, 0, 0, ChatFrameLayout.AbsoluteContentSize.Y + 30)
+        --             end
+        --         end
+        --     end
+        -- end)
+        -- coroutine.resume(loop)
         
         ClearChat.Name = "ClearChat"
         ClearChat.Parent = ChatFrame
@@ -4041,7 +4041,7 @@ function Neverlose_Main:Window(config)
                         end
                         TweenService:Create(
                             SliderTitle,
-                            TweenInfo.new(.3, Enum.EasingStyle.Quad),
+                            TweenInfo.new(.2, Enum.EasingStyle.Quad),
                             {TextTransparency = Trans}
                         ):Play()
                         task.wait(.3)
@@ -4052,7 +4052,7 @@ function Neverlose_Main:Window(config)
                             {Size = UDim2.new(0, 285, 0, SectionLayout.AbsoluteContentSize.Y + 10)}
                         ):Play()
                     end
-
+                    
                     Slider.Name = title
                     Slider.Parent = Section
                     Slider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -6296,4 +6296,3 @@ function Neverlose_Main:Window(config)
 end
 
 return Neverlose_Main
-
