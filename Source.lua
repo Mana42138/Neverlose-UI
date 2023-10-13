@@ -28,7 +28,6 @@ local Neverlose_Main = {
             Glow = Color3.fromRGB(14, 191, 255)
         }
     },
-    Services = {
         TweenService = game:GetService("TweenService"),
         UIS = game:GetService("UserInputService"),
         RunService = game:GetService("RunService"),
@@ -42,7 +41,6 @@ local Neverlose_Main = {
         Client = game:GetService("Players").LocalPlayer,
         HttpService = game:GetService("HttpService"),
         Mouse = game:GetService("Players").LocalPlayer:GetMouse()
-    }
 };
 
 local WhitelistedMouse = {Enum.UserInputType.MouseButton1, Enum.UserInputType.MouseButton2,Enum.UserInputType.MouseButton3}
@@ -79,7 +77,7 @@ function Neverlose_Main:PlaySound(SoundID)
     sound:Play()
 end
 
--- local BuildInfo = loadstring(game:HttpGet"https://pastebin.com/raw/HzAeDGm4")()
+local BuildInfo = loadstring(game:HttpGet"https://pastebin.com/raw/HzAeDGm4")()
 
 local function MakeDraggable(topbarobject, object)
     local Dragging = nil
@@ -1502,7 +1500,7 @@ function Neverlose_Main:Window(config)
     VersionText.Position = UDim2.new(0.0666666701, 0, 0.12350598, 0)
     VersionText.Size = UDim2.new(0, 35, 0, 18)
     VersionText.Font = Enum.Font.GothamBold
-    VersionText.Text = "Version: <font color='rgb(9, 174, 255)'>2.0.1</font>"
+    VersionText.Text = "Version: <font color='rgb(9, 174, 255)'>"..BuildInfo:VersionType().."</font>"
     VersionText.TextColor3 = Color3.fromRGB(255, 255, 255)
     VersionText.TextSize = 14.000
     VersionText.TextXAlignment = Enum.TextXAlignment.Left
@@ -1517,7 +1515,7 @@ function Neverlose_Main:Window(config)
     BuildDateText.Position = UDim2.new(0.0666666701, 0, 0.12350598, 0)
     BuildDateText.Size = UDim2.new(0, 35, 0, 18)
     BuildDateText.Font = Enum.Font.GothamBold
-    BuildDateText.Text = "Build date: <font color='rgb(9, 174, 255)'>Oct 28 2023</font>"
+    BuildDateText.Text = "Build date: <font color='rgb(9, 174, 255)'>"..BuildInfo:GetBuild().."</font>"
     BuildDateText.TextColor3 = Color3.fromRGB(255, 255, 255)
     BuildDateText.TextSize = 14.000
     BuildDateText.TextXAlignment = Enum.TextXAlignment.Left
@@ -1532,7 +1530,7 @@ function Neverlose_Main:Window(config)
     BuildTypeText.Position = UDim2.new(0.0666666701, 0, 0.12350598, 0)
     BuildTypeText.Size = UDim2.new(0, 35, 0, 18)
     BuildTypeText.Font = Enum.Font.GothamBold
-    BuildTypeText.Text = "Build type: <font color='rgb(9, 174, 255)'>RELEASE</font>"
+    BuildTypeText.Text = "Build type: <font color='rgb(9, 174, 255)'>"..BuildInfo:BuildType().."</font>"
     BuildTypeText.TextColor3 = Color3.fromRGB(255, 255, 255)
     BuildTypeText.TextSize = 14.000
     BuildTypeText.TextXAlignment = Enum.TextXAlignment.Left
@@ -1562,7 +1560,7 @@ function Neverlose_Main:Window(config)
     NewsText.Position = UDim2.new(0, 0, 0.649999976, 0)
     NewsText.Size = UDim2.new(0, 92, 0, 18)
     NewsText.Font = Enum.Font.GothamBold
-    NewsText.Text = "Latest News: <font color='rgb(9, 174, 255)'>UIlib will not get any updates on Elements</font>"
+    NewsText.Text = "Latest News: <font color='rgb(9, 174, 255)'>"..BuildInfo:GetNews().."</font>"
     NewsText.TextColor3 = Color3.fromRGB(255, 255, 255)
     NewsText.TextSize = 14.000
     NewsText.TextXAlignment = Enum.TextXAlignment.Left
