@@ -6262,6 +6262,35 @@ function Neverlose_Main:Window(config)
             }
         })
 
+        local Is_Loaded = false
+
+        if not isfile(Folder..'/Auto_Load.json') then
+            writefile(Folder..'/Auto_Load.json', Neverlose_Main.HttpService:JSONEncode({
+                ["On_Launch"] = false,
+            }))
+        end
+
+        local Get_ALC = Sec4:Toggle("Open Menu On Launch", function(t)
+            On_Launch = t
+            if On_Launch then
+                writefile(Folder..'/Auto_Load.json', Neverlose_Main.HttpService:JSONEncode({
+                    ["On_Launch"] = true,
+                }))
+            else
+                writefile(Folder..'/Auto_Load.json', Neverlose_Main.HttpService:JSONEncode({
+                    ["On_Launch"] = false,
+                }))
+            end
+        end)
+
+        local Get_Load = Neverlose_Main.HttpService:JSONDecode(readfile(Folder..'/Auto_Load.json')).AutoLoad
+
+        if Get_Load then
+            Get_ALC:Set(true)
+        else
+            Get_ALC:Set(false)
+        end
+
         Neverlose_Main:Notify({
             Title = "Welcome",
             Text = "Menu Key | LeftControl",
