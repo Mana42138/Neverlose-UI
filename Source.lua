@@ -918,6 +918,10 @@ function Neverlose_Main:Window(config)
     MainFrame.Size = UDim2.new(0, 643, 0, 682)
     MainFrame.ZIndex = 0
 
+    function Neverlose_Main:VisMain(v)
+        MainFrame.Visible = v
+    end
+
     MainFrameGlow.Name = "MainFrameGlow"
     MainFrameGlow.Parent = MainFrame
     MainFrameGlow.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -1427,9 +1431,7 @@ function Neverlose_Main:Window(config)
     })
     end)
 
-
     
-
     SettingsFrame.Name = "SettingsFrame"
     SettingsFrame.Parent = MainFrame
     SettingsFrame.BackgroundColor3 = Color3.fromRGB(8, 8, 12)
