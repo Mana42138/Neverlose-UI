@@ -6283,13 +6283,9 @@ function Neverlose_Main:Window(config)
             end
         end)
 
-        local Get_Load = Neverlose_Main.HttpService:JSONDecode(readfile(Folder..'/On_Launch.json')).AutoLoad
+        local Get_Load = Neverlose_Main.HttpService:JSONDecode(readfile(Folder..'/On_Launch.json')).On_Launch
 
-        if Get_Load then
-            Get_ALC:Set(true)
-        else
-            Get_ALC:Set(false)
-        end
+        MainFrame.VisMain(Get_Load)
 
         Neverlose_Main:Notify({
             Title = "Welcome",
