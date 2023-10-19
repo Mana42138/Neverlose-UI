@@ -6285,6 +6285,8 @@ function Neverlose_Main:Window(config)
 
         local Get_Load = Neverlose_Main.HttpService:JSONDecode(readfile(Folder..'/On_Launch.json')).On_Launch
 
+        Get_ALC:Set(Get_Load)
+
         game.CoreGui:WaitForChild("Neverlose1").MainFrame.Visible = Get_Load
 
         Neverlose_Main:Notify({
