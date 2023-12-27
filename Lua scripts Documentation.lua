@@ -1,6 +1,6 @@
 local NoLove = getgenv().Lua -- Get the main Tab from you script (it auto sets up you tab!)
 
-local Farming = NoLove:Section("Autofarm") -- Create Section from the Tab
+local Farming = NoLove:Section("Main") -- Create Section from the Tab
 
 Farming:Toggle("Yaw", function(t) -- Create toggle in Section
     print(tostring(t))
