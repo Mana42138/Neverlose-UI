@@ -31,13 +31,13 @@ local TabSection1 = Win:TSection("Misc")
 ## Creating a Tab
 This is placed in the section where you'd like:
 ```lua
-local Autofarm = TabSection1:Tab("Autofarm")
+local Main = TabSection1:Tab("Main")
 ```
 ## Creating Normal Sections
 Here's how you create two normal sections which hold Toggles, Sliders, and Dropdowns:
 ```lua
-local FarmSection = Autofarm:Section("Autofarm")
-local ConfigSection = Autofarm:Section("Config")
+local MainSection = Main:Section("Main Section")
+local ConfigSection = Main:Section("Config")
 ```
 # Elements
 ## Creating Toggles
@@ -132,15 +132,15 @@ local NoLove = getgenv().Lua
 ## How to script in the lua support
 First, create a section just as you would normally, but use getgenv().Lua, which we put in a local named "NoLove":
 ```lua
-local FarmSection = NoLove:Section("Autofarm")
+local MainSection = NoLove:Section("Main")
 local ConfigSection = NoLove:Section("Config")
 ```
 Then, create normal Toggles, Sliders, and Dropdowns as you normally would:
 ```lua
-local AutoFarmVar = FarmSection:Toggle("Auto Farm", function(t)
+local ToggleVar = MainSection:Toggle("Toggle", function(t)
     ValueToggle = t
 end)
-AutoFarmVar:Set(true) -- can be true or false
+ToggleVar:Set(true) -- can be true or false
 
 local HelloVar = World:Slider("Hello", 1, 500, 50, function(t)
     ValueSlider = t
