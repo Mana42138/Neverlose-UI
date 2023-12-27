@@ -43,10 +43,10 @@ local ConfigSection = Main:Section("Config")
 ## Creating Toggles
 
 ```lua
-local AutoFarmVar = FarmSection:Toggle("Auto Farm", function(t)
+local ToggleVar = MainSection:Toggle("Toggle", function(t)
     ValueToggle = t
 end)
-AutoFarmVar:Set(true) -- can be true or false
+ToggleVar:Set(true) -- can be true or false
 ```
 
 ## Creating Dropdowns
