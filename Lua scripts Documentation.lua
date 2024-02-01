@@ -1,4 +1,4 @@
-local NoLove = getgenv().Lua -- Get the main Tab from you script (it auto sets up you tab!)
+local NoLove = getgenv().Lua -- Get the main Tab from your script (it auto sets up your tab!)
 
 local Main = NoLove:Section("Main") -- Create Section from the Tab
 
