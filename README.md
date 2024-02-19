@@ -1,6 +1,4 @@
-Certainly! Here's a more detailed breakdown of the provided code:
-
-### Neverlose-UI
+# Neverlose-UI
 
 #### Loadstring
 This loadstring retrieves the UI library from the GitHub repository:
