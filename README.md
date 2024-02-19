@@ -1,15 +1,16 @@
-# Neverlose-UI
+Certainly! Here's a more detailed breakdown of the provided code:
 
-## Loadstring
-This is the loadstring where the ui lib is :)
+### Neverlose-UI
+
+#### Loadstring
+This loadstring retrieves the UI library from the GitHub repository:
 ```lua
 local Neverlose_Main = loadstring(game:HttpGet"https://github.com/Mana42138/Neverlose-UI/blob/main/Source.lua")()
 ```
 
-## Creating Window
-This function creates a window which creates the main Frame:
+#### Creating Window
+This function initializes the main window of the UI:
 ```lua
-local Neverlose_Main = loadstring(game:HttpGet"https://github.com/Mana42138/Neverlose-UI/blob/main/Source.lua")()
 local Win = Neverlose_Main:Window({
     Title = "NEVERLOSE",
     CFG = "Neverlose",
@@ -23,25 +24,30 @@ local Win = Neverlose_Main:Window({
     }
 })
 ```
-## Creating Tab Sections
-This is a Tab section placed in the TabsHolder on the Left side of the Frame. It's used to get a better look at the types of tabs available:
+
+#### Creating Tab Sections
+A tab section is created to organize tabs within the UI:
 ```lua
 local TabSection1 = Win:TSection("Misc")
 ```
-## Creating a Tab
-This is placed in the section where you'd like:
+
+#### Creating a Tab
+This code snippet adds a tab within a specific section:
 ```lua
 local Main = TabSection1:Tab("Main")
 ```
-## Creating Normal Sections
-Here's how you create two normal sections which hold Toggles, Sliders, and Dropdowns:
+
+#### Creating Normal Sections
+Two normal sections are created to contain toggles, sliders, and dropdowns:
 ```lua
 local MainSection = Main:Section("Main Section")
 local ConfigSection = Main:Section("Config")
 ```
-# Elements
-## Creating Toggles
 
+### Elements
+
+#### Creating Toggles
+Toggles are UI elements to enable or disable certain functionalities:
 ```lua
 local ToggleVar = MainSection:Toggle("Toggle", function(t)
     ValueToggle = t
@@ -49,20 +55,20 @@ end)
 ToggleVar:Set(true) -- can be true or false
 ```
 
-## Creating Dropdowns
-
+#### Creating Dropdowns
+Dropdowns allow users to select from a list of predefined options:
 ```lua
 local SmallTable = {"Mana64", "Lmao", "HVH"}
 local SelectConfigVar = Config:Dropdown("Select Config", SmallTable, function(t)
     ValueDropdown = t
     print(ValueDropdown)
 end)
-SelectConfigVar:Set("Mana64") -- any type of name that exists in the table, e.g., "Mana64"
-SelectConfigVar:Refresh({"New Mana64", "Legit"} -- Refresh the dropdown with new table values
+SelectConfigVar:Set("Mana64") -- any existing name in the table, e.g., "Mana64"
+SelectConfigVar:Refresh({"New Mana64", "Legit"}) -- Refresh the dropdown with new table values
 ```
 
-## Creating Sliders
-
+#### Creating Sliders
+Sliders enable users to choose a value within a specified range:
 ```lua
 local HelloVar = World:Slider("Hello", 1, 500, 50, function(t)
     ValueSlider = t
@@ -70,8 +76,8 @@ end)
 HelloVar:Set(75) -- any number within the range 1 - 500 since it has been preset
 ```
 
-## Creating Buttons
-
+#### Creating Buttons
+Buttons execute specific actions when clicked:
 ```lua
 World:Button("Press Me", function()
     Neverlose_Main:Notify({
@@ -82,8 +88,8 @@ World:Button("Press Me", function()
 end)
 ```
 
-## Creating TextBoxes
-
+#### Creating TextBoxes
+TextBoxes allow users to input text:
 ```lua
 World:TextBox("Password here!", function(t)
     if t == "Mana" then
@@ -98,23 +104,23 @@ World:TextBox("Password here!", function(t)
 end)
 ```
 
-## Creating Colorpickers
-
+#### Creating Colorpickers
+Colorpickers enable users to choose colors:
 ```lua
 Config:Colorpicker("Background", Color3.fromRGB(0,20,38), function(t)
     print(t)
 end)
 ```
 
-## Creating KeyBinds
-
+#### Creating KeyBinds
+KeyBinds allow users to assign keys to specific actions:
 ```lua
 Config:Bind("On-Shot", function(t)
     print("Lol", tostring(t))
 end, {
-    { -- This is each keybind you want to setup when the user executes your script!
-        key = Enum.KeyCode.P, -- Set the start key (the user can change this)
-        Toggled = false -- set true if you want it to be toggled (the user can change this)
+    { 
+        key = Enum.KeyCode.P, 
+        Toggled = false 
     },
     {
         key = Enum.KeyCode.R,
@@ -123,34 +129,19 @@ end, {
 })
 ```
 
-# Lua Scripting
-## Setting up the Menu hook kinda
-This is a must-have when scripting with Neverlose. It's like requiring a module script. The script auto-sets up a Tab based on your file name:
+### Lua Scripting
+
+#### Setting up the Menu hook
+This sets up the menu hook necessary for scripting with Neverlose:
 ```lua
 local NoLove = getgenv().Lua
 ```
-## How to script in the lua support
-First, create a section just as you would normally, but use getgenv().Lua, which we put in a local named "NoLove":
+
+#### How to script in the Lua support
+This section explains how to script within the Lua support environment:
 ```lua
 local MainSection = NoLove:Section("Main")
 local ConfigSection = NoLove:Section("Config")
-```
-Then, create normal Toggles, Sliders, and Dropdowns as you normally would:
-```lua
-local ToggleVar = MainSection:Toggle("Toggle", function(t)
-    ValueToggle = t
-end)
-ToggleVar:Set(true) -- can be true or false
 
-local HelloVar = World:Slider("Hello", 1, 500, 50, function(t)
-    ValueSlider = t
-end)
-HelloVar:Set(75) -- any number within the range 1 - 500 since it has been preseted
-
-local SmallTable = {"Mana64", "Lmao", "HVH"}
-local SelectConfigVar = Config:Dropdown("Select Config", SmallTable, function(t)
-    ValueDropdown = t
-    print(ValueDropdown)
-end)
-SelectConfigVar:Set("Mana64") -- any type of name that is existing in the table for example "Mana64"
+-- Then, create normal Toggles, Sliders, and Dropdowns as you normally would
 ```
